@@ -3,21 +3,22 @@ import {
   StyleSheet,
   Text,
   View,
+  FlatList,
 } from 'react-native';
 
-export default class Profile extends React.Component {
+export default class profile extends React.Component {
 
-    render() {
+  render() {
 
-		return(
-			<View style={styles.container}>
-                <Text style={styles.text}> Welcome to the Initial Screen </Text>				
-			</View>	
-    )
-    
-
-	}
-}
+      return(
+        <View style={styles.container}>
+          <View style={styles.container}>
+            <Text style={styles.text}> WELCOME TO BOOKIT!! </Text>				
+          </View>	 
+        </View> 
+      );
+    }
+  }
 
 const styles = StyleSheet.create({
     container : {
@@ -27,6 +28,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center'  
       },
       text: {
-          color: '#fff'
+          color: '#000'
       }
 });

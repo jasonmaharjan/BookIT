@@ -3,12 +3,11 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-Image,
-Text,
+  Image,
+  Text,
 } from 'react-native';
 
 import { createStackNavigator ,createAppContainer} from 'react-navigation';
-
 import signup from './app/views/signup';
 import login from './app/views/login';
 import profile from './app/views/profile';
@@ -24,7 +23,7 @@ const RootStack = createStackNavigator(
     headerMode:"none",
     navigationOptions: {
       headerVisible: false,
-  }
+    }
   }
 )
 
