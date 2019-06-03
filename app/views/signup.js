@@ -28,7 +28,7 @@ export default class Signup extends React.Component{
 
     async onSignupPressed() {
       try {
-        let response = await fetch('http://192.168.100.3:3000/signup', {
+        let response = await fetch('exp://192.168.99.2:19000/signup', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

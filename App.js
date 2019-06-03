@@ -24,7 +24,7 @@ const RootStack = createStackNavigator(
     navigationOptions: {
       headerVisible: false,
     }
-  }
+  } 
 )
 
 const Application = createAppContainer(RootStack)
