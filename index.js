@@ -89,9 +89,6 @@ app.post('/signup', function(req, res) {
   var password = req.body.password;
   var password_confirm = req.body.password_confirm;
 
-  console.log(password);
-  console.log(password_confirm);
-
   req.checkBody('username', 'Name is required').notEmpty();
   req.checkBody('email', 'Email is required').notEmpty();
   req.checkBody('email', 'Email is not valid').isEmail();
@@ -101,41 +98,61 @@ app.post('/signup', function(req, res) {
   let errors = req.validationErrors();
 
   if (errors) {
+
+    if (!username){
+      res.send({message:'Username missing'});
+    }
+
+    else if (!email){
+      res.send({message:'Email missing'});
+    }
+
+    else if (!password){
+      res.send({message:'Password missing'});
+    }
+
+    else if (password != password_confirm){
+      res.send({message:'Passwords do not match'});
+    }
+
     console.log(errors);
   }
 
   else{
-
+    // Check if email is already taken
     con.query(
-
-      "INSERT INTO users (username, email, password) VALUES ('" + username + "', '" + email + "', '" + password + "')",
-       function(err, row, field){
-         if (err) throw err;
-
-         else {
-         console.log('1 record inserted');
-         res.send({message:'success'});
-         }
-       }
-    )
-  }
-})
-
-/*
-    con.connect(function(err) {
-      if (err) throw err;
-
-      var sql = "INSERT INTO users (username, email, password) VALUES ('" + username + "', '" + email + "', '" + password + "')";
-
-      con.query(sql, function(err, result) {
-
+      "SELECT * FROM users WHERE email = ?", email, function(err, row, field){
+        
         if (err) throw err;
 
-        console.log("1 record inserted");
-        res.end();
-      });
-    });
-*/
+        else if (row.length>0){
+          res.send({'success': false});
+
+          console.log('Email is already taken');
+        }
+
+        // If email is available
+        else{
+          con.query(
+
+            "INSERT INTO users (username, email, password) VALUES ('" + username + "', '" + email + "', '" + password + "')",
+             function(err, row, field){
+               if (err) throw err;
+      
+               else {
+               console.log('1 record inserted');
+
+               res.send({'success': true});
+               }
+             }
+          )
+        }
+      }
+    )
+
+
+  }
+})
 
 app.get('/users', function(req, res){
 
@@ -143,12 +160,11 @@ app.get('/users', function(req, res){
         if(error) console.log(error);
 
         else{
-            res.send(results);
+          res.send(results);
         }
 
   });
 });
-
 
 const port = 3000;
 

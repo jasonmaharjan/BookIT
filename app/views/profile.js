@@ -13,7 +13,7 @@ export default class profile extends React.Component {
       return(
         <View style={styles.container}>
           <View style={styles.container}>
-            <Text style={styles.text}> WELCOME TO BOOKIT!! </Text>				
+            <Text style={styles.text}> HOMEPAGE </Text>				
           </View>	 
         </View> 
       );

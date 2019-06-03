@@ -42,19 +42,27 @@ export default class Signup extends React.Component{
           })
         }) 
 
-        let res = await response.json();
+        let res = await response.json(); // receive data in json format from the server
 
-        if (response.status >=200 && response.status <300){
-          console.log('res is :' + res);
-        } else{
+        alert(res.message);
+
+        if (res.success === true){
+          alert('User Registered');
+          this.props.navigation.navigate('login');
+        }
+
+        else if (res.success === false){
+          alert('Sorry, email has already been taken');
+        }
+        
+        else{
           let errors = res;
           throw errors;
         }
       }
         
-        catch(errors){
+      catch(errors){
           console.log('catch errors :' + errors);
-
       }
     }
       
@@ -101,7 +109,7 @@ export default class Signup extends React.Component{
                         onChangeText={(password_confirm) => this.setState({password_confirm})}/>
                     </View>
 
-                    <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onSignupPressed(this)}>
+                    <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onSignupPressed('signup')}>
                     <Text style={styles.loginText}>SignUp</Text>
                     </TouchableHighlight>           
                     <View style={styles.signupContainer}>
