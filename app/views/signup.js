@@ -4,28 +4,61 @@ import {
   Text,
   View,
   TextInput,
-   Button,
-   TouchableHighlight,
-   TouchableOpacity,
-   Image,
-   Alert,
+  Button,
+  TouchableHighlight,
+  TouchableOpacity,
+  Image,
+  Alert,
 } from 'react-native';
 
 
 export default class Signup extends React.Component{
+
     constructor(props) {
         super(props);
+
         this.state = {
           email: "",
-          fullname: "",
-          password: ""
+          username: "",
+          password: "",
+          password_confirm: "",
+          errors: [],
         };
       }
-      
-      onClickListener = (viewId) => {
-       //Alert.alert("Alert", "SignUp Button click");
-       this.navigation.navigate('login');
+
+    async onSignupPressed() {
+      try {
+        let response = await fetch('http://192.168.100.3:3000/signup', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              username: this.state.username,  
+              email: this.state.email,
+              password: this.state.password,
+              password_confirm: this.state.password_confirm,
+          })
+        }) 
+
+        let res = await response.json();
+
+        if (response.status >=200 && response.status <300){
+          console.log('res is :' + res);
+        } else{
+          let errors = res;
+          throw errors;
+        }
       }
+        
+        catch(errors){
+          console.log('catch errors :' + errors);
+
+      }
+    }
+      
+   
 
  	render() {
      
@@ -35,10 +68,10 @@ export default class Signup extends React.Component{
                 <View style={styles.mainConatiner}>
                     <View style={styles.inContainer}>
                     <TextInput style={styles.inputs}
-                        placeholder="Full name"
-                        keyboardType="email-address"
+                        placeholder="User name"
+                        keyboardType="default"
                         underlineColorAndroid='transparent'
-                        onChangeText={(fullName) => this.setState({fullName})}/>
+                        onChangeText={(username) => this.setState({username})}/>
                     </View>
 
                     <View style={styles.inContainer}>
@@ -58,14 +91,24 @@ export default class Signup extends React.Component{
                         value = {this.state.password}
                         onChangeText={(password) => this.setState({password})}/>
                     </View>
-                    <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onClickListener('sign_up')}>
+
+                    <View style={styles.inContainer}>
+                    <TextInput style={styles.inputs}
+                        placeholder="Confirm Password"
+                        secureTextEntry={true}
+                        underlineColorAndroid='transparent'
+                        value = {this.state.password_confirm}
+                        onChangeText={(password_confirm) => this.setState({password_confirm})}/>
+                    </View>
+
+                    <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onSignupPressed(this)}>
                     <Text style={styles.loginText}>SignUp</Text>
                     </TouchableHighlight>           
-				<View style={styles.signupContainer}>
-					<Text style={styles.signupText}>Already have an account?</Text>
-					<TouchableOpacity onPress={() => this.props.navigation.navigate('login')}><Text style={styles.signupButton}> Sign in</Text></TouchableOpacity>
+                    <View style={styles.signupContainer}>
+                      <Text style={styles.signupText}>Already have an account?</Text>
+                      <TouchableOpacity onPress={() => this.props.navigation.navigate('login')}><Text style={styles.signupButton}> Sign in</Text></TouchableOpacity>
                     </View>
-                </View>
+              </View>
 			</View>	
 			)
 	}
@@ -136,3 +179,4 @@ const styles = StyleSheet.create({
     color:'blue',
   }
 });
+

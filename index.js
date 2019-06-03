@@ -3,6 +3,7 @@ var app  = express();
 var mysql = require('mysql');
 var session = require('express-session');
 var bodyParser = require('body-parser');
+var expressValidator = require ('express-validator')
 
 var mysql = require('mysql');
 
@@ -21,15 +22,33 @@ con.connect(function(err){
     }
 });
 
-app.use(bodyParser.json({type:'application/json'}));
-app.use(bodyParser.urlencoded({extended:true}));
-
 app.use(session({
 	secret: 'secret',
 	resave: true,
 	saveUninitialized: true
 }));
 
+//Body parser middleware
+app.use(bodyParser.json({type:'application/json'}));
+app.use(bodyParser.urlencoded({extended:true}));
+
+// Express Validator Middleware
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
 
 app.post('/', function(req, res){
 
@@ -58,27 +77,65 @@ app.post('/', function(req, res){
 
 });
 
+app.get('/signup', function(req, res){
+  res.send('User signup');
+})
+
 
 app.post('/signup', function(req, res) {
 
-  var fullname = req.body.fullname;
+  var username = req.body.username;
   var email = req.body.email;
   var password = req.body.password;
-  res.write('You sent the fname "' + req.body.fullname + '".\n');
-  res.write('You sent the email "' + req.body.email + '".\n');
-  res.write('You sent the password "' + req.body.password + '".\n');
+  var password_confirm = req.body.password_confirm;
 
-  con.connect(function(err) {
-    if (err) throw err;
+  console.log(password);
+  console.log(password_confirm);
 
-    var sql = "INSERT INTO users (fullname, email, password) VALUES ('" + fullname + "', '" + email + "', '" + password + "')";
-    con.query(sql, function(err, result) {
-      if (err) throw err;
-      console.log("1 record inserted");
-      res.end();
-    });
-  });
+  req.checkBody('username', 'Name is required').notEmpty();
+  req.checkBody('email', 'Email is required').notEmpty();
+  req.checkBody('email', 'Email is not valid').isEmail();
+  req.checkBody('password', 'Password is required').notEmpty();
+  req.checkBody('password_confirm', 'Passwords do not match').equals(req.body.password);
+
+  let errors = req.validationErrors();
+
+  if (errors) {
+    console.log(errors);
+  }
+
+  else{
+
+    con.query(
+
+      "INSERT INTO users (username, email, password) VALUES ('" + username + "', '" + email + "', '" + password + "')",
+       function(err, row, field){
+         if (err) throw err;
+
+         else {
+         console.log('1 record inserted');
+         res.send({message:'success'});
+         }
+       }
+    )
+  }
 })
+
+/*
+    con.connect(function(err) {
+      if (err) throw err;
+
+      var sql = "INSERT INTO users (username, email, password) VALUES ('" + username + "', '" + email + "', '" + password + "')";
+
+      con.query(sql, function(err, result) {
+
+        if (err) throw err;
+
+        console.log("1 record inserted");
+        res.end();
+      });
+    });
+*/
 
 app.get('/users', function(req, res){
 
