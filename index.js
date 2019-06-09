@@ -3,7 +3,8 @@ var app  = express();
 var mysql = require('mysql');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-var expressValidator = require ('express-validator')
+var expressValidator = require ('express-validator');
+var bcrypt = require('bcryptjs');
 
 var mysql = require('mysql');
 
@@ -95,6 +96,7 @@ app.post('/signup', function(req, res) {
   req.checkBody('password', 'Password is required').notEmpty();
   req.checkBody('password_confirm', 'Passwords do not match').equals(req.body.password);
 
+
   let errors = req.validationErrors();
 
   if (errors) {
@@ -133,24 +135,33 @@ app.post('/signup', function(req, res) {
 
         // If email is available
         else{
-          con.query(
+          
+          // Password Encryption 
+          bcrypt.genSalt(10, function(err, salt){
+            bcrypt.hash(password, salt, function(err, hash){
+              
+              if (err) throw err;
 
-            "INSERT INTO users (username, email, password) VALUES ('" + username + "', '" + email + "', '" + password + "')",
-             function(err, row, field){
-               if (err) throw err;
-      
-               else {
-               console.log('1 record inserted');
+              con.query(            
 
-               res.send({'success': true});
-               }
-             }
-          )
+                "INSERT INTO users (username, email, password) VALUES ('" + username + "', '" + email + "', '" + password + "')",
+                 function(err, row, field){
+    
+                  console.log(password);
+                   if (err) throw err;
+          
+                   else {
+                   console.log('1 record inserted');
+    
+                   res.send({'success': true});
+                   }
+                 }
+              )
+            })
+          })
         }
       }
     )
-
-
   }
 })
 
