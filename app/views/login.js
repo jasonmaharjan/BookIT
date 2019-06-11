@@ -23,7 +23,7 @@ export default class Login extends React.Component {
       super(props);
 
       this.state = {
-        email: "",
+        username: "",
         password: ""
       };
   }
@@ -34,7 +34,7 @@ export default class Login extends React.Component {
 
   _loadInitialState = async () => {
 
-    //get email of user and check if user has logged in
+    //get username of user and check if user has logged in
 
     var value = await AsyncStorage.getItem('user');
     if (value !== null){
@@ -45,14 +45,14 @@ export default class Login extends React.Component {
 
   login =() => {
 
-    fetch('http://192.168.1.77:3000/', {
+    fetch('http://192.168.1.77:3000/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: this.state.email,
+        username: this.state.username,
         password: this.state.password,
       })
     })  
@@ -64,7 +64,7 @@ export default class Login extends React.Component {
 
       if (res.success === true){   //if input credentials are valid
 
-        AsyncStorage.setItem('user', res.email);
+        AsyncStorage.setItem('user', res.username);
         this.props.navigation.navigate('profile');
       }
 
@@ -83,11 +83,11 @@ export default class Login extends React.Component {
                 <View style={styles.inContainer}>
                   <Image style={styles.icon} source={require("../icons/icons-user-male-50.png")} />
                       <TextInput style={styles.inputs}
-                      placeholder="Email"
-                      keyboardType="email-address"
-                      value = {this.state.email}
+                      placeholder="Username"
+                      keyboardType="default"
+                      value = {this.state.username}
                       underlineColorAndroid='transparent'
-                      onChangeText={(email) => this.setState({email})}/>
+                      onChangeText={(username) => this.setState({username})}/>
                   </View>
 
                   <View style={styles.inContainer}>

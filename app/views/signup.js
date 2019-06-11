@@ -52,7 +52,7 @@ export default class Signup extends React.Component{
         }
 
         else if (res.success === false){
-          alert('Sorry, email has already been taken');
+          alert('Sorry, username has already been taken');
         }
         
         else{
@@ -116,9 +116,9 @@ export default class Signup extends React.Component{
                       <Text style={styles.signupText}>Already have an account?</Text>
                       <TouchableOpacity onPress={() => this.props.navigation.navigate('login')}><Text style={styles.signupButton}> Sign in</Text></TouchableOpacity>
                     </View>
-              </View>
-			</View>	
-			)
+                </View>
+		  </View>	
+		)
 	}
 }
 

@@ -11,12 +11,14 @@ import { createStackNavigator ,createAppContainer} from 'react-navigation';
 import signup from './app/views/signup';
 import login from './app/views/login';
 import profile from './app/views/profile';
+import add_books from './app/views/add_books';
 
 const RootStack = createStackNavigator(
   {
     login: login,
     signup: signup,
     profile: profile,
+    add_books: add_books,
   },
   {
     initialRouteName: 'login',

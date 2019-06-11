@@ -51,23 +51,43 @@ app.use(expressValidator({
   }
 }));
 
-app.post('/', function(req, res){
+app.get('/users', function(req, res){
 
-  var email = req.body.email;
+	con.query('select * from users', function(error, results, fields){
+        if(error) console.log(error);
+
+        else{
+          res.send(results);
+        }
+
+  });
+});
+
+app.post('/login', function(req, res){
+
+  var username = req.body.username;
   var password = req.body.password;
 
   con.query(
 
-    "SELECT * FROM users WHERE email = ? AND password = ?",
-    [email, password], function(err, row, field){
-
-      if(err){
+    "SELECT * FROM users WHERE username = ?", username, function(err, row, field){
+      if (err){
         console.log(err);
-        res.send({'success': false, 'message': 'Could not connect to db'}); 
+        res.send({'success': false, 'message': 'Could not connect to db'});
       }
 
-      if (row.length>0){
-        res.send({'success': true, 'message': row[0].email });
+      else if (row.length > 0){
+
+        bcrypt.compare(password, row[0].password, function(err, isMatch){
+
+          if(err) throw err;
+
+          if(isMatch){
+
+            res.send({'success': true, 'message': row[0].username});
+
+          }        
+        });
       }
 
       else{
@@ -75,13 +95,7 @@ app.post('/', function(req, res){
       }
     }
   )
-
 });
-
-app.get('/signup', function(req, res){
-  res.send('User signup');
-})
-
 
 app.post('/signup', function(req, res) {
 
@@ -95,7 +109,6 @@ app.post('/signup', function(req, res) {
   req.checkBody('email', 'Email is not valid').isEmail();
   req.checkBody('password', 'Password is required').notEmpty();
   req.checkBody('password_confirm', 'Passwords do not match').equals(req.body.password);
-
 
   let errors = req.validationErrors();
 
@@ -121,37 +134,42 @@ app.post('/signup', function(req, res) {
   }
 
   else{
-    // Check if email is already taken
+
+    // Check if username is already taken
+
     con.query(
-      "SELECT * FROM users WHERE email = ?", email, function(err, row, field){
+      "SELECT * FROM users WHERE username = ?", username, function(err, row, field){
         
         if (err) throw err;
 
         else if (row.length>0){
           res.send({'success': false});
 
-          console.log('Email is already taken');
+          console.log('Username is already taken');
         }
 
-        // If email is available
+        // If username is available
+
         else{
           
           // Password Encryption 
+
           bcrypt.genSalt(10, function(err, salt){
             bcrypt.hash(password, salt, function(err, hash){
-              
+
               if (err) throw err;
+              
+              password = hash;
 
               con.query(            
 
                 "INSERT INTO users (username, email, password) VALUES ('" + username + "', '" + email + "', '" + password + "')",
                  function(err, row, field){
-    
-                  console.log(password);
-                   if (err) throw err;
+  
+                   if (err) throw err;                   
           
                    else {
-                   console.log('1 record inserted');
+                   console.log('1 user-record inserted');
     
                    res.send({'success': true});
                    }
@@ -163,19 +181,55 @@ app.post('/signup', function(req, res) {
       }
     )
   }
-})
-
-app.get('/users', function(req, res){
-
-	con.query('select * from users', function(error, results, fields){
-        if(error) console.log(error);
-
-        else{
-          res.send(results);
-        }
-
-  });
 });
+
+app.post('/addbook', function(req, res){
+
+  var ISBN = req.body.ISBN;
+  var title = req.body.title;
+  var author = req.body.author;
+  var price = req.body.price;
+  var edition = req.body.edition;
+  var username = req.body.username;
+  var description = req.body.description;
+
+  req.checkBody('ISBN', 'ISBN is required').notEmpty();
+  req.checkBody('title', 'title is required').notEmpty();
+  req.checkBody('author', 'author is not valid').notEmpty();
+  req.checkBody('price', 'price is required').notEmpty();
+  req.checkBody('edition', 'edition is required').notEmpty();
+  req.checkBody('username', 'Username is required').notEmpty();
+  req.checkBody('description', 'Description is required').notEmpty();
+
+  let errors = req.validationErrors();
+
+  if (errors) {
+
+    res.send({message:'Please give all the information'});
+
+    console.log(errors);
+  }
+
+  else{
+
+    con.query(            
+
+      "INSERT INTO books (ISBN, title, author, price, edition, username, description) VALUES ('" + ISBN + "', '" + title + "', '" + author + "', '" + price + "', '" + edition + "', '" + username + "', '" + description + "')",
+      function(err, row, field){
+
+        console.log(row);
+        if (err) throw err;
+
+        else {
+        console.log('1 book-record inserted');
+
+        res.send({'success': true});
+        }
+      }
+    )
+  }
+
+})
 
 const port = 3000;
 
