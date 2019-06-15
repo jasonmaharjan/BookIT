@@ -10,9 +10,9 @@ Dimensions,
 TouchableOpacity,
 } from 'react-native';
 import { Constants } from 'expo';
-import { Container, Header, Left, Body, Right, Button, Icon, Title, Content, Item, Input } from 'native-base';
+import { Container, Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
 
-export default class HomeScreen extends React.Component {
+export default class logout extends React.Component {
     constructor(props){
         super(props);
     }
@@ -29,28 +29,15 @@ export default class HomeScreen extends React.Component {
             </Button>
           </Left>
           <Body>
-            <Title style = {styles.title}>Home</Title>
+            <Title>Bookit</Title>
           </Body>
         </Header>
-         <View searchBar style = {styles.container}>
-         <Item style = {styles.searchBar}>
-            <Icon name="search" />
-            <Input placeholder="Search" />
-            <Icon name="book" />
-            <Button transparent>
-            <Text>Search</Text>
-          </Button>
-          </Item>
-          
-         </View>
+         <View style={styles.container}>
+           <Text>logout Here....</Text>
+        </View>
           </Container>
     );
   }
-
-  _showSignup = () => {
-    this.props.navigation.navigate('signup');
-  };
-
 }
 
 const statusbarStyle = StyleSheet.create({
@@ -58,23 +45,17 @@ const statusbarStyle = StyleSheet.create({
       paddingTop: Constants.statusBarHeight,
       height:75,
       backgroundColor: '#0956a4',
-      
-     // borderBottomColor: 'black',
-     // borderBottomWidth: 0.5,
     },
   });
 
 const styles = StyleSheet.create({
   container : {
     backgroundColor: '#F5F7F6',
+    flex:1,
     alignItems : 'center',
-    justifyContent : 'center',
+    justifyContent : 'center'
   },
-  title:{
-      color: '#fff',
-    alignItems: 'center',
+  signupText: {
+    fontSize:20,    
   },
-  searchBar : {
-    width: 200,
-  }
 });

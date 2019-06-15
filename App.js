@@ -20,6 +20,7 @@ import ContactusScreen from './app/views/contactUs';
 
 import signup from './app/views/signup';
 import login from './app/views/login';
+import dashboard from './app/views/dashboard';
 import profile from './app/views/profile';
 import add_books from './app/views/add_books';
 import Fontt from './Font';
@@ -66,6 +67,7 @@ const AppDrawerNav = createDrawerNavigator({
   "About ": AboutScreen,
   "FAQs" : FAQsScreen,
   "Contact us": ContactusScreen,
+  "dashboard" : dashboard,
 }, {
   contentComponent : CustomDrawerComponent,
   contentOptions: {
@@ -103,7 +105,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}> 
         <Apps/>
-        <Application/>
+        
       </View>
     );
   }
