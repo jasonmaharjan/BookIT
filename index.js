@@ -83,10 +83,11 @@ app.post('/login', function(req, res){
           if(err) throw err;
 
           if(isMatch){
-
             res.send({'success': true, 'message': row[0].username});
-
-          }        
+          }     
+          
+          else
+          res.send({'success': false, 'message': 'Password is incorrect'});
         });
       }
 

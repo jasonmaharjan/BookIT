@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 import NavigationBar from 'react-native-navbar';
+import { ScrollView } from 'react-native-gesture-handler';
 
     const titleConfig = {
         title: 'Add a Book!',
@@ -77,77 +78,79 @@ export default class Signup extends React.Component{
  	render() {
      
 		return(
-			<View style={styles.container}>
-				
-                <View style={styles.mainConatiner}>
-                    <View style={styles.inContainer}>
-                    <TextInput style={styles.inputs}
-                        placeholder="ISBN"
-                        keyboardType="default"
-                        value = {this.state.ISBN}
-                        underlineColorAndroid='transparent'
-                        onChangeText={(ISBN) => this.setState({ISBN})}/>
-                    </View>
+      <ScrollView>
+        <View style={styles.container}>
+          
+                  <View style={styles.mainConatiner}>
+                      <View style={styles.inContainer}>
+                      <TextInput style={styles.inputs}
+                          placeholder="ISBN"
+                          keyboardType="default"
+                          value = {this.state.ISBN}
+                          underlineColorAndroid='transparent'
+                          onChangeText={(ISBN) => this.setState({ISBN})}/>
+                      </View>
 
-                    <View style={styles.inContainer}>
-                        <TextInput style={styles.inputs}
-                        placeholder="title"
-                        keyboardType="default"
-                        value = {this.state.title}
-                        underlineColorAndroid='transparent'
-                        onChangeText={(title) => this.setState({title})}/>
-                    </View>
-                    
-                    <View style={styles.inContainer}>
-                    <TextInput style={styles.inputs}
-                        placeholder="author"
-                        keyboardType = "default"
-                        underlineColorAndroid='transparent'
-                        value = {this.state.author}
-                        onChangeText={(author) => this.setState({author})}/>
-                    </View>
+                      <View style={styles.inContainer}>
+                          <TextInput style={styles.inputs}
+                          placeholder="title"
+                          keyboardType="default"
+                          value = {this.state.title}
+                          underlineColorAndroid='transparent'
+                          onChangeText={(title) => this.setState({title})}/>
+                      </View>
+                      
+                      <View style={styles.inContainer}>
+                      <TextInput style={styles.inputs}
+                          placeholder="author"
+                          keyboardType = "default"
+                          underlineColorAndroid='transparent'
+                          value = {this.state.author}
+                          onChangeText={(author) => this.setState({author})}/>
+                      </View>
 
-                    <View style={styles.inContainer}>
-                    <TextInput style={styles.inputs}
-                        placeholder="price"
-                        keyboardType = "default"                        
-                        underlineColorAndroid='transparent'
-                        value = {this.state.price}
-                        onChangeText={(price) => this.setState({price})}/>
-                    </View>
+                      <View style={styles.inContainer}>
+                      <TextInput style={styles.inputs}
+                          placeholder="price"
+                          keyboardType = "default"                        
+                          underlineColorAndroid='transparent'
+                          value = {this.state.price}
+                          onChangeText={(price) => this.setState({price})}/>
+                      </View>
 
-                    <View style={styles.inContainer}>
-                    <TextInput style={styles.inputs}
-                        placeholder="edition"
-                        keyboardType = "default"
-                        value = {this.state.edition}                        
-                        underlineColorAndroid='transparent'
-                        onChangeText={(edition) => this.setState({edition})}/>
-                    </View>
+                      <View style={styles.inContainer}>
+                      <TextInput style={styles.inputs}
+                          placeholder="edition"
+                          keyboardType = "default"
+                          value = {this.state.edition}                        
+                          underlineColorAndroid='transparent'
+                          onChangeText={(edition) => this.setState({edition})}/>
+                      </View>
 
-                    <View style={styles.inContainer}>
-                    <TextInput style={styles.inputs}
-                        placeholder="username"
-                        keyboardType = "default"           
-                        value = {this.state.username}             
-                        underlineColorAndroid='transparent'
-                        onChangeText={(username) => this.setState({username})}/>
-                    </View>
+                      <View style={styles.inContainer}>
+                      <TextInput style={styles.inputs}
+                          placeholder="your username"
+                          keyboardType = "default"           
+                          value = {this.state.username}             
+                          underlineColorAndroid='transparent'
+                          onChangeText={(username) => this.setState({username})}/>
+                      </View>
 
-                    <View style={styles.inContainer}>
-                    <TextInput style={styles.inputs}
-                        placeholder="description"
-                        keyboardType = "default"    
-                        value = {this.state.description}                    
-                        underlineColorAndroid='transparent'                        
-                        onChangeText={(description) => this.setState({description})}/>
-                    </View>
+                      <View style={styles.inContainer}>
+                      <TextInput style={styles.inputs}
+                          placeholder="description"
+                          keyboardType = "default"    
+                          value = {this.state.description}                    
+                          underlineColorAndroid='transparent'                        
+                          onChangeText={(description) => this.setState({description})}/>
+                      </View>
 
-                    <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={() => this.onAddbookPressed('add_books')}>
-                        <Text style={styles.addBookText}>Add Book</Text>
-                    </TouchableHighlight>           
-              </View>
-			</View>	
+                      <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={() => this.onAddbookPressed('add_books')}>
+                          <Text style={styles.addBookText}>Add Book</Text>
+                      </TouchableHighlight>           
+                </View>
+        </View>	
+      </ScrollView>
 			)
 	}
 }

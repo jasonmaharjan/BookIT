@@ -4,6 +4,7 @@ import {
     Text,
     View,
     TouchableOpacity,
+    TouchableHighlight,
     Image,
     Alert,
     ScrollView,
@@ -49,9 +50,9 @@ export default class Home extends React.Component {
 
             </View>
 
-            <View style={styles.addbookContainer}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('add_books')}><Text style={styles.addbookButton}> Click here to a add Book</Text></TouchableOpacity>
-            </View>
+            <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={() => this.props.navigation.navigate('add_books')}>
+                          <Text style={styles.addBookText}>Add Book</Text>
+            </TouchableHighlight> 
 
           <FlatList style={styles.list}
             contentContainerStyle={styles.listContainer}
@@ -152,13 +153,23 @@ export default class Home extends React.Component {
             color: "#fff"
     
     },
-    addbookContainer:{
-      marginLeft: -15,
-      marginTop :10,
+    buttonContainer: {
+      height:45,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth:1,
+      width:250,
+      borderRadius:5,    
+      borderColor: "green",
+      marginTop: 20,
     },
-    addbookButton: {
-      fontSize:16,
+    addBookButton: {
+      backgroundColor: "green",
+    },
+    addBookText:{
+      color: '#fff',
+      fontSize:18,
       fontWeight:'500',
-      color:'green',
-    }
+    },
   });    
