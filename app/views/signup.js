@@ -25,10 +25,13 @@ export default class Signup extends React.Component{
           errors: [],
         };
       }
-
+      static navigationOptions = {
+        title: 'signup',
+        
+    }
     async onSignupPressed() {
       try {
-        let response = await fetch('http://192.168.1.77:3000/signup', {
+        let response = await fetch('http://192.168.0.103:3000/signup', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -66,9 +69,7 @@ export default class Signup extends React.Component{
       }
     }
       
-   
-
- 	render() {
+   	render() {
      
 		return(
 			<View style={styles.container}>
@@ -130,6 +131,7 @@ const styles = StyleSheet.create({
   mainConatiner: {
     alignItems: 'center',
     justifyContent: 'center',
+    flex:1,
   },
   inContainer: {
     borderBottomColor: '#A0A3A9',

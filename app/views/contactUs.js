@@ -28,7 +28,7 @@ export default class ContactusScreen extends React.Component {
               <Icon name='menu' onPress={()=>{this.props.navigation.openDrawer()}} />
             </Button>
           </Left>
-          <Body>
+          <Body> 
             <Title style = {styles.title}>Contact Us</Title>
           </Body>
         </Header>
@@ -49,8 +49,8 @@ export default class ContactusScreen extends React.Component {
 const statusbarStyle = StyleSheet.create({
     statusBar: {
       paddingTop: Constants.statusBarHeight,
-      height:75,
-      backgroundColor: '#0956a4',
+      height:65,
+      //backgroundColor: '#0956a4',
      // borderBottomColor: 'black',
      // borderBottomWidth: 0.5,
     },
@@ -64,8 +64,7 @@ const styles = StyleSheet.create({
     paddingHorizontal : 15
   },
   title:{
-      color: '#fff',
-    alignItems: 'center',
+    color: '#0956a4',
   },
    contactWrapper: {
     borderColor : '#a6a6a6',
