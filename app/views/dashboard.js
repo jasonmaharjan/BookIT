@@ -30,7 +30,7 @@ export default class dashboard extends React.Component {
             </Button>
           </Left>
           <Body>
-            <Title style = {styles.title}>Home</Title>
+            <Title style = {styles.title}>Dashboard</Title>
           </Body>
         </Header> 
          <View style={{flex:1, backgroundColor: '#f3f3f3'}}>        
@@ -62,8 +62,8 @@ console.log(Constants.statusBarHeight)
 const statusbarStyle = StyleSheet.create({
     statusBar: {
       paddingTop: Constants.statusBarHeight,
-      height:75,
-      backgroundColor: '#0956a4',
+      height:65,
+      //backgroundColor: '#0956a4',
      // borderBottomColor: 'black',
      // borderBottomWidth: 0.5,
     },
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent : 'center'
   },
   title:{
-      color: '#fff',
+      color: '#0956a4',
     alignItems: 'center',
   },
   actionButtonIcon: {

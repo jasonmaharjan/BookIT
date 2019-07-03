@@ -29,7 +29,7 @@ export default class AboutScreen extends React.Component {
             </Button>
           </Left>
           <Body>
-            <Title>Bookit</Title>
+            <Title style={styles.title}>About us</Title>
           </Body>
         </Header>
          <View style={styles.container}>
@@ -43,8 +43,7 @@ export default class AboutScreen extends React.Component {
 const statusbarStyle = StyleSheet.create({
     statusBar: {
       paddingTop: Constants.statusBarHeight,
-      height:75,
-      backgroundColor: '#0956a4',
+      height:65,
     },
   });
 
@@ -54,6 +53,9 @@ const styles = StyleSheet.create({
     flex:1,
     alignItems : 'center',
     justifyContent : 'center'
+  },
+  title:{
+    color:'#0956a4'
   },
   signupText: {
     fontSize:20,    

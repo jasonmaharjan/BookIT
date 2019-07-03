@@ -38,7 +38,7 @@ export default class Donate extends React.Component{
 
   /*  async onDonatebookPressed() {
       try {
-        let response = await fetch('http://192.168.1.77:3000/addbook', {
+        let response = await fetch('http://192.168.100.3:3000/addbook', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

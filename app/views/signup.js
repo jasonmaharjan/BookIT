@@ -22,13 +22,17 @@ export default class Signup extends React.Component{
           username: "",
           password: "",
           password_confirm: "",
+          phone_number: "",
           errors: [],
         };
       }
-
+      static navigationOptions = {
+        title: 'signup',
+        
+    }
     async onSignupPressed() {
       try {
-        let response = await fetch('http://192.168.1.77:3000/signup', {
+        let response = await fetch('http://192.168.100.3:3000/signup', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -39,6 +43,7 @@ export default class Signup extends React.Component{
               email: this.state.email,
               password: this.state.password,
               password_confirm: this.state.password_confirm,
+              phone_number: this.state.phone_number,
           })
         }) 
 
@@ -66,9 +71,7 @@ export default class Signup extends React.Component{
       }
     }
       
-   
-
- 	render() {
+   	render() {
      
 		return(
 			<View style={styles.container}>
@@ -109,6 +112,15 @@ export default class Signup extends React.Component{
                         onChangeText={(password_confirm) => this.setState({password_confirm})}/>
                     </View>
 
+                    <View style={styles.inContainer}>
+                    <TextInput style={styles.inputs}
+                        placeholder="Phone Number"
+                        secureTextEntry={true}
+                        underlineColorAndroid='transparent'
+                        value = {this.state.phone_number}
+                        onChangeText={(phone_number) => this.setState({phone_number})}/>
+                    </View>
+
                     <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onSignupPressed('signup')}>
                     <Text style={styles.loginText}>SignUp</Text>
                     </TouchableHighlight>           
@@ -130,6 +142,7 @@ const styles = StyleSheet.create({
   mainConatiner: {
     alignItems: 'center',
     justifyContent: 'center',
+    flex:1,
   },
   inContainer: {
     borderBottomColor: '#A0A3A9',

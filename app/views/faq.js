@@ -48,8 +48,7 @@ export default class HomeScreen extends React.Component {
 const statusbarStyle = StyleSheet.create({
     statusBar: {
       paddingTop: Constants.statusBarHeight,
-      height:75,
-      backgroundColor: '#0956a4',
+      height:65,
      // borderBottomColor: 'black',
      // borderBottomWidth: 0.5,
     },
@@ -63,8 +62,7 @@ const styles = StyleSheet.create({
     justifyContent : 'center'
   },
   title:{
-      color: '#fff',
-    alignItems: 'center',
+    color: '#0956a4',
   },
   signupText: {
     fontSize:30,  

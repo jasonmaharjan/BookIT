@@ -11,7 +11,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
   host     : 'localhost',
 	user     : 'root',
-	password : '',
+	password : '#jimmypage8877#',
 	database : 'bookit'
 });
 
@@ -51,6 +51,7 @@ app.use(expressValidator({
   }
 }));
 
+// Users API
 app.get('/users', function(req, res){
 
 	con.query('select * from users', function(error, results, fields){
@@ -60,6 +61,32 @@ app.get('/users', function(req, res){
           res.send(results);
         }
 
+  });
+});
+
+// Books API
+
+app.get('/books', function(req, res){
+	con.query('select title, author from books', function(error, row, fields){
+        res.send(row);
+  });
+});
+
+app.post('/books', function(req, res){
+
+  var title = req.body.search;
+  con.query(
+
+    "SELECT * FROM books WHERE title = ? ", title, function(error, row, field){
+
+    if(error) console.log(error);
+
+    else if(row.length > 0){
+      res.send({ 'success': true });
+    }
+    else {
+      res.send({ 'success': false });
+    }
   });
 });
 
@@ -104,12 +131,14 @@ app.post('/signup', function(req, res) {
   var email = req.body.email;
   var password = req.body.password;
   var password_confirm = req.body.password_confirm;
+  var phone_number = req.body.phone_number;
 
   req.checkBody('username', 'Name is required').notEmpty();
   req.checkBody('email', 'Email is required').notEmpty();
   req.checkBody('email', 'Email is not valid').isEmail();
   req.checkBody('password', 'Password is required').notEmpty();
   req.checkBody('password_confirm', 'Passwords do not match').equals(req.body.password);
+  req.checkBody('phone_number', 'Phone Number is required').notEmpty();
 
   let errors = req.validationErrors();
 
@@ -129,6 +158,10 @@ app.post('/signup', function(req, res) {
 
     else if (password != password_confirm){
       res.send({message:'Passwords do not match'});
+    }
+
+    else if (!phone_number){
+      res.send({message:'Phone number missing'});
     }
 
     console.log(errors);
@@ -164,7 +197,7 @@ app.post('/signup', function(req, res) {
 
               con.query(            
 
-                "INSERT INTO users (username, email, password) VALUES ('" + username + "', '" + email + "', '" + password + "')",
+                "INSERT INTO users (username, email, password, phone_number) VALUES ('" + username + "', '" + email + "', '" + password + "','" + phone_number + "' )",
                  function(err, row, field){
   
                    if (err) throw err;                   

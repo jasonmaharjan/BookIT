@@ -28,6 +28,10 @@ export default class Login extends React.Component {
       };
   }
 
+  static navigationOptions = {
+    title: 'login',
+    
+}
   componentDidMount() {
     this._loadInitialState().done();
   }
@@ -45,7 +49,7 @@ export default class Login extends React.Component {
 
   login =() => {
 
-    fetch('http://192.168.1.77:3000/login', {
+    fetch('http://192.168.100.3:3000/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -117,10 +121,14 @@ export default class Login extends React.Component {
 }
 
 const styles = StyleSheet.create({
-   
+  container:{
+    flex:1,
+  },   
   mainConatiner: {
     alignItems: 'center',
     justifyContent: 'center',
+    flex:1,
+    
   },
   inContainer: {
     borderBottomColor: '#A0A3A9',

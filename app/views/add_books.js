@@ -38,7 +38,7 @@ export default class Signup extends React.Component{
 
     async onAddbookPressed() {
       try {
-        let response = await fetch('http://192.168.1.77:3000/addbook', {
+        let response = await fetch('http://192.168.100.3:3000/addbook', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -82,6 +82,7 @@ export default class Signup extends React.Component{
         <View style={styles.container}>
           
                   <View style={styles.mainConatiner}>
+                    <Text>Please Fill out the following fields.</Text>
                       <View style={styles.inContainer}>
                       <TextInput style={styles.inputs}
                           placeholder="ISBN"
@@ -158,7 +159,8 @@ export default class Signup extends React.Component{
 const styles = StyleSheet.create({
   container : {
     backgroundColor: '#F5F7F6',
-    flex: 1,  
+    flex: 1, 
+     
   },
   mainConatiner: {
     alignItems: 'center',
@@ -171,6 +173,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width:250,
     height:45,
+    marginTop: 10,
     marginBottom:10,
     flexDirection: 'row',
     alignItems:'center',  
