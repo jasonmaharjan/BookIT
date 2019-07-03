@@ -17,6 +17,7 @@ const AppStackNav = createStackNavigator(
       profile: {screen : profile},
       add_books: {screen : add_books},
       search: {screen : search},
+
     },
     {
       initialRouteName: 'Home',

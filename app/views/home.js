@@ -17,6 +17,18 @@ import { StackActions, NavigationActions } from 'react-navigation';
 
 
 export default class HomeScreen extends React.Component {
+<<<<<<< HEAD
+=======
+   
+  static navigationOptions = ({ screenProps }) => ({
+    title: 'Home',
+    headerTintColor: '#0956a4',
+    headerLeft:(
+      <Icon name='menu' onPress = {()=> screenProps.openDrawer()} style = {styles.header}/>
+    )
+
+})
+>>>>>>> ba96223bc1ca3caba88546d6b9fefb9115325e42
 
   constructor(props) {
     super(props);
@@ -70,6 +82,7 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
         <Container>
+<<<<<<< HEAD
 			
           <View style={styles.mainConatiner}>
               <View style={styles.inContainer}>
@@ -93,6 +106,26 @@ export default class HomeScreen extends React.Component {
           </View>      
 
         </Container>
+=======
+        <View searchBar style = {styles.container}>
+         <Item style = {styles.searchBar}>
+            <Icon name="search" />
+            <Input placeholder="Search" />
+            <Icon name="book" />
+            <Button transparent>
+            <Text>Search</Text>
+          </Button>        
+        </Item>
+        </View> 
+        <View style = {styles.content}>
+         <Text style = {styles.heading} onPress = {()=> {this.props.navigation.navigate('login') }}>Login</Text>         
+         <Text>OR</Text>
+         <Text style = {styles.heading} onPress = {()=> {this.props.navigation.navigate('signup') }}>Signup</Text>  
+         <Text style = {styles.description}>To Buy, Sell, Rent books and many more...</Text>  
+         </View>      
+
+          </Container>
+>>>>>>> ba96223bc1ca3caba88546d6b9fefb9115325e42
     );
   }
 
@@ -113,11 +146,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     color: '#0956a4'
   },
+<<<<<<< HEAD
   inputs:{
     height:45,
     marginLeft:16,
     borderBottomColor: '#FFFFFF',
   },
+=======
+>>>>>>> ba96223bc1ca3caba88546d6b9fefb9115325e42
   container : {   
     alignItems : 'center',
     justifyContent : 'center',
@@ -146,6 +182,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     fontSize: 22,
     fontWeight: 'bold',
+<<<<<<< HEAD
   },
   mainConatiner: {
     alignItems: 'center',
@@ -188,4 +225,7 @@ const styles = StyleSheet.create({
     fontSize:18,
     fontWeight:'500',
   },
+=======
+  }
+>>>>>>> ba96223bc1ca3caba88546d6b9fefb9115325e42
 });
