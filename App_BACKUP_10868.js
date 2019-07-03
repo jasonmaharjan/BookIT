@@ -8,4 +8,12 @@ export default class App extends Component{
             <DrawerNavigator/>
         )
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ba96223bc1ca3caba88546d6b9fefb9115325e42
+=======
+}
+>>>>>>> ba96223bc1ca3caba88546d6b9fefb9115325e42
