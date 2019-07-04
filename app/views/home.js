@@ -46,7 +46,7 @@ export default class HomeScreen extends React.Component {
 
   async onSearchPressed() {
     try {
-      let response = await fetch('http://192.168.100.3:3000/books', {
+      let response = await fetch('http://192.168.100.27:3000/books', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -59,16 +59,15 @@ export default class HomeScreen extends React.Component {
 
       let res = await response.json(); 
 
-      if (res.success === true){
+      console.log(res);
+
+      if (res.success === false){
+        alert('No Book Found in database');
+      }
+
+      else{
         this.props.navigation.navigate('search');
-        console.log(res.row);
       }
-
-      else {
-        alert('No Book Found');
-        this.props.navigation.navigate('Home');
-      }
-
     }
       
     catch(errors){
@@ -82,16 +81,17 @@ export default class HomeScreen extends React.Component {
 		
           <View style={styles.mainConatiner}>
               <View style={styles.inContainer}>
-              <Icon name="search" />
-              <TextInput style={styles.inputss}
-                  placeholder="Search"
-                  keyboardType="default"
-                  underlineColorAndroid='transparent'
-                  onChangeText={(search) => this.setState({search})}/>
+                <Icon name="search" />
+                <TextInput style={styles.inputss}
+                    placeholder="Search"
+                    keyboardType="default"
+                    underlineColorAndroid='transparent'
+                    onChangeText={(search) => this.setState({search})}/>
+                <TouchableHighlight style={[styles.buttonContainer, styles.searchButton]} onPress={() => this.onSearchPressed('search')}>
+                  <Text style={styles.searchText}>GO</Text>
+                </TouchableHighlight>
               </View>
-              <TouchableHighlight style={[styles.buttonContainer, styles.searchButton]} onPress={() => this.onSearchPressed('search')}>
-                    <Text style={styles.searchText}>Search</Text>
-              </TouchableHighlight>
+              
           </View>
           
           <View style = {styles.content}>
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width:250,
     height:45,
-    marginBottom:10,
+    marginBottom:100,
     flexDirection: 'row',
     alignItems:'center',  
     color: '#000'  
@@ -183,13 +183,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth:1,
-    width:250,
+    width:50,
     borderRadius:5,    
-    borderColor: "#3160CC",
-    marginTop: 20,
+    borderColor: "#332373",
+    marginTop: 1,
+    marginLeft: 135,
+    marginBottom: 1,
+    marginRight: 50,
   },
   searchButton: {
-    backgroundColor: "#3160CC",
+    backgroundColor: "#332373",
   },
   searchText: {
     color: '#fff',

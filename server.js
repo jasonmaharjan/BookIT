@@ -81,11 +81,11 @@ app.post('/books', function(req, res){
 
     if(error) console.log(error);
 
-    else if(row.length > 0){
-      res.send({ 'success': true });
+    if(row.length > 0){
+      res.send(row);
     }
-    else {
-      res.send({ 'success': false });
+    else{
+      res.send({'success': false});
     }
   });
 });

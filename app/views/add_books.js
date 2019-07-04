@@ -38,7 +38,7 @@ export default class Signup extends React.Component{
 
     async onAddbookPressed() {
       try {
-        let response = await fetch('http://192.168.100.3:3000/addbook', {
+        let response = await fetch('http://192.168.100.27:3000/addbook', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
      
   },
   mainConatiner: {
+    marginTop: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -198,11 +199,11 @@ const styles = StyleSheet.create({
     borderWidth:1,
     width:250,
     borderRadius:5,    
-    borderColor: "green",
+    borderColor: "#332373",
     marginTop: 20,
   },
   addBookButton: {
-    backgroundColor: "green",
+    backgroundColor: "#332373",
   },
   addBookText:{
     color: '#fff',

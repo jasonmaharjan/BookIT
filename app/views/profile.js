@@ -154,18 +154,20 @@ export default class Home extends React.Component {
     
     },
     buttonContainer: {
-      height:45,
+      height:35,
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
+      alignSelf: 'center',
       borderWidth:1,
       width:250,
       borderRadius:5,    
-      borderColor: "green",
+      borderColor: "#332373",
       marginTop: 20,
+      marginBottom: 20, 
     },
     addBookButton: {
-      backgroundColor: "green",
+      backgroundColor: "#332373",
     },
     addBookText:{
       color: '#fff',

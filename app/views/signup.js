@@ -32,7 +32,7 @@ export default class Signup extends React.Component{
     }
     async onSignupPressed() {
       try {
-        let response = await fetch('http://192.168.100.3:3000/signup', {
+        let response = await fetch('http://192.168.100.27:3000/signup', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -175,11 +175,11 @@ const styles = StyleSheet.create({
     borderWidth:1,
     width:250,
     borderRadius:5,    
-    borderColor: "#3160CC",
+    borderColor: "#332373",
     marginTop: 20,
   },
   loginButton: {
-    backgroundColor: "#3160CC",
+    backgroundColor: "#332373",
   },
   loginText: {
     color: '#fff',
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   signupButton: {
   	fontSize:16,
     fontWeight:'500',
-    color:'blue',
+    color:"#332373",
   }
 });
 
