@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
+  Platform,
   Text,
   View,
   TextInput,
@@ -10,13 +11,21 @@ import {
   Image,
   Alert,
 } from 'react-native';
-
-import NavigationBar from 'react-native-navbar';
+/*
+import ImagePicker from 'react-native-image-picker';
+import RNFetch from 'rn-fetch-blob';*/
 import { ScrollView } from 'react-native-gesture-handler';
 
-    const titleConfig = {
-        title: 'Add a Book!',
-    };
+/*
+const titleConfig = {
+  title: 'Add a Book!',
+};
+
+const options={
+  title: 'Book IT',
+  takePhotoButtonTitle: 'Take photo with your camera',
+  chooseFromLibraryButtonTitle: 'Choose photo from library',
+}*/
 
 
 export default class Signup extends React.Component{
@@ -32,6 +41,7 @@ export default class Signup extends React.Component{
           edition: "",
           username: "",
           description: "",
+          image_URL: "", 
           errors: [],
         };
       }
@@ -52,6 +62,7 @@ export default class Signup extends React.Component{
           edition: this.state.edition,
           username: this.state.username,
           description: this.state.description,
+          image_URL: this.state.image_URL,
           })
         }) 
 
@@ -144,6 +155,15 @@ export default class Signup extends React.Component{
                           value = {this.state.description}                    
                           underlineColorAndroid='transparent'                        
                           onChangeText={(description) => this.setState({description})}/>
+                      </View>
+
+                      <View style={styles.inContainer}>
+                      <TextInput style={styles.inputs}
+                          placeholder="image link"
+                          keyboardType = "default"    
+                          value = {this.state.image_URL}                    
+                          underlineColorAndroid='transparent'                        
+                          onChangeText={(image_URL) => this.setState({image_URL})}/>
                       </View>
 
                       <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={() => this.onAddbookPressed('add_books')}>

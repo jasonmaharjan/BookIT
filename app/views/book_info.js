@@ -14,28 +14,23 @@ import {
 import NavigationBar from 'react-native-navbar';
 
     const titleConfig = {
-        title: 'You searched for',
-        
+        title: 'BOOK DETAILS',
     };
 
 
-export default class Search extends React.Component {
+export default class BookInfo extends React.Component {
 
     constructor(props) {
       super(props);
       this.state = {
-        search_result: [this.props.navigation.state.params.search_result]
+        book_details: [this.props.navigation.state.params.book_details]
       };
-      
+      console.log(this.state.book_details);
     }
-  
-    clickEventListener(item) {
-      alert('Book Touched!!');
-    }
+
 
     render() {
       return (
-        
         <View style={styles.container}>
             <View >
                 <NavigationBar
@@ -79,7 +74,7 @@ export default class Search extends React.Component {
   const styles = StyleSheet.create({
     container:{
       flex:1,
-      marginTop:10,
+      marginTop:30,
     },
     list: {
       paddingHorizontal: 15,
@@ -127,8 +122,8 @@ export default class Search extends React.Component {
       borderBottomRightRadius: 1,
     },
     cardImage:{
-      height: 100,
-      width: 100,
+      height: 200,
+      width: 150,
       alignSelf:'center'
     },
     title:{
@@ -146,14 +141,24 @@ export default class Search extends React.Component {
     
     },
     buttonContainer: {
-      height:45,
+      height:35,
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
+      alignSelf: 'center',
       borderWidth:1,
       width:250,
       borderRadius:5,    
-      borderColor: "green",
+      borderColor: "#332373",
       marginTop: 20,
+      marginBottom: 20, 
+    },
+    addBookButton: {
+      backgroundColor: "#332373",
+    },
+    addBookText:{
+      color: '#fff',
+      fontSize:18,
+      fontWeight:'500',
     },
   });    

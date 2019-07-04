@@ -23,21 +23,27 @@ export default class Home extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        data: [
-          {id:1, title: "The Complete Novels", text:"Price: Rs 900" , image:"https://images-na.ssl-images-amazon.com/images/I/91k4D2PWq9L._AC_UL70_SR70,70_.jpg"},
-          {id:2, title: "Advanced Engineering Mathematics", text:"Price: Rs 400", image:"https://images.textbooks.com/TextbookInfo/Thumb/0470458364_t.gif"} ,
-          {id:3, title: "ANSI C", text:"Price: Rs 200", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxe7wENizTme3xrAxBy1fULT9VEI17I7PKSrgVQLOdV1qjl6i0XA"} ,
-          {id:4, title: "The origin", text:"Price: Rs 250", image:"https://i5.walmartimages.com/asr/3f803607-b620-411d-bae1-99a4a7e2774a_1.0b1d0ca465122056ec7c106efed0418a.jpeg?odnHeight=100&odnWidth=100&odnBg=FFFFFF"} ,
-          {id:5, title: "Hunger Games", text:"Price: Rs 300", image:"https://d2e111jq13me73.cloudfront.net/sites/default/files/styles/product_image_aspect_switcher/public/product-images/csm-music/hungergamessoundtrack.jpg?itok=GO05_bED"} ,
-          {id:6, title: "The Hate U Give", text:"Price: Rs 150", image:"http://www.goodbookfairy.com/wp-content/uploads/2018/03/The-Hate-U-Give-100x100.jpg"} ,
-          {id:7, title: "The Idiot", text:"Price: Rs 180", image:"https://lh3.googleusercontent.com/CkehHtovJrbSnrUd10bK_YqHY-Npi7pPywG5mbWhpyr-3iClts1HmegXfosKKOtF8v8=s100-rw"},
-          {id:8, title: "Angels & Demons", text:"Price: Rs 230", image:"https://m.media-amazon.com/images/M/MV5BMTY0NjYzNjIwNl5BMl5BanBnXkFtZTcwNjk0MDk1Mg@@._V1_UY100_UX100_AL_.jpg"} ,
-        ]
+        data: []
       };
     }
-  
-    clickEventListener(item) {
-      Alert.Alert(item.title)
+
+    componentDidMount(){
+      this.getData();
+    }
+
+    getData = () => {
+      fetch('http://192.168.100.27:3000/allbooks')
+      .then (result => result.json())
+      .then((result) => {
+        this.setState({
+          data: result 
+        })
+       })
+       .catch((error) => console.log(error));
+    }
+
+    clickEventListener(book_details) {
+      this.props.navigation.navigate('book_info', { book_details: book_details});
     }
   
     render() {
@@ -60,17 +66,17 @@ export default class Home extends React.Component {
             horizontal={false}
             numColumns={2}
             keyExtractor= {(item) => {
-              return item.id;
+              return item.book_ID;
             }}
             renderItem={({item}) => {
               return (
-                  <TouchableOpacity style={styles.card} onPress={() => {this.clickEventListener(item.view)}}>
+                  <TouchableOpacity style={styles.card} onPress={() => {this.clickEventListener(item)}}>
                   <View style={styles.cardFooter}>
                       <View style={{alignItems:"center", justifyContent:"center"}}>
                       <Text style={styles.title}>{item.title}</Text>
                     </View>
                     </View>
-                  <Image style={styles.cardImage} source={{uri:item.image}}/>
+                  <Image style={styles.cardImage} source={{uri:item.image_URL}}/>
                   <View style={styles.cardHeader}>
                     <View style={{alignItems:"center", justifyContent:"center"}}>
                       <Text style={styles.title}>{item.text}</Text>
@@ -135,8 +141,8 @@ export default class Home extends React.Component {
       borderBottomRightRadius: 1,
     },
     cardImage:{
-      height: 100,
-      width: 100,
+      height: 200,
+      width: 150,
       alignSelf:'center'
     },
     title:{

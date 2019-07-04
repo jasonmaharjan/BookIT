@@ -8,6 +8,7 @@ import login from '../views/login';
 import profile from '../views/profile';
 import add_books from '../views/add_books';
 import search from '../views/search_results';
+import book_info from '../views/book_info';
 
 const AppStackNav = createStackNavigator(
     {
@@ -17,6 +18,7 @@ const AppStackNav = createStackNavigator(
       profile: {screen : profile},
       add_books: {screen : add_books},
       search: {screen : search},
+      book_info: {screen: book_info},
 
     },
     {

@@ -67,7 +67,7 @@ app.get('/users', function(req, res){
 // Books API
 
 app.get('/books', function(req, res){
-	con.query('select title, author from books', function(error, row, fields){
+	con.query('select * from books', function(error, row, fields){
         res.send(row);
   });
 });
@@ -87,6 +87,18 @@ app.post('/books', function(req, res){
     else{
       res.send({'success': false});
     }
+  });
+});
+
+app.get('/allbooks', function(req, res){
+  con.query('select * from books', function(error, row, fields){
+    res.send(row);
+  });
+});
+
+app.post('/allbooks', function(req, res){
+  con.query('select * from books', function(error, row, fields){
+    res.send(row);
   });
 });
 
@@ -226,6 +238,7 @@ app.post('/addbook', function(req, res){
   var edition = req.body.edition;
   var username = req.body.username;
   var description = req.body.description;
+  var image_URL = req.body.image_URL;
 
   req.checkBody('ISBN', 'ISBN is required').notEmpty();
   req.checkBody('title', 'title is required').notEmpty();
@@ -234,6 +247,7 @@ app.post('/addbook', function(req, res){
   req.checkBody('edition', 'edition is required').notEmpty();
   req.checkBody('username', 'Username is required').notEmpty();
   req.checkBody('description', 'Description is required').notEmpty();
+  req.checkBody('image_URL', 'Image is missing').notEmpty();
 
   let errors = req.validationErrors();
 
@@ -248,7 +262,7 @@ app.post('/addbook', function(req, res){
 
     con.query(            
 
-      "INSERT INTO books (ISBN, title, author, price, edition, username, description) VALUES ('" + ISBN + "', '" + title + "', '" + author + "', '" + price + "', '" + edition + "', '" + username + "', '" + description + "')",
+      "INSERT INTO books (ISBN, title, author, price, edition, username, description, image_URL) VALUES ('" + ISBN + "', '" + title + "', '" + author + "', '" + price + "', '" + edition + "', '" + username + "', '" + description + "','" + image_URL + "' )",
       function(err, row, field){
 
         console.log(row);

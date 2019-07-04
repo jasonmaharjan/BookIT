@@ -66,7 +66,7 @@ export default class HomeScreen extends React.Component {
       }
 
       else{
-        this.props.navigation.navigate('search');
+        this.props.navigation.navigate('search', {search_result: res});
       }
     }
       
