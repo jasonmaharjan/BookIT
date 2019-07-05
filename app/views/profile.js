@@ -32,7 +32,7 @@ export default class Home extends React.Component {
     }
 
     getData = () => {
-      fetch('http://192.168.100.27:3000/allbooks')
+      fetch('http://192.168.1.77:3000/allbooks')
       .then (result => result.json())
       .then((result) => {
         this.setState({
@@ -52,13 +52,18 @@ export default class Home extends React.Component {
             <View >
                 <NavigationBar
                 title={titleConfig}
-            />
-
+                />
+                
             </View>
+              <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={() => this.props.navigation.navigate('add_books')}>
+                            <Text style={styles.addBookText}>Add Book</Text>
+                            
+              </TouchableHighlight> 
 
-            <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={() => this.props.navigation.navigate('add_books')}>
-                          <Text style={styles.addBookText}>Add Book</Text>
-            </TouchableHighlight> 
+              <TouchableHighlight style={[styles.refreshContainer, styles.refreshButton]} onPress ={() => this.componentDidMount()}>
+                <Image style={styles.icon} source={require("../icons/refresh.png")} />
+              </TouchableHighlight>
+              
 
           <FlatList style={styles.list}
             contentContainerStyle={styles.listContainer}
@@ -95,6 +100,28 @@ export default class Home extends React.Component {
       flex:1,
       marginTop:10,
     },
+    refreshContainer: {
+      height:35,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignSelf: 'center',
+      borderWidth:1,
+      width:50,
+      borderRadius:5,    
+      borderColor: "#000000",
+      marginTop: 20,
+      marginBottom: 20,
+      marginLeft: 380, 
+    },
+    refreshButton: {
+      backgroundColor: "#FFFFFF",
+
+    },
+    icon: {
+      width:40,
+      height:40,
+    },  
     list: {
       paddingHorizontal: 15,
       backgroundColor:"#E6E6E6",

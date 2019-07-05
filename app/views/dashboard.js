@@ -33,7 +33,8 @@ export default class dashboard extends React.Component {
             <Title style = {styles.title}>Dashboard</Title>
           </Body>
         </Header> 
-         <View style={{flex:1, backgroundColor: '#f3f3f3'}}>        
+
+        <View style={{flex:1, backgroundColor: '#f3f3f3'}}>        
           <ActionButton buttonColor="#0956a4">
             <ActionButton.Item buttonColor='#0956a4' title="Request book" onPress={() => console.log("notes tapped!")}>
               <Icon name="md-" style={styles.actionButtonIcon} />
@@ -48,7 +49,8 @@ export default class dashboard extends React.Component {
               <Icon name="md-" style={styles.actionButtonIcon} />
             </ActionButton.Item>
           </ActionButton>
-       </View>
+        </View>
+        
     </Container>
     );
   }

@@ -14,6 +14,7 @@ import {
 import { Constants } from 'expo';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Content, Item, Input } from 'native-base';
 import { StackActions, NavigationActions } from 'react-navigation';
+import { ThemeConsumer } from 'react-native-elements';
 
 
 export default class HomeScreen extends React.Component {
@@ -46,7 +47,7 @@ export default class HomeScreen extends React.Component {
 
   async onSearchPressed() {
     try {
-      let response = await fetch('http://192.168.100.27:3000/books', {
+      let response = await fetch('http://192.168.1.77:3000/books', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -59,14 +60,12 @@ export default class HomeScreen extends React.Component {
 
       let res = await response.json(); 
 
-      console.log(res);
-
       if (res.success === false){
         alert('No Book Found in database');
       }
 
       else{
-        this.props.navigation.navigate('search', {search_result: res});
+        this.props.navigation.navigate('search', {search_results: res});
       }
     }
       
@@ -78,27 +77,30 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
         <Container>
-		
+	
           <View style={styles.mainConatiner}>
+            
               <View style={styles.inContainer}>
+
                 <Icon name="search" />
                 <TextInput style={styles.inputss}
                     placeholder="Search"
                     keyboardType="default"
                     underlineColorAndroid='transparent'
                     onChangeText={(search) => this.setState({search})}/>
-                <TouchableHighlight style={[styles.buttonContainer, styles.searchButton]} onPress={() => this.onSearchPressed('search')}>
-                  <Text style={styles.searchText}>GO</Text>
-                </TouchableHighlight>
+                    <TouchableHighlight style={[styles.buttonContainer, styles.searchButton]} onPress={() => this.onSearchPressed('search')}>
+                <Text style={styles.searchText}>GO</Text>
+              </TouchableHighlight>
+
               </View>
               
           </View>
           
           <View style = {styles.content}>
-          <Text style = {styles.heading} onPress = {()=> {this.props.navigation.navigate('login') }}>Login</Text>         
-          <Text>OR</Text>
-          <Text style = {styles.heading} onPress = {()=> {this.props.navigation.navigate('signup') }}>Signup</Text>  
-          <Text style = {styles.description}>To Buy, Sell, Rent books and many more...</Text>  
+            <Text style = {styles.heading} onPress = {()=> {this.props.navigation.navigate('login') }}>Login</Text>         
+            <Text>OR</Text>
+            <Text style = {styles.heading} onPress = {()=> {this.props.navigation.navigate('signup') }}>Signup</Text>  
+            <Text style = {styles.description}>To Buy, Sell, Rent books and many more...</Text>  
           </View>      
 
         </Container>
@@ -106,15 +108,6 @@ export default class HomeScreen extends React.Component {
 
   } 
 }
-
-const statusbarStyle = StyleSheet.create({
-    statusBar: {
-      paddingTop: Constants.statusBarHeight,
-      height:75,
-      backgroundColor: '#0956a4',
-
-    },
-  });
 
 const styles = StyleSheet.create({
   header:{
@@ -140,6 +133,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1.5,
+    marginBottom: 150,
     justifyContent:'center',
     alignItems:'center',
   },
@@ -174,11 +168,11 @@ const styles = StyleSheet.create({
   },
   inputss:{
       height:45,
-      marginLeft:16,
+      marginLeft:10,
       borderBottomColor: '#FFFFFF',
   },
   buttonContainer: {
-    height:45,
+    height:50,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -186,10 +180,9 @@ const styles = StyleSheet.create({
     width:50,
     borderRadius:5,    
     borderColor: "#332373",
-    marginTop: 1,
-    marginLeft: 135,
-    marginBottom: 1,
-    marginRight: 50,
+    marginLeft: 200,
+    marginRight: 10,
+    position: 'absolute'
   },
   searchButton: {
     backgroundColor: "#332373",
