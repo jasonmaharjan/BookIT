@@ -9,8 +9,10 @@ import {
   SafeAreaView,
 } from 'react-native';
 
-import { createStackNavigator ,createAppContainer, createDrawerNavigator, DrawerItems} from 'react-navigation';
+import { createStackNavigator, createAppContainer, createDrawerNavigator, DrawerItems } from 'react-navigation';
 import { image } from 'react-native-elements';
+import ImagePicker from 'react-native-image-picker';
+
 
 import CategoryScreen from './app/views/category';
 import AboutScreen from './app/views/about'
@@ -23,6 +25,11 @@ import login from './app/views/login';
 import dashboard from './app/views/dashboard';
 import profile from './app/views/profile';
 import add_books from './app/views/add_books';
+import donate_books from './app/views/donate_books';
+import request_books from './app/views/request_books';
+import imageUpload from  './app/views/imageUpload';
+import bookDetails from  './app/views/bookDetails';
+
 import Fontt from './Font';
 
 const RootStack = createStackNavigator(
@@ -31,21 +38,25 @@ const RootStack = createStackNavigator(
     signup: signup,
     profile: profile,
     add_books: add_books,
+    donate_books: donate_books,
+    request_books: request_books,
+    imageUpload: imageUpload,
+    bookDetails: bookDetails,
   },
   {
-    initialRouteName: 'login',
-    headerMode:"none",
+    initialRouteName: 'bookDetails',
+    headerMode: "none",
     navigationOptions: {
       headerVisible: false,
     }
-  } 
+  }
 )
 
 const Application = createAppContainer(RootStack)
 
 const CustomDrawerComponent = (props) => (
-  <SafeAreaView style = {{ flex: 1 }}>
-       <View
+  <SafeAreaView style={{ flex: 1 }}>
+    <View
       style={{
         backgroundColor: '#fff',
         height: 140,
@@ -53,30 +64,32 @@ const CustomDrawerComponent = (props) => (
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor : '#0956a4'
-        
+        borderColor: '#0956a4'
+
       }}
-    ><Text>PROFILE</Text></View>
-      <DrawerItems {...props} />
+    >
+      <Text>PROFILE</Text>
+    </View>
+    <DrawerItems {...props} />
   </SafeAreaView>
 )
 
 const AppDrawerNav = createDrawerNavigator({
-  "Home " : HomeScreen,
-  "Category " : CategoryScreen,
+  "Home ": HomeScreen,
+  "Category ": CategoryScreen,
   "About ": AboutScreen,
-  "FAQs" : FAQsScreen,
+  "FAQs": FAQsScreen,
   "Contact us": ContactusScreen,
-  "dashboard" : dashboard,
+  "dashboard": dashboard,
 }, {
-  contentComponent : CustomDrawerComponent,
-  contentOptions: {
+    contentComponent: CustomDrawerComponent,
+    contentOptions: {
       activeTintColor: '#fff',
-      activeBackgroundColor: "#0956a4",     
+      activeBackgroundColor: "#0956a4",
 
 
     },
-});
+  });
 const Apps = createAppContainer(AppDrawerNav)
 
 
@@ -95,7 +108,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    if(this.state.loading){
+    if (this.state.loading) {
       return (
         <Root>
           <AppLoading />
@@ -103,17 +116,17 @@ export default class App extends React.Component {
       );
     }
     return (
-      <View style={styles.container}> 
-        <Apps/>
-        
+      <View style={styles.container}>
+        <Application />
+
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container : {
+  container: {
     backgroundColor: '#F5F7F6',
-    flex:1
+    flex: 1
   },
 });

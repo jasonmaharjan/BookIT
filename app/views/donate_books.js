@@ -11,30 +11,42 @@ import {
   Alert,
 } from 'react-native';
 
+import ImagePicker from 'react-native-image-picker';
 import NavigationBar from 'react-native-navbar';
 import { ScrollView } from 'react-native-gesture-handler';
 
-    const titleConfig = {
-        title: 'Donate a Book!',
+const titleConfig = {
+  title: 'Donate a Book!',
+};
+
+
+export default class Donate extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ISBN: "",
+      title: "",
+      author: "",
+      edition: "",
+      // category: "",
+      username: "",
+      description: "",
+      photo: "",
+      errors: [],
     };
-
-
-export default class Donate extends React.Component{
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-          ISBN: "",
-          title: "",
-          author: "",
-          edition: "",
-         // category: "",
-          username: "",
-          description: "",
-          errors: [],
-        };
+  }
+  handleChoosePhoto = () => {
+    const options = {
+      noData: true,
+    };
+    ImagePicker.launchImageLibrary(options, response => {
+      if (response.uri) {
+        this.setState({ photo: response });
       }
+    });
+  };
 
   /*  async onDonatebookPressed() {
       try {
@@ -72,83 +84,96 @@ export default class Donate extends React.Component{
           console.log('catch errors :' + errors);
       }
     }
-    */  
-   
- 	render() {
-     
-	    return(
-        <ScrollView>
+    */
+
+  render() {
+
+    return (
+      <ScrollView>
         <View style={styles.container}>
-          
-                  <View style={styles.mainConatiner}>
-                      <View style={styles.inContainer}>
-                      <TextInput style={styles.inputs}
-                          placeholder="ISBN"
-                          keyboardType="default"
-                          value = {this.state.ISBN}
-                          underlineColorAndroid='transparent'
-                          onChangeText={(ISBN) => this.setState({ISBN})}/>
-                      </View>
 
-                      <View style={styles.inContainer}>
-                          <TextInput style={styles.inputs}
-                          placeholder="title"
-                          keyboardType="default"
-                          value = {this.state.title}
-                          underlineColorAndroid='transparent'
-                          onChangeText={(title) => this.setState({title})}/>
-                      </View>
-                      
-                      <View style={styles.inContainer}>
-                      <TextInput style={styles.inputs}
-                          placeholder="author"
-                          keyboardType = "default"
-                          value = {this.state.author}
-                          underlineColorAndroid='transparent'
-                          onChangeText={(author) => this.setState({author})}/>
-                      </View>
+          <View style={styles.mainConatiner}>
+            <View style={styles.inContainer}>
+              <TextInput style={styles.inputs}
+                placeholder="ISBN"
+                keyboardType="default"
+                value={this.state.ISBN}
+                underlineColorAndroid='transparent'
+                onChangeText={(ISBN) => this.setState({ ISBN })} />
+            </View>
 
-                      <View style={styles.inContainer}>
-                      <TextInput style={styles.inputs}
-                          placeholder="edition"
-                          keyboardType = "default"
-                          value = {this.state.edition}                        
-                          underlineColorAndroid='transparent'
-                          onChangeText={(edition) => this.setState({edition})}/>
-                      </View>
+            <View style={styles.inContainer}>
+              <TextInput style={styles.inputs}
+                placeholder="title"
+                keyboardType="default"
+                value={this.state.title}
+                underlineColorAndroid='transparent'
+                onChangeText={(title) => this.setState({ title })} />
+            </View>
 
-                      <View style={styles.inContainer}>
-                      <TextInput style={styles.inputs}
-                          placeholder="your username"
-                          keyboardType = "default"           
-                          value = {this.state.username}             
-                          underlineColorAndroid='transparent'
-                          onChangeText={(username) => this.setState({username})}/>
-                      </View>
+            <View style={styles.inContainer}>
+              <TextInput style={styles.inputs}
+                placeholder="author"
+                keyboardType="default"
+                value={this.state.author}
+                underlineColorAndroid='transparent'
+                onChangeText={(author) => this.setState({ author })} />
+            </View>
 
-                      <View style={styles.inContainer}>
-                      <TextInput style={styles.inputs}
-                          placeholder="description"
-                          keyboardType = "default"    
-                          value = {this.state.description}                    
-                          underlineColorAndroid='transparent'                        
-                          onChangeText={(description) => this.setState({description})}/>
-                      </View>
+            <View style={styles.inContainer}>
+              <TextInput style={styles.inputs}
+                placeholder="edition"
+                keyboardType="default"
+                value={this.state.edition}
+                underlineColorAndroid='transparent'
+                onChangeText={(edition) => this.setState({ edition })} />
+            </View>
 
-                      <TouchableHighlight style={[styles.buttonContainer, styles.donateBookButton]} onPress={() => this.onDonatebookPressed('donate_books')}>
-                          <Text style={styles.donateBookText}>Donate Book</Text>
-                      </TouchableHighlight>           
-                </View>
-        </View>	
+            <View style={styles.inContainer}>
+              <TextInput style={styles.inputs}
+                placeholder="your username"
+                keyboardType="default"
+                value={this.state.username}
+                underlineColorAndroid='transparent'
+                onChangeText={(username) => this.setState({ username })} />
+            </View>
+
+            <View style={styles.inContainer}>
+              <TextInput style={styles.inputs}
+                placeholder="description"
+                keyboardType="default"
+                value={this.state.description}
+                underlineColorAndroid='transparent'
+                onChangeText={(description) => this.setState({ description })} />
+            </View>
+
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+              {photo && (
+                <Image
+                  source={{ uri: photo.uri }}
+                  style={{ width: 200, height: 200 }}
+                />
+              )}
+
+              <TouchableHighlight style={[styles.chooseButtonContainer, styles.choosePhotoButton]} onPress={() => this.handleChoosePhoto('add_books')}>
+                <Text style={styles.choosePhotoText}>Choose Photo</Text>
+              </TouchableHighlight>
+            </View>
+
+            <TouchableHighlight style={[styles.buttonContainer, styles.donateBookButton]} onPress={() => this.onDonatebookPressed('donate_books')}>
+              <Text style={styles.donateBookText}>Donate Book</Text>
+            </TouchableHighlight>
+          </View>
+        </View>
       </ScrollView>
-			)
-	}
+    )
+  }
 }
 
 const styles = StyleSheet.create({
-  container : {
+  container: {
     backgroundColor: '#F5F7F6',
-    flex: 1,  
+    flex: 1,
   },
   mainConatiner: {
     alignItems: 'center',
@@ -157,44 +182,65 @@ const styles = StyleSheet.create({
   inContainer: {
     borderBottomColor: '#A0A3A9',
     backgroundColor: '#FFFFFF',
-    borderRadius:10,
+    borderRadius: 10,
     borderBottomWidth: 1,
-    width:250,
-    height:45,
-    marginBottom:10,
+    width: 250,
+    height: 45,
+    marginBottom: 10,
     flexDirection: 'row',
-    alignItems:'center',  
-    color: '#000'  
+    alignItems: 'center',
+    color: '#000'
   },
-  inputs:{
-      height:45,
-      marginLeft:16,
-      borderBottomColor: '#FFFFFF',
+  inputs: {
+    height: 45,
+    marginLeft: 16,
+    borderBottomColor: '#FFFFFF',
   },
-  icon:{
-    width:30,
-    height:30,
-    marginLeft:15,
+  icon: {
+    width: 30,
+    height: 30,
+    marginLeft: 15,
     justifyContent: 'center'
   },
   buttonContainer: {
-    height:45,
+    height: 45,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth:1,
-    width:250,
-    borderRadius:5,    
+    borderWidth: 1,
+    width: 250,
+    borderRadius: 5,
     borderColor: "green",
     marginTop: 20,
   },
   donateBookButton: {
     backgroundColor: "green",
   },
-  donateBookText:{
+  donateBookText: {
     color: '#fff',
-    fontSize:18,
-    fontWeight:'500',
+    fontSize: 18,
+    fontWeight: '500',
+  },
+  chooseButtonContainer: {
+    height: 45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    width: 180,
+    borderRadius: 5,
+    borderColor: '#4863A0',
+    marginTop: 20,
+  },
+  
+  choosePhotoButton: {
+    backgroundColor: '#4863A0',
+  },
+  
+  choosePhotoText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '400',
   },
 });
 

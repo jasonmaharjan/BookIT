@@ -35,16 +35,17 @@ export default class dashboard extends React.Component {
         </Header> 
          <View style={{flex:1, backgroundColor: '#f3f3f3'}}>        
           <ActionButton buttonColor="#0956a4">
-            <ActionButton.Item buttonColor='#0956a4' title="Request book" onPress={() => console.log("notes tapped!")}>
-              <Icon name="md-" style={styles.actionButtonIcon} />
-            </ActionButton.Item>
+            
             <ActionButton.Item buttonColor='#0956a4' title="My Cart"  onPress={() => console.log("notes tapped!")}>
               <Icon name="md-cart" style={styles.actionButtonIcon} />
             </ActionButton.Item>
-            <ActionButton.Item buttonColor='#0956a4' title="Rent book"  onPress={() => {}}>
+            <ActionButton.Item buttonColor='#0956a4' title="Sell book"  onPress={() => {}}>
               <Icon name="md-add" style={styles.actionButtonIcon} />
             </ActionButton.Item>
             <ActionButton.Item buttonColor='#0956a4' title="Donate book" onPress={() => {}}>
+              <Icon name="md-" style={styles.actionButtonIcon} />
+            </ActionButton.Item>
+            <ActionButton.Item buttonColor='#0956a4' title="Request book" onPress={() => console.log("notes tapped!")}>
               <Icon name="md-" style={styles.actionButtonIcon} />
             </ActionButton.Item>
           </ActionButton>

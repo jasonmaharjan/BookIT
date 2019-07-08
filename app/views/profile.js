@@ -17,6 +17,14 @@ import NavigationBar from 'react-native-navbar';
         title: 'Bookit',
     };
 
+import Dialog, { DialogFooter,
+                 DialogButton, 
+                 SlideAnimation, 
+                 DialogContent, 
+} from 'react-native-popup-dialog';
+
+import { Button } from 'react-native'
+
 
 export default class Home extends React.Component {
 
@@ -64,7 +72,32 @@ export default class Home extends React.Component {
             }}
             renderItem={({item}) => {
               return (
-                  <TouchableOpacity style={styles.card} onPress={() => {this.clickEventListener(item.view)}}>
+                  <TouchableOpacity style={styles.card} onPress={() => {this.clickEventListener(item.view), this.setState({ visible: true });}}>
+                    <Dialog
+                      visible={this.state.visible}
+                      onTouchOutside={() => {this.setState({ visible: false });}}
+                      dialogAnimation={new SlideAnimation({
+                        slideFrom: 'bottom', 
+                      })}
+                      footer={
+                        <DialogFooter>
+                          <DialogButton
+                            text="Cancel"
+                            onPress={() => {this.setState({ visible: false });}}/>
+                          <DialogButton
+                            text="OK"
+                            onPress={() => {}}/> // buy rent action
+                        </DialogFooter>}>
+
+                      <DialogContent>
+                        <DialogButton
+                          text = "buy"
+                          onPress={() => {}}/> // buy action
+                           <DialogButton
+                          text = "rent"
+                          onPress={() => {}}/> // rent action
+                      </DialogContent>
+                    </Dialog>
                   <View style={styles.cardFooter}>
                       <View style={{alignItems:"center", justifyContent:"center"}}>
                       <Text style={styles.title}>{item.title}</Text>
