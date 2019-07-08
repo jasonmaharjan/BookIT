@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import NavigationBar from 'react-native-navbar';
+import {Icon} from 'native-base';
 
 const titleConfig = {
   title: 'BOOK DETAILS',
@@ -75,21 +76,22 @@ export default class BookInfo extends React.Component {
           <NavigationBar
             title={titleConfig}
           />
-          <View style={styles.details}>
-            <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.addToCart(book_details)}>
+          <View style={styles.details}>            
+            <View style = {styles.leftContent}>
+              <View style = {styles.cardImage}>
+                <Image style={styles.cardImage} source={{uri:image_URL }}/>
+              </View>
+              <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.addToCart(book_details)}>
               <Text style={styles.loginupText}>Add to cart</Text>
             </TouchableHighlight>
+            </View>
 
-            <Text>ISBN: {book_details['ISBN']}</Text>
-            <Text>Title: {book_details['title']}</Text>
-            <Text>Author: {book_details['author']}</Text>
-            <Text>Edition: {book_details['edition']}</Text>
-            <Text>Price: {book_details['price']}</Text>
-            <Text>Uploaded By: {book_details['username']}</Text>
-            <TouchableOpacity style={styles.card}>
-              <Image style={styles.cardImage} source={{ uri: image_URL }} />
-            </TouchableOpacity>   
-
+            <View style = {styles.description}>
+             <Text style = {styles.title}>{book_details['title']}</Text>
+            <Text> {book_details['edition']}th Editiom</Text>
+            <Text style = {styles.writer}>by Author: {book_details['author']}</Text>            
+            <Text>NRS: {book_details['price']}</Text>
+            </View>
           </View>
         </View>
 
@@ -101,12 +103,12 @@ export default class BookInfo extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30,
+    marginTop: 20,
   },
   details: {
     flex: 1,
     marginTop: 10,
-    alignItems: 'center',
+    flexDirection:'row',
   },
   list: {
     paddingHorizontal: 15,
@@ -117,6 +119,8 @@ const styles = StyleSheet.create({
   },
   card: {
     shadowColor: '#00000021',
+    width: 250,
+    height:250,
 
     shadowOffset: {
       width: 0,
@@ -157,13 +161,12 @@ const styles = StyleSheet.create({
   cardImage: {
     height: 200,
     width: 150,
-    alignSelf: 'center'
+   
   },
   title: {
-    fontSize: 15,
+    fontSize: 22,
     flex: 1,
-    alignSelf: 'center',
-    color: "#696969"
+    color: "#696969",
   },
   navigationOptions: {
 
@@ -175,16 +178,13 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     height: 35,
-    flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'center',
     borderWidth: 1,
-    width: 250,
+    width: 150,
     borderRadius: 5,
     borderColor: "#332373",
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 30,
+    
   },
   addBookButton: {
     backgroundColor: "#332373",
@@ -194,17 +194,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
   },
-  buttonContainer: {
-    height:45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth:1,
-    width:250,
-    borderRadius:5,    
-    borderColor: "#332373",
-    marginTop: 20,
-  },
   loginButton: {
     backgroundColor: "#332373",
   },
@@ -212,5 +201,19 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize:18,
     fontWeight:'500',
+  },
+  leftContent:{  
+    marginLeft:5,
+    marginRight:5,
+  },
+  description:{
+    height:50,
+    width:150,
+    marginRight:10,
+    paddingVertical:6,
+  },
+  writer:{
+    fontSize:12,
+    color : '#A0A3A9'
   },
 });    

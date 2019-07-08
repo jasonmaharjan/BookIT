@@ -38,39 +38,46 @@ export default class Search extends React.Component {
 
       return (
         
-        <View style={styles.container}>
-        <View >
-          <NavigationBar
-            title={titleConfig}
-          />
+         <View style={styles.container}>
+          <View >
+              <NavigationBar
+                title={titleConfig}
+          />  
           <FlatList style={styles.list}
             contentContainerStyle={styles.listContainer}
             data= {search_results}
+            showsVerticalScrollIndicator={false}
             horizontal={false}
-            numColumns={2}
+            numColumns={1}
             keyExtractor= {(item) => {
               return item;
             }}
             renderItem={({item}) => {
               return (
                   <TouchableOpacity style={styles.card} onPress={() => {this.clickEventListener(item)}}>
-                  <View style={styles.cardFooter}>
+                 <View style = {styles.searchContainer} >
+                    <Image style={styles.cardImage} source={{uri:item.image_URL}}/>
+                    <View style={styles.cardFooter}>
+                        <View style={{alignItems:"center", justifyContent:"center"}}>
+                        <Text style={styles.title}>{item.title} ({item.edition})th Edition</Text>
+                        <Text style = {styles.writer}> by {item.author}</Text>
+                      </View>
+                      </View>
+                    <View style={styles.cardHeader}>
                       <View style={{alignItems:"center", justifyContent:"center"}}>
-                      <Text style={styles.title}>{item.title}</Text>
+                        <Text style={styles.title}>NRs: {item.price}</Text>
+                      </View>
                     </View>
                     </View>
-                  <Image style={styles.cardImage} source={{uri:item.image_URL}}/>
-                  <View style={styles.cardHeader}>
-                    <View style={{alignItems:"center", justifyContent:"center"}}>
-                      <Text style={styles.title}>{item.text}</Text>
-                    </View>
-                  </View>
                 </TouchableOpacity>
               )
             }}/>
-        </View>
+        </View> 
 
-      </View>
+          
+          </View> 
+          
+          
       );
     }
   }
@@ -78,7 +85,14 @@ export default class Search extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30,
+    marginTop: 20,
+    justifyContent:'center',
+    alignItems:'center',    
+  },
+  searchContainer:{
+    flexDirection:'column',
+    borderColor:'#000',
+    borderWidth:1,
   },
   details: {
     flex: 1,
@@ -87,13 +101,14 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingHorizontal: 15,
-    backgroundColor: "#E6E6E6",
+    //backgroundColor: "#E6E6E6",
   },
   listContainer: {
     alignItems: 'center'
   },
   card: {
     shadowColor: '#00000021',
+    paddingVertical:10,
 
     shadowOffset: {
       width: 0,
@@ -133,7 +148,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     height: 200,
-    width: 150,
+    width: 250,
     alignSelf: 'center'
   },
   title: {
@@ -141,6 +156,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     color: "#696969"
+  },
+  writer:{
+    fontSize:12,
+    color : '#A0A3A9'
   },
   navigationOptions: {
 

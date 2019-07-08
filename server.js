@@ -12,7 +12,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
   host     : 'localhost',
 	user     : 'root',
-	password : '#jimmypage8877#',
+	password : '',
 	database : 'bookit'
 });
 
@@ -76,9 +76,10 @@ app.get('/books', function(req, res){
 app.post('/books', function(req, res){
 
   var title = req.body.search;
+  var author = req.body.search;
   con.query(
 
-    "SELECT * FROM books WHERE title = ? ", title, function(error, row, field){
+    "SELECT * FROM books WHERE title = ? OR author = ?", [title, author], function(error, row, field){
 
     if(error) console.log(error);
 
@@ -123,7 +124,7 @@ app.post('/login', function(req, res){
           if(err) throw err;
 
           if(isMatch){
-            res.send({'success': true, 'message': row[0].username});
+            res.send({'success': true, 'message': row[0].password});
           }     
           
           else

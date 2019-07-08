@@ -37,17 +37,10 @@ export default class HomeScreen extends React.Component {
     };
   }
 
-  static navigationOptions = ({ screenProps }) => ({
-    title: 'Home',
-    headerTintColor: '#0956a4',
-    headerLeft:(
-      <Icon name='menu' onPress = {()=> screenProps.openDrawer()} style = {styles.header}/>
-    )
-  })  
 
   async onSearchPressed() {
     try {
-      let response = await fetch('http://192.168.1.77:3000/books', {
+      let response = await fetch('http://192.168.0.104:3000/books', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -76,32 +69,26 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-        <Container>
-	
-          <View style={styles.mainConatiner}>
-            
-              <View style={styles.inContainer}>
-
-                <Icon name="search" />
+        <Container>	
+          <View style={styles.mainConatiner}>            
+              <View style={styles.inContainer}>                
                 <TextInput style={styles.inputss}
-                    placeholder="Search"
+                    placeholder="Search by title or author"
                     keyboardType="default"
                     underlineColorAndroid='transparent'
                     onChangeText={(search) => this.setState({search})}/>
-                    <TouchableHighlight style={[styles.buttonContainer, styles.searchButton]} onPress={() => this.onSearchPressed('search')}>
-                <Text style={styles.searchText}>GO</Text>
-              </TouchableHighlight>
-
+                <TouchableHighlight style={[styles.buttonContainer, styles.searchButton]} onPress={() => this.onSearchPressed('search')}>
+                  <Icon name="search" style ={styles.searchBar}/>
+                </TouchableHighlight>
               </View>
-              
           </View>
           
-          <View style = {styles.content}>
-            <Text style = {styles.heading} onPress = {()=> {this.props.navigation.navigate('login') }}>Login</Text>         
-            <Text>OR</Text>
-            <Text style = {styles.heading} onPress = {()=> {this.props.navigation.navigate('signup') }}>Signup</Text>  
-            <Text style = {styles.description}>To Buy, Sell, Rent books and many more...</Text>  
-          </View>      
+            <View style = {styles.content}>
+              <Text style = {styles.heading} onPress = {()=> {this.props.navigation.navigate('login') }}>Login</Text>         
+              <Text>OR</Text>
+              <Text style = {styles.heading} onPress = {()=> {this.props.navigation.navigate('signup') }}>Signup</Text>  
+              <Text style = {styles.description}>To Buy, Sell, Rent books and many more...</Text>  
+            </View>      
 
         </Container>
     );
@@ -128,8 +115,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   searchBar : {
-    width: 200,
-    backgroundColor: '#F5F7F6',
+    fontSize: 30, 
   },
   content: {
     flex: 1.5,
@@ -155,37 +141,37 @@ const styles = StyleSheet.create({
     flex:1,
   },
   inContainer: {
-    borderBottomColor: '#A0A3A9',
+    borderColor: '#0956a4',
     backgroundColor: '#FFFFFF',
-    borderRadius:10,
-    borderBottomWidth: 1,
-    width:250,
+    borderWidth:1,
+    width:186,
     height:45,
     marginBottom:100,
+    marginTop: 50,
     flexDirection: 'row',
     alignItems:'center',  
     color: '#000'  
   },
   inputss:{
       height:45,
-      marginLeft:10,
-      borderBottomColor: '#FFFFFF',
+      marginLeft:2,
+      borderBottomColor: '#0956a4',
+      paddingHorizontal: 5,
+      width:145,
+      fontSize:15,
   },
   buttonContainer: {
-    height:50,
-    flexDirection: 'row',
+    height:45,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth:1,
     width:50,
     borderRadius:5,    
-    borderColor: "#332373",
-    marginLeft: 200,
+    borderColor: "#0956a4",
+    marginLeft: 180,
     marginRight: 10,
-    position: 'absolute'
-  },
-  searchButton: {
-    backgroundColor: "#332373",
+    position: 'absolute',
+    backgroundColor:'#F48024'
   },
   searchText: {
     color: '#fff',

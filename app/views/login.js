@@ -49,7 +49,7 @@ export default class Login extends React.Component {
 
   login =() => {
 
-    fetch('http://192.168.1.77:3000/login', {
+    fetch('http://192.168.0.104:3000/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -68,7 +68,7 @@ export default class Login extends React.Component {
 
       if (res.success === true){   //if input credentials are valid
 
-        AsyncStorage.setItem('user', res.username);
+        AsyncStorage.setItem('user', res.password);
         this.props.navigation.navigate('profile');
       }
 
