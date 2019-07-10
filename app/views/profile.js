@@ -32,6 +32,7 @@ export default class Home extends React.Component {
         data: []
       };
     }
+    
 
     componentDidMount(){
       this.getData();
@@ -62,6 +63,7 @@ export default class Home extends React.Component {
     }
   
     render() {
+
       return (
         <View style={styles.container}>
            <View >
@@ -77,8 +79,6 @@ export default class Home extends React.Component {
                             <Text style={styles.addBookText}>Add Book</Text>
                             
               </TouchableHighlight> 
-
-
               
 
           <FlatList style={styles.list}

@@ -10,10 +10,12 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  Picker,
 } from 'react-native';
 /*
 import ImagePicker from 'react-native-image-picker';
 import RNFetch from 'rn-fetch-blob';*/
+import { Dropdown } from 'react-native-material-dropdown';
 import { ScrollView } from 'react-native-gesture-handler';
 
 /*
@@ -39,6 +41,7 @@ export default class Signup extends React.Component{
           author: "",
           price: "",
           edition: "",
+          category: "",
           username: "",
           description: "",
           image_URL: "", 
@@ -47,6 +50,7 @@ export default class Signup extends React.Component{
       }
 
     async onAddbookPressed() {
+
       try {
         let response = await fetch('http://192.168.100.27:3000/addbook', {
           method: 'POST',
@@ -60,11 +64,13 @@ export default class Signup extends React.Component{
           author: this.state.author,
           price: this.state.price,
           edition: this.state.edition,
+          category: this.state.category,
           username: this.state.username,
           description: this.state.description,
           image_URL: this.state.image_URL,
           })
         }) 
+
 
         let res = await response.json(); // receive data in json format from the server as 'res'
 
@@ -75,6 +81,7 @@ export default class Signup extends React.Component{
         
         else{
           alert(res.message);
+          
           let errors = res;
           throw errors;
         }
@@ -87,7 +94,7 @@ export default class Signup extends React.Component{
       
    
  	render() {
-     
+  
 		return(
       <ScrollView>
         <View style={styles.container}>
@@ -164,6 +171,27 @@ export default class Signup extends React.Component{
                           value = {this.state.image_URL}                    
                           underlineColorAndroid='transparent'                        
                           onChangeText={(image_URL) => this.setState({image_URL})}/>
+                      </View>
+
+                      <View>
+
+                        <Text>Pick a category.</Text>
+
+                        <Picker selectedValue={this.state.category}
+                          style={{height: 50, width: 150}}
+                          onValueChange={(value) => this.setState({category : value})}>
+                          
+                          <Picker.Item label="Choose an option" value="" />
+
+                          <Picker.Item label="Mathematics" value="Mathematics" />
+                          <Picker.Item label="Physics" value="Physics" />
+                          <Picker.Item label="Chemistry" value="Chemistry" />
+                          <Picker.Item label="English" value="English" />
+                          <Picker.Item label="Computer" value="Computer" />
+                          <Picker.Item label="Programming" value="Programming" />
+                        </Picker>
+
+
                       </View>
 
                       <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={() => this.onAddbookPressed('add_books')}>

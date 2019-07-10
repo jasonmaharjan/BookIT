@@ -264,6 +264,7 @@ app.post('/addbook', function(req, res){
   var author = req.body.author;
   var price = req.body.price;
   var edition = req.body.edition;
+  var category = req.body.category;
   var username = req.body.username;
   var description = req.body.description;
   var image_URL = req.body.image_URL;
@@ -273,6 +274,7 @@ app.post('/addbook', function(req, res){
   req.checkBody('author', 'author is not valid').notEmpty();
   req.checkBody('price', 'price is required').notEmpty();
   req.checkBody('edition', 'edition is required').notEmpty();
+  req.checkBody('category', 'category is required').notEmpty();
   req.checkBody('username', 'Username is required').notEmpty();
   req.checkBody('description', 'Description is required').notEmpty();
   req.checkBody('image_URL', 'Image is missing').notEmpty();
@@ -288,24 +290,165 @@ app.post('/addbook', function(req, res){
 
   else{
 
-    con.query(            
+    con.query(
+      "SELECT * FROM users WHERE username =?", username, function(err, row, field){
+        if (row.length > 0){
+          con.query(            
 
-      "INSERT INTO books (ISBN, title, author, price, edition, username, description, image_URL) VALUES ('" + ISBN + "', '" + title + "', '" + author + "', '" + price + "', '" + edition + "', '" + username + "', '" + description + "','" + image_URL + "' )",
-      function(err, row, field){
+            "INSERT INTO books (ISBN, title, author, price, edition, category, username, description, image_URL) VALUES ('" + ISBN + "', '" + title + "', '" + author + "', '" + price + "', '" + edition + "', '" + category + "', '" + username + "', '" + description + "','" + image_URL + "' )",
+            function(err, row, field){
+      
+              console.log(row);
+              if (err) throw err;
+      
+              else {
+              console.log('1 book-record inserted');
+      
+              res.send({'success': true});
+              }
+            }
+          )
 
-        console.log(row);
-        if (err) throw err;
-
-        else {
-        console.log('1 book-record inserted');
-
-        res.send({'success': true});
+        }
+        else{
+          res.send({'message': 'Invalid Username'});
         }
       }
+
     )
+
+
   }
 
 })
+
+
+
+
+// Math Category
+app.post('/category/Mathematics', function(req, res){
+
+  const M = 'Mathematics';
+
+  con.query(
+
+    "SELECT * FROM books WHERE category = ?", M, function(error, row, field){
+
+    if(error) console.log(error);
+
+    if(row.length > 0){
+      res.send(row);
+    }
+    else{
+      res.send({'success': false});
+    }
+  });
+});
+
+// Physics Category
+app.post('/category/Physics', function(req, res){
+
+  const P = 'Physics';
+
+  con.query(
+
+    "SELECT * FROM books WHERE category = ?", P, function(error, row, field){
+
+    if(error) console.log(error);
+
+    if(row.length > 0){
+      res.send(row);
+    }
+    else{
+      res.send({'success': false});
+    }
+  });
+});
+
+// Chemistry Category
+app.post('/category/Chemistry', function(req, res){
+
+  const C = 'Chemistry';
+
+  con.query(
+
+    "SELECT * FROM books WHERE category = ?", C, function(error, row, field){
+
+    if(error) console.log(error);
+
+    if(row.length > 0){
+      res.send(row);
+    }
+    else{
+      res.send({'success': false});
+    }
+  });
+});
+
+// English Category
+app.post('/category/English', function(req, res){
+
+  const E = 'English';
+
+  con.query(
+
+    "SELECT * FROM books WHERE category = ?", E, function(error, row, field){
+
+    if(error) console.log(error);
+
+    if(row.length > 0){
+      res.send(row);
+    }
+    else{
+      res.send({'success': false});
+    }
+  });
+});
+
+// Computer Category
+app.post('/category/Computer', function(req, res){
+
+  const C = 'Computer';
+
+  con.query(
+
+    "SELECT * FROM books WHERE category = ?", C, function(error, row, field){
+
+    if(error) console.log(error);
+
+    if(row.length > 0){
+      res.send(row);
+    }
+    else{
+      res.send({'success': false});
+    }
+  });
+});
+
+// Programming Category
+app.post('/category/Programming', function(req, res){
+
+  const P = 'Programming';
+
+  con.query(
+
+    "SELECT * FROM books WHERE category = ?", P, function(error, row, field){
+
+    if(error) console.log(error);
+
+    if(row.length > 0){
+      res.send(row);
+    }
+    else{
+      res.send({'success': false});
+    }
+  });
+});
+
+
+
+
+
 
 const port = 3000;
 

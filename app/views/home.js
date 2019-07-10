@@ -88,9 +88,11 @@ export default class HomeScreen extends React.Component {
                     keyboardType="default"
                     underlineColorAndroid='transparent'
                     onChangeText={(search) => this.setState({search})}/>
-                <TouchableHighlight style={[styles.buttonContainer, styles.searchButton]} onPress={() => this.onSearchPressed('search')}>
+
+                <TouchableHighlight  onPress={() => this.onSearchPressed()}>
                   <Icon name="search" style ={styles.searchBar}/>
                 </TouchableHighlight>
+
               </View>
           </View>
           
