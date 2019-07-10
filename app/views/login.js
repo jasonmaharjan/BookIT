@@ -13,7 +13,7 @@ import {
   FlatList,
   AsyncStorage,
 } from 'react-native';
-//import console = require('console');
+
 
 var connection = require('../../config');
 
@@ -38,18 +38,16 @@ export default class Login extends React.Component {
 
   _loadInitialState = async () => {
 
-    //get username of user and check if user has logged in
-
-    var value = await AsyncStorage.getItem('user');
+    //get token
+    var value = await AsyncStorage.getItem('token');
     if (value !== null){
       this.props.navigation.navigate('profile');
     }
-
   }
 
   login =() => {
 
-    fetch('http://192.168.0.104:3000/login', {
+    fetch('http://192.168.100.27:3000/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -64,11 +62,9 @@ export default class Login extends React.Component {
     .then((response) => response.json())
     .then((res) => {
       
-      console.log(res.message);
-
       if (res.success === true){   //if input credentials are valid
 
-        AsyncStorage.setItem('user', res.password);
+        AsyncStorage.setItem('token', res.token);
         this.props.navigation.navigate('profile');
       }
 

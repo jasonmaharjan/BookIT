@@ -59,8 +59,6 @@ export default class dashboard extends React.Component {
 
 }
 
-
-console.log(Constants.statusBarHeight)
 const statusbarStyle = StyleSheet.create({
     statusBar: {
       paddingTop: Constants.statusBarHeight,

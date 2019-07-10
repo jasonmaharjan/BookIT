@@ -1,4 +1,3 @@
-//backend 
 var express = require('express');
 var app  = express();
 var mysql = require('mysql');
@@ -6,13 +5,14 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var expressValidator = require ('express-validator');
 var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
 
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
   host     : 'localhost',
 	user     : 'root',
-	password : '',
+	password : '#jimmypage8877#',
 	database : 'bookit'
 });
 
@@ -23,12 +23,12 @@ con.connect(function(err){
         console.log("Error while connecting with database");
     }
 });
-
+/*
 app.use(session({
 	secret: 'secret',
 	resave: true,
 	saveUninitialized: true
-}));
+}));*/
 
 //Body parser middleware
 app.use(bodyParser.json({type:'application/json'}));
@@ -51,6 +51,23 @@ app.use(expressValidator({
     };
   }
 }));
+
+//JWT middleware
+const verifyToken = (req, res, next) => {
+  const header = req.headers['authorization'];
+
+  if(typeof header !== 'undefined') {
+      const bearer = header.split(' ');
+      const token = bearer[1];
+
+      req.token = token;
+      next();
+  } else {
+      //If header is undefined return Forbidden (403)
+      res.sendStatus(403)
+  }
+}
+
 
 // Users API
 app.get('/users', function(req, res){
@@ -124,7 +141,16 @@ app.post('/login', function(req, res){
           if(err) throw err;
 
           if(isMatch){
-            res.send({'success': true, 'message': row[0].password});
+            const user = {
+              id : row[0].id,
+              email : row[0].email,
+              username : row[0].username
+            }
+
+            jwt.sign({user}, 'secret' , { expiresIn: '1h' }, (err, token) => {
+              if(err) { console.log(err) }    
+              res.send({'success': true, 'message': row[0].username, token});
+            }); 
           }     
           
           else

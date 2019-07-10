@@ -10,6 +10,7 @@ import {
   Dimensions,
   TouchableOpacity,
   TouchableHighlight,
+  AsyncStorage,
 } from 'react-native';
 import { Constants } from 'expo';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Content, Item, Input } from 'native-base';
@@ -37,10 +38,20 @@ export default class HomeScreen extends React.Component {
     };
   }
 
+  componentDidMount(){
+    this.checkToken();
+  }
+
+  checkToken = async() =>{
+    var value = await AsyncStorage.getItem('token');
+    if (value != null){
+      this.props.navigation.navigate('profile');
+    }
+  }
 
   async onSearchPressed() {
     try {
-      let response = await fetch('http://192.168.0.104:3000/books', {
+      let response = await fetch('http://192.168.100.27:3000/books', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

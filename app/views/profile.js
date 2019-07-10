@@ -9,6 +9,7 @@ import {
     Alert,
     ScrollView,
     FlatList,
+    AsyncStorage
 } from 'react-native';
 
 import NavigationBar from 'react-native-navbar';
@@ -17,6 +18,11 @@ import NavigationBar from 'react-native-navbar';
         title: 'Bookit',
     };
 
+import Dialog, { DialogFooter,
+  DialogButton, 
+  SlideAnimation, 
+  DialogContent, 
+} from 'react-native-popup-dialog';
 
 export default class Home extends React.Component {
 
@@ -32,7 +38,7 @@ export default class Home extends React.Component {
     }
 
     getData = () => {
-      fetch('http://192.168.1.77:3000/allbooks')
+      fetch('http://192.168.100.27:3000/allbooks')
       .then (result => result.json())
       .then((result) => {
         this.setState({
@@ -42,6 +48,15 @@ export default class Home extends React.Component {
        .catch((error) => console.log(error));
     }
 
+    logout(){
+      this.removeToken();
+    }
+
+    removeToken = async() => {
+      await AsyncStorage.removeItem('token');
+      this.props.navigation.navigate('Home');
+    }
+
     clickEventListener(book_details) {
       this.props.navigation.navigate('book_info', { book_details: book_details});
     }
@@ -49,20 +64,21 @@ export default class Home extends React.Component {
     render() {
       return (
         <View style={styles.container}>
-            <View >
-                <NavigationBar
-                title={titleConfig}
-                />
-                
+           <View >
+              <NavigationBar
+              title={titleConfig}
+              />
             </View>
+            <TouchableHighlight style={[styles.refreshContainer, styles.refreshButton]} onPress ={() => this.logout()}>
+                <Image style={styles.icon} source={require("../icons/logout.png")} />
+            </TouchableHighlight>
+
               <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={() => this.props.navigation.navigate('add_books')}>
                             <Text style={styles.addBookText}>Add Book</Text>
                             
               </TouchableHighlight> 
 
-              <TouchableHighlight style={[styles.refreshContainer, styles.refreshButton]} onPress ={() => this.componentDidMount()}>
-                <Image style={styles.icon} source={require("../icons/refresh.png")} />
-              </TouchableHighlight>
+
               
 
           <FlatList style={styles.list}
