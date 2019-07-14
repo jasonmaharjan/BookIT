@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
     fontSize:15,
     flex:1,
     alignSelf:'center',
-    color:"#696969"
+    color:"#696969",
+    justifyContent:'center',
   },
 });
