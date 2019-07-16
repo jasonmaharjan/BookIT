@@ -51,7 +51,7 @@ export default class HomeScreen extends React.Component {
 
   async onSearchPressed() {
     try {
-      let response = await fetch('http://192.168.100.27:3000/books', {
+      let response = await fetch('http://192.168.100.3:3000/books', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

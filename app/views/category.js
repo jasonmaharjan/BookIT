@@ -19,7 +19,7 @@ export default class CategoryScreen extends React.Component {
         super(props);
         this.state = {
           data: [
-            {id:1, title: "Mathematics", image:"https://images-na.ssl-images-amazon.com/images/I/91k4D2PWq9L._AC_UL70_SR70,70_.jpg"},
+            {id:1, title: "Mathematics", image:"https://i.ebayimg.com/00/s/NzY4WDEwMjQ=/z/0qsAAOSwhxJdCfns/$_99.JPG"},
             {id:2, title: "Physics", image:"https://images.textbooks.com/TextbookInfo/Thumb/0470458364_t.gif"} ,
             {id:3, title: "Chemistry", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxe7wENizTme3xrAxBy1fULT9VEI17I7PKSrgVQLOdV1qjl6i0XA"} ,
             {id:4, title: "English", image:"https://i5.walmartimages.com/asr/3f803607-b620-411d-bae1-99a4a7e2774a_1.0b1d0ca465122056ec7c106efed0418a.jpeg?odnHeight=100&odnWidth=100&odnBg=FFFFFF"} ,
@@ -32,7 +32,7 @@ export default class CategoryScreen extends React.Component {
 
     async clickEventListener(category) {
       try {
-        let response = await fetch(`http://192.168.100.27:3000/category/${category}`, {
+        let response = await fetch(`http://192.168.100.3:3000/category/${category}`, {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

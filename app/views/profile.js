@@ -12,17 +12,15 @@ import {
     AsyncStorage
 } from 'react-native';
 
+import { Constants } from 'expo';
+import { Container, Header, Left, Body, Right, Button, Icon, Title, Content } from 'native-base';
+import ActionButton from 'react-native-action-button';
+
 import NavigationBar from 'react-native-navbar';
 
     const titleConfig = {
         title: 'Bookit',
     };
-
-import Dialog, { DialogFooter,
-  DialogButton, 
-  SlideAnimation, 
-  DialogContent, 
-} from 'react-native-popup-dialog';
 
 export default class Home extends React.Component {
 
@@ -36,10 +34,16 @@ export default class Home extends React.Component {
 
     componentDidMount(){
       this.getData();
+      this._loadUsername();
+    }
+
+    _loadUsername = async () => {
+      var value = await AsyncStorage.getItem('username');
+      console.log(value);
     }
 
     getData = () => {
-      fetch('http://192.168.100.27:3000/allbooks')
+      fetch('http://192.168.100.3:3000/allbooks')
       .then (result => result.json())
       .then((result) => {
         this.setState({
@@ -54,7 +58,9 @@ export default class Home extends React.Component {
     }
 
     removeToken = async() => {
+
       await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('username');
       this.props.navigation.navigate('Home');
     }
 
@@ -79,7 +85,7 @@ export default class Home extends React.Component {
                             <Text style={styles.addBookText}>Add Book</Text>
                             
               </TouchableHighlight> 
-              
+              <Text>List of Books:</Text>
 
           <FlatList style={styles.list}
             contentContainerStyle={styles.listContainer}
@@ -106,6 +112,23 @@ export default class Home extends React.Component {
                 </TouchableOpacity>
               )
             }}/>
+            
+            <View style={{flex:1, backgroundColor: '#f3f3f3'}}>        
+              <ActionButton buttonColor="#0956a4">
+                <ActionButton.Item buttonColor='#0956a4' title="Request book" onPress={() => console.log("notes tapped!")}>
+                  <Icon name="md-" style={styles.actionButtonIcon} />
+                </ActionButton.Item>
+                <ActionButton.Item buttonColor='#0956a4' title="My Cart"  onPress={() => console.log("notes tapped!")}>
+                  <Icon name="md-cart" style={styles.actionButtonIcon} />
+                </ActionButton.Item>
+                <ActionButton.Item buttonColor='#0956a4' title="Rent book"  onPress={() => {}}>
+                  <Icon name="md-add" style={styles.actionButtonIcon} />
+                </ActionButton.Item>
+                <ActionButton.Item buttonColor='#0956a4' title="Donate book" onPress={() => {}}>
+                  <Icon name="md-" style={styles.actionButtonIcon} />
+                </ActionButton.Item>
+              </ActionButton>
+            </View>
         </View>
       );
     }

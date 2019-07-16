@@ -14,7 +14,6 @@ import {
   AsyncStorage,
 } from 'react-native';
 
-
 var connection = require('../../config');
 
 export default class Login extends React.Component {
@@ -43,11 +42,12 @@ export default class Login extends React.Component {
     if (value !== null){
       this.props.navigation.navigate('profile');
     }
+
   }
 
   login =() => {
 
-    fetch('http://192.168.100.27:3000/login', {
+    fetch('http://192.168.100.3:3000/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -64,6 +64,7 @@ export default class Login extends React.Component {
       
       if (res.success === true){   //if input credentials are valid
 
+        AsyncStorage.setItem('username', res.message)
         AsyncStorage.setItem('token', res.token);
         this.props.navigation.navigate('profile');
       }
