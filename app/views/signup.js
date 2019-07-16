@@ -55,50 +55,9 @@ export default class Signup extends React.Component {
         alert('User Registered');
         this.props.navigation.navigate('login');
       }
-<<<<<<< HEAD
-      static navigationOptions = {
-        title: 'signup',
-        
-    }
-    async onSignupPressed() {
-      try {
-        let response = await fetch('http://192.168.100.3:3000/signup', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-              username: this.state.username,  
-              email: this.state.email,
-              password: this.state.password,
-              password_confirm: this.state.password_confirm,
-              phone_number: this.state.phone_number,
-          })
-        }) 
-
-        let res = await response.json(); // receive data in json format from the server
-
-        alert(res.message);
-
-        if (res.success === true){
-          alert('User Registered');
-          this.props.navigation.navigate('login');
-        }
-
-        else if (res.success === false){
-          alert('Sorry, username has already been taken');
-        }
-        
-        else{
-          let errors = res;
-          throw errors;
-        }
-=======
 
       else if (res.success === false) {
         alert('Sorry, username has already been taken');
->>>>>>> 469853b8b0a0408156449fc50732a404d1fe54f0
       }
 
       else {

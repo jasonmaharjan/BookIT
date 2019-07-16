@@ -16,11 +16,9 @@ import { Constants } from 'expo';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Content } from 'native-base';
 import ActionButton from 'react-native-action-button';
 
-import NavigationBar from 'react-native-navbar';
+import withBadge from '../components/badge';
 
-    const titleConfig = {
-        title: 'Bookit',
-    };
+const BadgedIcon = withBadge(1)(Icon);
 
 export default class Home extends React.Component {
 
@@ -30,6 +28,23 @@ export default class Home extends React.Component {
         data: []
       };
     }
+
+    static navigationOptions = ({ screenProps }) => ({
+      title: 'Book IT',
+      headerTintColor: '#0956a4',
+      headerLeft: (
+        <Icon name='menu' onPress={() => screenProps.openDrawer()} style={styles.header} />
+      ),
+      headerRight:(
+        <BadgedIcon
+        name="cart" color="white" containerStyle={styles.padRight}
+      />
+
+
+      
+      ),
+  
+    })
     
 
     componentDidMount(){
@@ -72,21 +87,21 @@ export default class Home extends React.Component {
 
       return (
         <View style={styles.container}>
-           <View >
-              <NavigationBar
-              title={titleConfig}
-              />
-            </View>
+
             <TouchableHighlight style={[styles.refreshContainer, styles.refreshButton]} onPress ={() => this.logout()}>
                 <Image style={styles.icon} source={require("../icons/logout.png")} />
+            </TouchableHighlight>
+
+            
+            <TouchableHighlight style={[styles.refreshContainer, styles.refreshButton]} onPress ={() => this.logout()}>
+                <Image style={styles.icon} source={require("../icons/userprofile.png")} />
             </TouchableHighlight>
 
               <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={() => this.props.navigation.navigate('add_books')}>
                             <Text style={styles.addBookText}>Add Book</Text>
                             
               </TouchableHighlight> 
-              <Text>List of Books:</Text>
-
+              
           <FlatList style={styles.list}
             contentContainerStyle={styles.listContainer}
             data={this.state.data}
@@ -135,6 +150,10 @@ export default class Home extends React.Component {
   }
   
   const styles = StyleSheet.create({
+    header: {
+      marginLeft: 10,
+      color: '#0956a4'
+    },
     container:{
       flex:1,
       marginTop:10,

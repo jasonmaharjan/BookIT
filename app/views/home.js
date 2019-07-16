@@ -16,6 +16,9 @@ import { Constants } from 'expo';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Content, Item, Input } from 'native-base';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { ThemeConsumer } from 'react-native-elements';
+import withBadge from '../components/badge';
+
+const BadgedIcon = withBadge(1)(Icon);
 
 
 export default class HomeScreen extends React.Component {
@@ -23,9 +26,15 @@ export default class HomeScreen extends React.Component {
   static navigationOptions = ({ screenProps }) => ({
     title: 'Home',
     headerTintColor: '#0956a4',
+
     headerLeft: (
       <Icon name='menu' onPress={() => screenProps.openDrawer()} style={styles.header} />
-    )
+    ),
+    headerRight:(
+      <BadgedIcon
+      name="cart" color="white" containerStyle={styles.cart}
+    />
+    ),
 
   })
 
@@ -110,6 +119,13 @@ export default class HomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  cart:{
+    paddingRight: 50,
+    color:'#0956a4',       
+  },
+  padRight:{
+    paddingRight: 30
+  },
   header: {
     marginLeft: 10,
     color: '#0956a4'

@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import { Root } from "native-base";
 import { Font, AppLoading } from "expo";
+import Imagepicker from "react-native-image-picker";
 
 import DrawerNavigator from './app/components/drawerNavigator';
 
