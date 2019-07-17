@@ -25,7 +25,6 @@ import {
 } from 'native-base';
 
 import ActionButton from 'react-native-action-button';
-import ImagePicker from 'react-native-image-picker';
 
 
 const options={
@@ -44,7 +43,7 @@ export default class dashboard extends React.Component {
 
   myfun=()=>{
     //alert('clicked');
-  
+  /*
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);
   
@@ -66,8 +65,25 @@ export default class dashboard extends React.Component {
           pic:response.data
         });
       }
-    });
+    });*/
   }
+  
+/*
+  authenticateRoute = () => {
+
+    fetch('http://192.168.100.3:3000/authenticate', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password,
+      })
+    })  
+  }
+  */
 
 
   render() {
@@ -91,19 +107,19 @@ export default class dashboard extends React.Component {
             <FooterTab>
               <Button vertical active>
                 <Icon name="home" />
-                <Text>Home</Text>
+                <Text style={styles.text}>Home</Text>
               </Button>
-              <Button vertical buttonColor='#0956a4' onPress={() => console.log("notes tapped!")}>
+              <Button vertical buttonColor='#0956a4' onPress={() => this.props.navigation.navigate('')}>
                 <Icon name="add" />
-                <Text>Add Books</Text>
+                <Text style={styles.text}>Add Books</Text>
               </Button>
               <Button vertical buttonColor='#0956a4' onPress={() => console.log("notes tapped!")}>
                 <Icon active name="cart" />
-                <Text>Cart</Text>
+                <Text style={styles.text}>Cart</Text>
               </Button>
               <Button vertical buttonColor='#0956a4' onPress={() => { }}>
                 <Icon active name="person" />
-                <Text>Profile</Text>
+                <Text style={styles.text}>Profile</Text>
               </Button>
             </FooterTab>
           </Footer>
@@ -129,6 +145,9 @@ const statusbarStyle = StyleSheet.create({
 
 
 const styles = StyleSheet.create({
+  text:{
+    color: '#D3D3D3'
+  },
   container: {
     backgroundColor: '#F5F7F6',
     flex: 1,

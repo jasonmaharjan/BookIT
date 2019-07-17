@@ -32,10 +32,6 @@ export default class Login extends React.Component {
 
   }
 
-  componentDidUpdate() {
-    alert('hahah');
-  }
-
   componentDidMount() {
     this._loadInitialState().done();
   }

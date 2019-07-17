@@ -283,10 +283,12 @@ app.post('/addbook', function(req, res){
   req.checkBody('ISBN', 'ISBN is invalid').isLength(13);
   req.checkBody('ISBN', 'ISBN is invalid').isNumeric();
   req.checkBody('title', 'title is required').notEmpty();
-  req.checkBody('author', 'author is not valid').notEmpty();
-  req.checkBody('author', 'author is not valid').notEmpty();
+  req.checkBody('author', 'author is required').notEmpty();
+  req.checkBody('author', 'author is not valid').isAlpha();
   req.checkBody('price', 'price is required').notEmpty();
+  req.checkBody('price', 'price is invalid').isNumeric();
   req.checkBody('edition', 'edition is required').notEmpty();
+  req.checkBody('edition', 'edition is invalid').isNumeric();
   req.checkBody('category', 'category is required').notEmpty();
   req.checkBody('username', 'Username is required').notEmpty();
   req.checkBody('description', 'Description is required').notEmpty();
@@ -308,6 +310,13 @@ app.post('/addbook', function(req, res){
       res.send({message: 'Please enter valid ISBN'});
     }
 
+
+
+
+
+    // Remaining Conditions
+
+    
     res.send({message:'Please give all the information'});
 
     console.log(errors);

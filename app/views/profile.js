@@ -29,6 +29,7 @@ export default class Home extends React.Component {
         data: [],
         username: "",
       };
+     // this._onBackPressed = BackHandler.addListener('hardwareBackPress', this._backPressed);
     }
 
     static navigationOptions = ({ screenProps }) => ({
@@ -42,13 +43,17 @@ export default class Home extends React.Component {
         name="cart" color="white" containerStyle={styles.padRight}
       />      
       ),
-  
     })
+/*
+    _onBackPressed(){
+
+    };
+*/
     
-  
+  /*
     componentWillUnmount() {
       BackHandler.exitApp();
-    }
+    }*/
     
 
     componentDidMount(){
