@@ -34,7 +34,7 @@ export default class Tab1 extends React.Component {
 
       return (
         <View style={styles.container}>
-
+         
           <FlatList style={styles.list}
             contentContainerStyle={styles.listContainer}
             data={this.state.data}

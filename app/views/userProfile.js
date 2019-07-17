@@ -1,11 +1,23 @@
 import React, { Component } from 'react';
+import {
+    StyleSheet,
+    View,
+    Image,
+    Text,
+    TextInput,
+    StatusBar,
+    Dimensions,
+    TouchableOpacity,
+    TouchableHighlight,
+    AsyncStorage,
+  } from 'react-native';
 import { Container, Header, Content, Tab, Tabs } from 'native-base';
 
 import Tab1 from './userUploads';
 import Tab2 from './userSold';
 import Tab3 from './userBought';
 
-export default class Tabs extends Component {
+export default class UserProfileTabs extends Component {
     render() {
         return (
             <View style={styles.container}>
@@ -15,8 +27,8 @@ export default class Tabs extends Component {
                         <Image style={styles.profileImage} source={require("../icons/logout.png")} />
                     </View>
                 </View>
-                    <Container>
-                        <Header hasTabs />
+                    <Container >
+                        <Header style={styles.tabnav} hasTabs />
                         <Tabs>
                             <Tab heading="Uploads">
                                 <Tab1 />
@@ -37,22 +49,21 @@ export default class Tabs extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex:1,   
     },
+  
     mainContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        flex: 1,
+        height: 120,
     },
     inContainer: {
-        backgroundColor: '#FFFFFF',
         borderRadius: 10,
-        borderBottomWidth: 1,
         width: 300,
         height: 100,
         marginBottom: 10,
+        marginTop:10,
         flexDirection: 'row',
-        alignItems: 'center',
         color: '#000'
     },
     profileImage: {
@@ -62,5 +73,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 50,
     },
+    tabnav:{
+        height:40,
+        flex:1,
+    }
 
 });
