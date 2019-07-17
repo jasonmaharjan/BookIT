@@ -3,7 +3,7 @@ import { Root } from "native-base";
 import { Font, AppLoading } from "expo";
 
 import DrawerNavigator from './app/components/drawerNavigator';
-
+import UserProfileTabs from './app/views/userProfile';
 export default class App extends Component{
 
     constructor(props) {
