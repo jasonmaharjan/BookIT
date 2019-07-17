@@ -12,7 +12,6 @@ import {
 import { Constants } from 'expo';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Content } from 'native-base';
 import ActionButton from 'react-native-action-button';
-import ImagePicker from 'react-native-image-picker';
 
 
 const options={
@@ -31,7 +30,7 @@ export default class dashboard extends React.Component {
 
   myfun=()=>{
     //alert('clicked');
-  
+  /*
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);
   
@@ -53,7 +52,7 @@ export default class dashboard extends React.Component {
           pic:response.data
         });
       }
-    });
+    });*/
   }
 
 

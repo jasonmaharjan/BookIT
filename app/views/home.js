@@ -51,6 +51,7 @@ export default class HomeScreen extends React.Component {
     this.checkToken();
   }
 
+ 
   checkToken = async () => {
     var value = await AsyncStorage.getItem('token');
     if (value != null) {

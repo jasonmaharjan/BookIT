@@ -103,7 +103,7 @@ export default class Signup extends React.Component{
                     <Text>Please Fill out the following fields.</Text>
                       <View style={styles.inContainer}>
                       <TextInput style={styles.inputs}
-                          placeholder="ISBN"
+                          placeholder="ISBN-13"
                           keyboardType="default"
                           value = {this.state.ISBN}
                           underlineColorAndroid='transparent'

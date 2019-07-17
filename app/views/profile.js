@@ -9,7 +9,8 @@ import {
     Alert,
     ScrollView,
     FlatList,
-    AsyncStorage
+    AsyncStorage,
+    BackHandler,
 } from 'react-native';
 
 import { Constants } from 'expo';
@@ -25,7 +26,8 @@ export default class Home extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        data: []
+        data: [],
+        username: "",
       };
     }
 
@@ -38,13 +40,15 @@ export default class Home extends React.Component {
       headerRight:(
         <BadgedIcon
         name="cart" color="white" containerStyle={styles.padRight}
-      />
-
-
-      
+      />      
       ),
   
     })
+    
+  
+    componentWillUnmount() {
+      BackHandler.exitApp();
+    }
     
 
     componentDidMount(){
@@ -54,7 +58,14 @@ export default class Home extends React.Component {
 
     _loadUsername = async () => {
       var value = await AsyncStorage.getItem('username');
-      console.log(value);
+      this.setState({username: value});
+      
+    }
+
+    _backPressed() {
+      if (this.state.username != null){
+        this.props.navigation.navigate('profile');
+      }
     }
 
     getData = () => {
