@@ -10,8 +10,22 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Constants } from 'expo';
-import { Container, Header, Left, Body, Right, Button, Icon, Title, Content } from 'native-base';
+import {
+  Container,
+  Header,
+  Left,
+  Body,
+  Right,
+  Button,
+  Icon,
+  Title,
+  Content,
+  Footer,
+  FooterTab,
+} from 'native-base';
+
 import ActionButton from 'react-native-action-button';
+import ImagePicker from 'react-native-image-picker';
 
 
 const options={
@@ -30,7 +44,7 @@ export default class dashboard extends React.Component {
 
   myfun=()=>{
     //alert('clicked');
-  /*
+  
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);
   
@@ -52,7 +66,7 @@ export default class dashboard extends React.Component {
           pic:response.data
         });
       }
-    });*/
+    });
   }
 
 
@@ -71,44 +85,29 @@ export default class dashboard extends React.Component {
           </Body>
         </Header>
 
-
-
-        <View style={styles.container1}>
-
-            <Image source={this.state.avatarSource}
-            style={{width:'100%',height:300,margin:10}}/>
-
-          <TouchableOpacity style={{backgroundColor:'green',margin:10,padding:10}}
-          onPress={this.myfun}>
-            <Text style={{color:'#fff'}}>Select Image</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={this.uploadPic}>
-            <Text>Upload</Text>
-          </TouchableOpacity>
-
-
-        </View>
-
- 
-
-
-        <View style={{ flex: 1, backgroundColor: '#f3f3f3' }}>
-          <ActionButton buttonColor="#0956a4">
-            <ActionButton.Item buttonColor='#0956a4' title="My Cart" onPress={() => console.log("notes tapped!")}>
-              <Icon name="md-cart" style={styles.actionButtonIcon} />
-            </ActionButton.Item>
-            <ActionButton.Item buttonColor='#0956a4' title="Sell book" onPress={() => { }}>
-              <Icon name="md-add" style={styles.actionButtonIcon} />
-            </ActionButton.Item>
-            <ActionButton.Item buttonColor='#0956a4' title="Request book" onPress={() => console.log("notes tapped!")}>
-              <Icon name="md-" style={styles.actionButtonIcon} />
-            </ActionButton.Item>
-            <ActionButton.Item buttonColor='#0956a4' title="Donate book" onPress={() => { }}>
-              <Icon name="md-" style={styles.actionButtonIcon} />
-            </ActionButton.Item>
-          </ActionButton>
-        </View>
+        <Container>
+          <Content />
+          <Footer>
+            <FooterTab>
+              <Button vertical active>
+                <Icon name="home" />
+                <Text>Home</Text>
+              </Button>
+              <Button vertical buttonColor='#0956a4' onPress={() => console.log("notes tapped!")}>
+                <Icon name="add" />
+                <Text>Add Books</Text>
+              </Button>
+              <Button vertical buttonColor='#0956a4' onPress={() => console.log("notes tapped!")}>
+                <Icon active name="cart" />
+                <Text>Cart</Text>
+              </Button>
+              <Button vertical buttonColor='#0956a4' onPress={() => { }}>
+                <Icon active name="person" />
+                <Text>Profile</Text>
+              </Button>
+            </FooterTab>
+          </Footer>
+        </Container>
 
       </Container>
     );
