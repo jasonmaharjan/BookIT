@@ -25,10 +25,48 @@ import {
 } from 'native-base';
 
 import ActionButton from 'react-native-action-button';
+import ImagePicker from 'react-native-image-picker';
 
+
+const options={
+  title: 'my pic app',
+  takePhotoButtonTitle: 'Take photo with your camera',
+  chooseFromLibraryButtonTitle: 'Choose photo from library',
+}
 export default class dashboard extends React.Component {
-  constructor(props) {
+  constructor(props){
     super(props);
+    this.state={
+      avatarSource: null,
+      pic:null
+    }
+  }
+
+  myfun=()=>{
+    //alert('clicked');
+  
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+  
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('Image Picker Error: ', response.error);
+      }
+  
+      else {
+        let source = { uri: response.uri };
+  
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+  
+        this.setState({
+          avatarSource: source,
+          pic:response.data
+        });
+      }
+    });
   }
 
 
@@ -89,6 +127,7 @@ const statusbarStyle = StyleSheet.create({
   },
 });
 
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F5F7F6',
@@ -104,5 +143,21 @@ const styles = StyleSheet.create({
     height: 18,
     color: 'white',
     fontSize: 20,
+  },
+  container1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
   },
 });
