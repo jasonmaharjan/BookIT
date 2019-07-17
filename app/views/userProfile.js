@@ -1,11 +1,23 @@
 import React, { Component } from 'react';
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    TouchableHighlight,
+    Image,
+    Alert,
+    ScrollView,
+    FlatList,
+    AsyncStorage
+} from 'react-native';
 import { Container, Header, Content, Tab, Tabs } from 'native-base';
 
 import Tab1 from './userUploads';
 import Tab2 from './userSold';
 import Tab3 from './userBought';
 
-export default class Tabs extends Component {
+export default class Tabbs extends Component {
     render() {
         return (
             <View style={styles.container}>

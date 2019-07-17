@@ -87,10 +87,12 @@ export default class BookInfo extends React.Component {
             </View>
 
             <View style = {styles.description}>
-             <Text style = {styles.title}>{book_details['title']}</Text>
-            <Text> {book_details['edition']}th Editiom</Text>
-            <Text style = {styles.writer}>by Author: {book_details['author']}</Text>            
-            <Text>NRS: {book_details['price']}</Text>
+              <Text style = {styles.title}>{book_details['title']}</Text>
+              <Text>Author: {book_details['author']}</Text>
+              <Text>Edition: {book_details['edition']}</Text>
+              <Text style = {styles.writer}>Uploaded by: {book_details['username']}</Text>            
+              <Text>NRS: {book_details['price']}</Text>
+              
             </View>
           </View>
         </View>

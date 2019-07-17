@@ -9,6 +9,10 @@ import profile from '../views/profile';
 import add_books from '../views/add_books';
 import search from '../views/search_results';
 import book_info from '../views/book_info';
+import userBought from '../views/userBought';
+import userProfile from '../views/userProfile';
+import userSold from '../views/userSold';
+import userUploads from '../views/userUploads';
 
 const AppStackNav = createStackNavigator(
     {
@@ -19,6 +23,11 @@ const AppStackNav = createStackNavigator(
       add_books: {screen : add_books},
       search: {screen : search},
       book_info: {screen: book_info},
+      userBought: {screen: userBought},
+      userProfile: {screen: userProfile},
+      userSold: {screen: userSold},
+      userUploads: {screen: userUploads},
+
 
     },
     {

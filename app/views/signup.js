@@ -115,7 +115,6 @@ export default class Signup extends React.Component {
           <View style={styles.inContainer}>
             <TextInput style={styles.inputs}
               placeholder="Phone Number"
-              secureTextEntry={true}
               underlineColorAndroid='transparent'
               value={this.state.phone_number}
               onChangeText={(phone_number) => this.setState({ phone_number })} />

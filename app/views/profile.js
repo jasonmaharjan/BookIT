@@ -82,6 +82,10 @@ export default class Home extends React.Component {
     clickEventListener(book_details) {
       this.props.navigation.navigate('book_info', { book_details: book_details});
     }
+
+    profileView() {
+      this.props.navigation.navigate('userProfile');
+    }
   
     render() {
 
@@ -93,7 +97,7 @@ export default class Home extends React.Component {
             </TouchableHighlight>
 
             
-            <TouchableHighlight style={[styles.refreshContainer, styles.refreshButton]} onPress ={() => this.logout()}>
+            <TouchableHighlight style={[styles.refreshContainer, styles.refreshButton]} onPress ={() => this.profileView()}>
                 <Image style={styles.icon} source={require("../icons/userprofile.png")} />
             </TouchableHighlight>
 
