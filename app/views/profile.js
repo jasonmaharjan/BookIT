@@ -22,14 +22,14 @@ import withBadge from '../components/badge';
 const BadgedIcon = withBadge(1)(Icon);
 
 export default class Home extends React.Component {
-
+  
     constructor(props) {
       super(props);
+      this._backPressed = this._backPressed.bind(this);
       this.state = {
         data: [],
         username: "",
       };
-     // this._onBackPressed = BackHandler.addListener('hardwareBackPress', this._backPressed);
     }
 
     static navigationOptions = ({ screenProps }) => ({
@@ -44,21 +44,19 @@ export default class Home extends React.Component {
       />      
       ),
     })
-/*
-    _onBackPressed(){
-
-    };
-*/
     
-  /*
+  
     componentWillUnmount() {
-      BackHandler.exitApp();
-    }*/
+      // this._backPressed();
+      // BackHandler.exitApp();
+      // BackHandler.removeEventListener('hardwareBackPress', this._backPressed);
+    }
     
 
     componentDidMount(){
       this.getData();
       this._loadUsername();
+      // BackHandler.addEventListener('hardwareBackPress', this._backPressed);
     }
 
     _loadUsername = async () => {
@@ -66,11 +64,14 @@ export default class Home extends React.Component {
       this.setState({username: value});
       
     }
-
     _backPressed() {
-      if (this.state.username != null){
-        this.props.navigation.navigate('profile');
-      }
+      // this.props.navigation.goBack(null);
+      // return true; 
+    //   if (this.state.username != null){
+    //     this.props.navigation.navigate('profile');
+    //   }
+    //   BackHandler.removeEventListener('hardwareBackPress', this._backPressed);
+    //   BackHandler.exitApp();
     }
 
     getData = () => {

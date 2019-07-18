@@ -32,7 +32,7 @@ export default class Login extends React.Component {
 
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this._loadInitialState().done();
   }
 
