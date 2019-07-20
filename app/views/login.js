@@ -31,7 +31,8 @@ export default class Login extends React.Component {
     title: 'Login',
 
   }
-  componentDidMount() {
+
+  componentWillMount() {
     this._loadInitialState().done();
   }
 
@@ -42,7 +43,6 @@ export default class Login extends React.Component {
     if (value !== null) {
       this.props.navigation.navigate('profile');
     }
-
   }
 
   login = () => {

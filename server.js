@@ -179,6 +179,8 @@ app.post('/signup', function(req, res) {
   req.checkBody('password', 'Password is required').notEmpty();
   req.checkBody('password_confirm', 'Passwords do not match').equals(req.body.password);
   req.checkBody('phone_number', 'Phone Number is required').notEmpty();
+  req.checkBody('phone_number', 'Phone Number must be a number').isNumeric();
+  req.checkBody('phone_number', 'Phone Number is not valid').isLength(10);
 
   let errors = req.validationErrors();
 
@@ -202,6 +204,14 @@ app.post('/signup', function(req, res) {
 
     else if (!phone_number){
       res.send({message:'Phone number missing'});
+    }
+
+    else if (phone_number.length != 10){
+      res.send({message:'Phone number has invalid length'});
+    }
+
+    else {
+      res.send({message: 'Please enter a valid phone number'});
     }
 
     console.log(errors);
@@ -270,10 +280,15 @@ app.post('/addbook', function(req, res){
   var image_URL = req.body.image_URL;
 
   req.checkBody('ISBN', 'ISBN is required').notEmpty();
+  req.checkBody('ISBN', 'ISBN is invalid').isLength(13);
+  req.checkBody('ISBN', 'ISBN is invalid').isNumeric();
   req.checkBody('title', 'title is required').notEmpty();
-  req.checkBody('author', 'author is not valid').notEmpty();
+  req.checkBody('author', 'author is required').notEmpty();
+  req.checkBody('author', 'author is not valid').isAlpha();
   req.checkBody('price', 'price is required').notEmpty();
+  req.checkBody('price', 'price is invalid').isNumeric();
   req.checkBody('edition', 'edition is required').notEmpty();
+  req.checkBody('edition', 'edition is invalid').isNumeric();
   req.checkBody('category', 'category is required').notEmpty();
   req.checkBody('username', 'Username is required').notEmpty();
   req.checkBody('description', 'Description is required').notEmpty();
@@ -283,6 +298,25 @@ app.post('/addbook', function(req, res){
 
   if (errors) {
 
+    if (!ISBN){
+      res.send({message:'ISBN is missing'});
+    }
+
+    else if (ISBN != 13){
+      res.send({message: 'Please use ISBN-13 (13 digits)'})
+    }
+
+    else if (isNan(ISBN)) {
+      res.send({message: 'Please enter valid ISBN'});
+    }
+
+
+
+
+
+    // Remaining Conditions
+
+    
     res.send({message:'Please give all the information'});
 
     console.log(errors);

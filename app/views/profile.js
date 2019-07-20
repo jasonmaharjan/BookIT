@@ -9,7 +9,8 @@ import {
     Alert,
     ScrollView,
     FlatList,
-    AsyncStorage
+    AsyncStorage,
+    BackHandler,
 } from 'react-native';
 
 import { Constants } from 'expo';
@@ -21,11 +22,13 @@ import withBadge from '../components/badge';
 const BadgedIcon = withBadge(1)(Icon);
 
 export default class Home extends React.Component {
-
+  
     constructor(props) {
       super(props);
+      this._backPressed = this._backPressed.bind(this);
       this.state = {
-        data: []
+        data: [],
+        username: "",
       };
     }
 
@@ -38,23 +41,37 @@ export default class Home extends React.Component {
       headerRight:(
         <BadgedIcon
         name="cart" color="white" containerStyle={styles.padRight}
-      />
-
-
-      
+      />      
       ),
-  
     })
+    
+  
+    componentWillUnmount() {
+      // this._backPressed();
+      // BackHandler.exitApp();
+      // BackHandler.removeEventListener('hardwareBackPress', this._backPressed);
+    }
     
 
     componentDidMount(){
       this.getData();
       this._loadUsername();
+      // BackHandler.addEventListener('hardwareBackPress', this._backPressed);
     }
 
     _loadUsername = async () => {
       var value = await AsyncStorage.getItem('username');
-      console.log(value);
+      this.setState({username: value});
+      
+    }
+    _backPressed() {
+      // this.props.navigation.goBack(null);
+      // return true; 
+    //   if (this.state.username != null){
+    //     this.props.navigation.navigate('profile');
+    //   }
+    //   BackHandler.removeEventListener('hardwareBackPress', this._backPressed);
+    //   BackHandler.exitApp();
     }
 
     getData = () => {

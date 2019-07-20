@@ -8,6 +8,7 @@ import FAQsScreen from '../views/faq';
 import ContactusScreen from '../views/contactUs';
 import dashboard from '../views/dashboard';
 import Profile from '../views/userProfile';
+import add_books from '../views/add_books';
 
 const AppDrawerNav = createDrawerNavigator({
   Home : {screen : StackNavigator },
@@ -16,7 +17,8 @@ const AppDrawerNav = createDrawerNavigator({
   FAQs : {screen: FAQsScreen},
   Contact_Us : {screen: ContactusScreen},
   dashboard: {screen: dashboard},
-  Profile: {screen: Profile}
+  Profile: {screen: Profile},
+  add_books: {screen: add_books},
   }, 
   {
     initialRouteName:'Profile',

@@ -11,6 +11,7 @@ import {
   Image,
   Alert,
   Picker,
+  AsyncStorage,
 } from 'react-native';
 /*
 import ImagePicker from 'react-native-image-picker';
@@ -48,6 +49,19 @@ export default class Signup extends React.Component{
           errors: [],
         };
       }
+
+
+
+    componentDidMount() {
+      this._getUsername();
+    }
+    
+    _getUsername = async() => {
+      var value = await AsyncStorage.getItem('username');
+      console.log(value);
+      this.setState({username: value});
+    }
+
 
     async onAddbookPressed() {
 
@@ -103,7 +117,7 @@ export default class Signup extends React.Component{
                     <Text>Please Fill out the following fields.</Text>
                       <View style={styles.inContainer}>
                       <TextInput style={styles.inputs}
-                          placeholder="ISBN"
+                          placeholder="ISBN-13"
                           keyboardType="default"
                           value = {this.state.ISBN}
                           underlineColorAndroid='transparent'
@@ -144,15 +158,6 @@ export default class Signup extends React.Component{
                           value = {this.state.edition}                        
                           underlineColorAndroid='transparent'
                           onChangeText={(edition) => this.setState({edition})}/>
-                      </View>
-
-                      <View style={styles.inContainer}>
-                      <TextInput style={styles.inputs}
-                          placeholder="your username"
-                          keyboardType = "default"           
-                          value = {this.state.username}             
-                          underlineColorAndroid='transparent'
-                          onChangeText={(username) => this.setState({username})}/>
                       </View>
 
                       <View style={styles.inContainer}>
