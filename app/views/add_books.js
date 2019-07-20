@@ -31,7 +31,7 @@ const options={
 }*/
 
 
-export default class Signup extends React.Component{
+export default class Addbooks extends React.Component{
 
     constructor(props) {
         super(props);

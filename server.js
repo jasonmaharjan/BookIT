@@ -280,7 +280,6 @@ app.post('/addbook', function(req, res){
   var image_URL = req.body.image_URL;
 
   req.checkBody('ISBN', 'ISBN is required').notEmpty();
-  req.checkBody('ISBN', 'ISBN is invalid').isLength(13);
   req.checkBody('ISBN', 'ISBN is invalid').isNumeric();
   req.checkBody('title', 'title is required').notEmpty();
   req.checkBody('author', 'author is required').notEmpty();
@@ -300,10 +299,6 @@ app.post('/addbook', function(req, res){
 
     if (!ISBN){
       res.send({message:'ISBN is missing'});
-    }
-
-    else if (ISBN != 13){
-      res.send({message: 'Please use ISBN-13 (13 digits)'})
     }
 
     else if (isNan(ISBN)) {

@@ -5,9 +5,15 @@ import {
   View,
   Image,
   Text,
+  TextInput,
   StatusBar,
   Dimensions,
   TouchableOpacity,
+  TouchableHighlight,
+  ScrollView,
+  FlatList,
+  AsyncStorage,
+
 } from 'react-native';
 import { Constants } from 'expo';
 import {
@@ -22,9 +28,19 @@ import {
   Content,
   Footer,
   FooterTab,
+  Tab,
+  Tabs,
 } from 'native-base';
 
 import ActionButton from 'react-native-action-button';
+
+import AddBooksTab from './add_books';
+import UserProfileTab from './userProfile';
+import HomeTab from './profile';
+
+import withBadge from '../components/badge';
+
+const BadgedIcon = withBadge(69)(Icon);
 
 
 const options={
@@ -36,54 +52,82 @@ export default class dashboard extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      avatarSource: null,
-      pic:null
+      data: [],
+      username: "",
     }
   }
 
-  myfun=()=>{
-    //alert('clicked');
-  /*
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-  
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      }
-      else if (response.error) {
-        console.log('Image Picker Error: ', response.error);
-      }
-  
-      else {
-        let source = { uri: response.uri };
-  
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-  
-        this.setState({
-          avatarSource: source,
-          pic:response.data
-        });
-      }
-    });*/
-  }
-  
-/*
-  authenticateRoute = () => {
 
-    fetch('http://192.168.100.3:3000/authenticate', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password,
-      })
-    })  
+  componentDidMount(){
+    this.getData();
+    this._loadUsername();
+    // BackHandler.addEventListener('hardwareBackPress', this._backPressed);
   }
-  */
+
+  _loadUsername = async () => {
+    var value = await AsyncStorage.getItem('username');
+    this.setState({username: value});
+    
+  }
+
+  getData = () => {
+    fetch('http://192.168.100.3:3000/allbooks')
+    .then (result => result.json())
+    .then((result) => {
+      this.setState({
+        data: result 
+      })
+     })
+     .catch((error) => console.log(error));
+  }
+
+  logout(){
+    this.removeToken();
+  }
+
+  removeToken = async() => {
+
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('username');
+    this.props.navigation.navigate('Home');
+  }
+
+  clickEventListener(book_details) {
+    this.props.navigation.navigate('book_info', { book_details: book_details});
+  }
+
+  profileView() {
+    this.props.navigation.navigate('userProfile');
+  }
+
+  async onSearchPressed() {
+    try {
+      let response = await fetch('http://192.168.100.3:3000/books', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          search: this.state.search
+        })
+      })
+
+      let res = await response.json();
+
+      if (res.success === false) {
+        alert('No Book Found in database');
+      }
+
+      else {
+        this.props.navigation.navigate('search', { search_results: res });
+      }
+    }
+
+    catch (errors) {
+      console.log('catch errors :' + errors);
+    }
+  }
 
 
   render() {
@@ -101,29 +145,45 @@ export default class dashboard extends React.Component {
           </Body>
         </Header>
 
-        <Container>
-          <Content />
+        <View style={styles.mainConatiner}>
+          <View style={styles.inContainer}>
+            <TextInput style={styles.inputss}
+              placeholder="Title, author or category"
+              keyboardType="default"
+              underlineColorAndroid='transparent'
+              onChangeText={(search) => this.setState({ search })} />
+
+            <TouchableHighlight onPress={() => this.onSearchPressed()}>
+              <Icon name="search" style={styles.searchBar} />
+            </TouchableHighlight>
+
+          </View>
+        </View>
+
+        
+      <Container>
+        <Content/>
           <Footer>
             <FooterTab>
-              <Button vertical active>
+              <Button vertical active onPress={() => this.props.navigation.navigate('profile')}>
                 <Icon name="home" />
                 <Text style={styles.text}>Home</Text>
               </Button>
-              <Button vertical buttonColor='#0956a4' onPress={() => this.props.navigation.navigate('')}>
+              <Button vertical buttonColor='#0956a4' onPress={() => this.props.navigation.navigate('add_books')}>
                 <Icon name="add" />
                 <Text style={styles.text}>Add Books</Text>
               </Button>
-              <Button vertical buttonColor='#0956a4' onPress={() => console.log("notes tapped!")}>
+              <Button vertical buttonColor='#0956a4' onPress={() => alert('Cart icon Pressed')}>
                 <Icon active name="cart" />
                 <Text style={styles.text}>Cart</Text>
               </Button>
-              <Button vertical buttonColor='#0956a4' onPress={() => { }}>
+              <Button vertical buttonColor='#0956a4' onPress={() => this.props.navigation.navigate('userProfile')}>
                 <Icon active name="person" />
                 <Text style={styles.text}>Profile</Text>
               </Button>
             </FooterTab>
           </Footer>
-        </Container>
+          </Container>
 
       </Container>
     );
@@ -148,6 +208,13 @@ const styles = StyleSheet.create({
   text:{
     color: '#D3D3D3'
   },
+  tabnav:{
+    height:40,
+    flex:1,
+  },
+  searchBar: {
+    fontSize: 30,
+  },
   container: {
     backgroundColor: '#F5F7F6',
     flex: 1,
@@ -155,7 +222,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   title: {
-    color: '#0956a4',
+    color: 'white',
     alignItems: 'center',
   },
   actionButtonIcon: {
@@ -178,5 +245,91 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  mainConatiner: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  inContainer: {
+    borderColor: '#0956a4',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1.5,
+    borderRadius: 10,
+    width: 215,
+    height: 45,
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    color: '#000'
+  },
+  inputss: {
+    height: 45,
+    marginLeft: 2,
+    borderBottomColor: '#0956a4',
+    paddingHorizontal: 5,
+    width: 180,
+    fontSize: 15,
+  },
+  icon: {
+    width:40,
+    height:40,
+  },  
+  list: {
+    marginTop: 250,
+    paddingHorizontal: 15,
+    backgroundColor:"#E6E6E6",
+  },
+  listContainer:{
+    alignItems:'center'
+  },
+  card:{
+    shadowColor: '#00000021',
+
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+
+    elevation: 12,
+    marginVertical: 10,
+    backgroundColor:"white",
+    flexBasis: '42%',
+    marginHorizontal: 10,
+  },
+  cardHeader: {
+    paddingVertical: 17,
+    paddingHorizontal: 16,
+    borderTopLeftRadius: 1,
+    borderTopRightRadius: 1,
+    flexDirection: 'row',
+    alignItems:"center", 
+    justifyContent:"center"
+  },
+  cardContent: {
+    paddingVertical: 12.5,
+    paddingHorizontal: 16,
+  },
+  cardFooter:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 12.5,
+    paddingBottom: 25,
+    paddingHorizontal: 16,
+    borderBottomLeftRadius: 1,
+    borderBottomRightRadius: 1,
+  },
+  cardImage:{
+    height: 200,
+    width: 150,
+    alignSelf:'center'
+  },
+  title:{
+    fontSize:15,
+    flex:1,
+    alignSelf:'center',
+    color:"#696969"
   },
 });

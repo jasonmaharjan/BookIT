@@ -24,12 +24,12 @@ const BadgedIcon = withBadge(1)(Icon);
 export default class HomeScreen extends React.Component {
 
   static navigationOptions = ({ screenProps }) => ({
-    title: 'Home',
+    title: 'BOOK IT',
     headerTintColor: '#0956a4',
-
+    /*
     headerLeft: (
       <Icon name='menu' onPress={() => screenProps.openDrawer()} style={styles.header} />
-    ),
+    ),*/
     headerRight:(
       <BadgedIcon
       name="cart" color="white" containerStyle={styles.cart}
@@ -56,7 +56,7 @@ export default class HomeScreen extends React.Component {
   checkToken = async () => {
     var value = await AsyncStorage.getItem('token');
     if (value != null) {
-      this.props.navigation.navigate('profile');
+      this.props.navigation.navigate('dashboard');
     }
   }
 
@@ -95,7 +95,7 @@ export default class HomeScreen extends React.Component {
         <View style={styles.mainConatiner}>
           <View style={styles.inContainer}>
             <TextInput style={styles.inputss}
-              placeholder="Search by title or author"
+              placeholder="Title, author or category"
               keyboardType="default"
               underlineColorAndroid='transparent'
               onChangeText={(search) => this.setState({ search })} />
@@ -173,9 +173,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   inContainer: {
-    borderColor: '#0956a4',
+    borderColor: '#332373',
     backgroundColor: '#FFFFFF',
-    borderWidth: 1,
+    borderWidth: 1.5,
+    borderRadius: 10,
     width: 215,
     height: 45,
     marginBottom: 100,

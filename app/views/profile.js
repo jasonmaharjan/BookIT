@@ -11,10 +11,13 @@ import {
     FlatList,
     AsyncStorage,
     BackHandler,
+
+
+
 } from 'react-native';
 
 import { Constants } from 'expo';
-import { Container, Header, Left, Body, Right, Button, Icon, Title, Content } from 'native-base';
+import { Container, Header, Left, Body, Right, Button, Icon, Title, Content, Tabs, Footer, FooterTab, } from 'native-base';
 import ActionButton from 'react-native-action-button';
 
 import withBadge from '../components/badge';
@@ -109,19 +112,6 @@ export default class Home extends React.Component {
       return (
         <View style={styles.container}>
 
-            <TouchableHighlight style={[styles.refreshContainer, styles.refreshButton]} onPress ={() => this.logout()}>
-                <Image style={styles.icon} source={require("../icons/logout.png")} />
-            </TouchableHighlight>
-
-            
-            <TouchableHighlight style={[styles.refreshContainer, styles.refreshButton]} onPress ={() => this.profileView()}>
-                <Image style={styles.icon} source={require("../icons/userprofile.png")} />
-            </TouchableHighlight>
-
-              <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={() => this.props.navigation.navigate('add_books')}>
-                            <Text style={styles.addBookText}>Add Book</Text>
-                            
-              </TouchableHighlight> 
               
           <FlatList style={styles.list}
             contentContainerStyle={styles.listContainer}
@@ -165,10 +155,61 @@ export default class Home extends React.Component {
                 </ActionButton.Item>
               </ActionButton>
             </View>
+
+            <Container>
+
+        <Header style={statusbarStyle.statusBar}>
+          <Left>
+            <Button transparent>
+              <Icon name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
+            </Button>
+          </Left>
+          <Body>
+            <Title style={styles.title}>Dashboard</Title>
+            
+          </Body>
+        </Header>
+
+      <Container>
+        <Content/>
+          <Footer>
+            <FooterTab>
+              <Button vertical active onPress={() => this.props.navigation.navigate('profile')}>
+                <Icon name="home" />
+                <Text style={styles.text}>Home</Text>
+              </Button>
+              <Button vertical buttonColor='#0956a4' onPress={() => this.props.navigation.navigate('add_books')}>
+                <Icon name="add" />
+                <Text style={styles.text}>Add Books</Text>
+              </Button>
+              <Button vertical buttonColor='#0956a4' onPress={() => alert('Cart icon Pressed')}>
+                <Icon active name="cart" />
+                <Text style={styles.text}>Cart</Text>
+              </Button>
+              <Button vertical buttonColor='#0956a4' onPress={() => this.props.navigation.navigate('userProfile')}>
+                <Icon active name="person" />
+                <Text style={styles.text}>Profile</Text>
+              </Button>
+            </FooterTab>
+          </Footer>
+          </Container>
+
+      </Container>
         </View>
       );
     }
   }
+
+  const statusbarStyle = StyleSheet.create({
+    statusBar: {
+      paddingTop: Constants.statusBarHeight,
+      height: 65,
+      //backgroundColor: '#0956a4',
+      // borderBottomColor: 'black',
+      // borderBottomWidth: 0.5,
+    },
+  });
+  
   
   const styles = StyleSheet.create({
     header: {
@@ -177,7 +218,24 @@ export default class Home extends React.Component {
     },
     container:{
       flex:1,
-      marginTop:10,
+
+    },
+    text:{
+      color: '#D3D3D3'
+    },
+    tabnav:{
+      height:40,
+      flex:1,
+    },
+    welcome: {
+      fontSize: 20,
+      textAlign: 'center',
+      margin: 10,
+    },
+    instructions: {
+      textAlign: 'center',
+      color: '#333333',
+      marginBottom: 5,
     },
     refreshContainer: {
       height:35,

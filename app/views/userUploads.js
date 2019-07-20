@@ -34,6 +34,7 @@ export default class Tab1 extends React.Component {
 
       return (
         <View style={styles.container}>
+          <Text>Hello World</Text>
          
           <FlatList style={styles.list}
             contentContainerStyle={styles.listContainer}

@@ -10,16 +10,14 @@ import dashboard from '../views/dashboard';
 import add_books from '../views/add_books';
 
 const AppDrawerNav = createDrawerNavigator({
-  Home : {screen : StackNavigator },
+  Dashboard: {screen: StackNavigator},
   Category : {screen : CategoryScreen},
   About : {screen: AboutScreen},
   FAQs : {screen: FAQsScreen},
   Contact_Us : {screen: ContactusScreen},
-  dashboard: {screen: dashboard},
-  add_books: {screen: add_books},
   }, 
   {
-    initialRouteName:'Home',
+    initialRouteName:'Dashboard',
     drawerWidth: 300,
     drawerPosition: 'left',
     contentOptions: {

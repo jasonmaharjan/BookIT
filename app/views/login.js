@@ -41,7 +41,7 @@ export default class Login extends React.Component {
     //get token
     var value = await AsyncStorage.getItem('token');
     if (value !== null) {
-      this.props.navigation.navigate('profile');
+      this.props.navigation.navigate('dashboard');
     }
   }
 
@@ -66,7 +66,7 @@ export default class Login extends React.Component {
 
         AsyncStorage.setItem('username', res.message)
         AsyncStorage.setItem('token', res.token);
-        this.props.navigation.navigate('profile');
+        this.props.navigation.navigate('dashboard');
       }
 
       else{
