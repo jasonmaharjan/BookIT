@@ -52,22 +52,6 @@ app.use(expressValidator({
   }
 }));
 
-//JWT middleware
-const verifyToken = (req, res, next) => {
-  const header = req.headers['authorization'];
-
-  if(typeof header !== 'undefined') {
-      const bearer = header.split(' ');
-      const token = bearer[1];
-
-      req.token = token;
-      next();
-  } else {
-      //If header is undefined return Forbidden (403)
-      res.sendStatus(403)
-  }
-}
-
 
 // Users API
 app.get('/users', function(req, res){
@@ -108,6 +92,25 @@ app.post('/books', function(req, res){
     }
   });
 });
+
+// user's uploaded books
+
+app.post('/userbooks', function(req, res){
+
+  var user = req.body.username;
+
+  con.query(
+
+    "SELECT * FROM books WHERE username = ? ", user, function(error, row, field){
+
+    if(error) console.log(error);
+
+    if(row.length > 0){
+      res.send(row);
+    }
+  });
+});
+
 
 app.get('/allbooks', function(req, res){
   con.query('select * from books', function(error, row, fields){
@@ -351,7 +354,84 @@ app.post('/addbook', function(req, res){
 
 })
 
+//Removes the uploaded books
+app.post('/removebooks', function(req, res){
 
+  var ISBN = req.body.ISBN;
+  var title = req.body.title;
+  var author = req.body.author;
+  var price = req.body.price;
+  var edition = req.body.edition;
+  var category = req.body.category;
+  var username = req.body.username;
+  var description = req.body.description;
+  var image_URL = req.body.image_URL;
+
+        con.query(            
+
+         /* "DELETE FROM books WHERE ISBN = ? AND title = ? AND author = ? AND price = ? AND edition = ? AND category = ? AND username = ? AND image_URL = ?",[ISBN, author, price, edition, category, username, image_URL] ,*/
+         "DELETE FROM books WHERE ISBN = ?", ISBN,
+          function(err, row, field){
+    
+            console.log(row);
+            if (err) throw err;
+    
+            else {
+            console.log('1 Book added to user sold');
+    
+            res.send({'success': true});
+            }
+          }
+        )
+});
+
+
+//Stores it in books_sold table
+app.post('/soldbooks', function(req, res){
+
+  var ISBN = req.body.ISBN;
+  var title = req.body.title;
+  var author = req.body.author;
+  var price = req.body.price;
+  var edition = req.body.edition;
+  var category = req.body.category;
+  var username = req.body.username;
+  var description = req.body.description;
+  var image_URL = req.body.image_URL;
+
+        con.query(            
+
+          "INSERT INTO books_sold (ISBN, title, author, price, edition, category, username, description, image_URL) VALUES ('" + ISBN + "', '" + title + "', '" + author + "', '" + price + "', '" + edition + "', '" + category + "', '" + username + "', '" + description + "','" + image_URL + "' )",
+          function(err, row, field){
+    
+            console.log(row);
+            if (err) throw err;
+    
+            else {
+            console.log('1 Book added to user sold');
+    
+            res.send({'success': true});
+            }
+          }
+        )
+});
+
+// Displays the sold books of the user
+app.post('/books_sold', function(req, res){
+
+  var user = req.body.username;
+
+  con.query(
+
+    "SELECT * FROM books_sold WHERE username = ? ", user, function(error, row, field){
+
+    if(error) console.log(error);
+
+    if(row.length > 0){
+      res.send(row);
+    }
+  });
+});
 
 
 // Math Category

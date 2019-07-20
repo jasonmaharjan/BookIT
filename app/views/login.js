@@ -43,7 +43,7 @@ export default class Login extends React.Component {
     //get token
     var value = await AsyncStorage.getItem('token');
     if (value !== null) {
-      this.props.navigation.navigate('dashboard');
+      this.props.navigation.navigate('dashboardTab');
     }
   }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {createStackNavigator, createAppContainer, DrawerActions} from 'react-navigation';
 import {View,Text,StyleSheet,Platform,TouchableOpacity,Image,StatusBar} from 'react-native';
+import DrawerTabNavigator from './dashboardTabNavigator';
 
 import HomeScreen from '../views/home';
 import signup from '../views/signup';
@@ -25,6 +26,9 @@ const AppStackNav = createStackNavigator(
         header: null,
                
       }},
+      dashboardTab: {
+        screen: DrawerTabNavigator,
+      },
       search: {screen : search},
       book_info: {screen: book_info},
       userBought: {screen: userBought},
@@ -37,8 +41,6 @@ const AppStackNav = createStackNavigator(
           header: null,
                  
         }},
-
-
     },
     {
       initialRouteName: 'Home',
