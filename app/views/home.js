@@ -20,16 +20,18 @@ import withBadge from '../components/badge';
 
 const BadgedIcon = withBadge(1)(Icon);
 
+import {search_books} from "../api/api"
+
 
 export default class HomeScreen extends React.Component {
 
   static navigationOptions = ({ screenProps }) => ({
-    title: 'Home',
+    title: 'BOOK IT',
     headerTintColor: '#0956a4',
-
+    /*
     headerLeft: (
       <Icon name='menu' onPress={() => screenProps.openDrawer()} style={styles.header} />
-    ),
+    ),*/
     headerRight:(
       <BadgedIcon
       name="cart" color="white" containerStyle={styles.cart}
@@ -56,37 +58,21 @@ export default class HomeScreen extends React.Component {
   checkToken = async () => {
     var value = await AsyncStorage.getItem('token');
     if (value != null) {
-      this.props.navigation.navigate('profile');
+      this.props.navigation.navigate('dashboard');
     }
   }
 
   async onSearchPressed() {
-    try {
-      let response = await fetch('http://192.168.100.3:3000/books', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          search: this.state.search
-        })
-      })
 
-      let res = await response.json();
+      let res = await search_books({ search: this.state.search});
 
-      if (res.success === false) {
+      if (res.data.success === false) {
         alert('No Book Found in database');
       }
 
       else {
-        this.props.navigation.navigate('search', { search_results: res });
+        this.props.navigation.navigate('search', { search_results: res.data });
       }
-    }
-
-    catch (errors) {
-      console.log('catch errors :' + errors);
-    }
   }
 
   render() {
@@ -95,7 +81,7 @@ export default class HomeScreen extends React.Component {
         <View style={styles.mainConatiner}>
           <View style={styles.inContainer}>
             <TextInput style={styles.inputss}
-              placeholder="Search by title or author"
+              placeholder="Title, author or category"
               keyboardType="default"
               underlineColorAndroid='transparent'
               onChangeText={(search) => this.setState({ search })} />
@@ -173,9 +159,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   inContainer: {
-    borderColor: '#0956a4',
+    borderColor: '#332373',
     backgroundColor: '#FFFFFF',
-    borderWidth: 1,
+    borderWidth: 1.5,
+    borderRadius: 10,
     width: 215,
     height: 45,
     marginBottom: 100,

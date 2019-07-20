@@ -8,20 +8,19 @@ import FAQsScreen from '../views/faq';
 import ContactusScreen from '../views/contactUs';
 import dashboard from '../views/dashboard';
 import Profile from '../views/userProfile';
+import profile from '../views/profile';
 import add_books from '../views/add_books';
+import dashboardTabNavigator from './dashboardTabNavigator';
 
 const AppDrawerNav = createDrawerNavigator({
-  Home : {screen : StackNavigator },
+  Dashboard: { screen : dashboardTabNavigator },
   Category : {screen : CategoryScreen},
   About : {screen: AboutScreen},
   FAQs : {screen: FAQsScreen},
   Contact_Us : {screen: ContactusScreen},
-  dashboard: {screen: dashboard},
-  Profile: {screen: Profile},
-  add_books: {screen: add_books},
   }, 
   {
-    initialRouteName:'Profile',
+    initialRouteName:'Dashboard',
     drawerWidth: 300,
     drawerPosition: 'left',
     contentOptions: {

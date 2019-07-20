@@ -36,50 +36,6 @@ export default class dashboard extends React.Component {
     }
   }
 
-  myfun=()=>{
-    //alert('clicked');
-  /*
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-  
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      }
-      else if (response.error) {
-        console.log('Image Picker Error: ', response.error);
-      }
-  
-      else {
-        let source = { uri: response.uri };
-  
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-  
-        this.setState({
-          avatarSource: source,
-          pic:response.data
-        });
-      }
-    });*/
-  }
-  
-/*
-  authenticateRoute = () => {
-
-    fetch('http://192.168.100.3:3000/authenticate', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password,
-      })
-    })  
-  }
-  */
-
 
   render() {
     return (

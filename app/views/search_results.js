@@ -48,7 +48,7 @@ export default class Search extends React.Component {
             data= {search_results}
             showsVerticalScrollIndicator={false}
             horizontal={false}
-            numColumns={1}
+            numColumns={2}
             keyExtractor= {(item) => {
               return item;
             }}
