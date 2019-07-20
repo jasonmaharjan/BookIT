@@ -16,6 +16,8 @@ import {
 
 var connection = require('../../config');
 
+import {login} from "../api/api"
+
 export default class Login extends React.Component {
 
   constructor(props) {
@@ -45,34 +47,19 @@ export default class Login extends React.Component {
     }
   }
 
-  login = () => {
+  login = async () => {
 
-    fetch('http://192.168.100.3:3000/login', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password,
-      })
-    })  
-    
-    .then((response) => response.json())
-    .then((res) => {
+      let res= await login({username:this.state.username,password:this.state.password})
       
-      if (res.success === true){   //if input credentials are valid
-
-        AsyncStorage.setItem('username', res.message)
-        AsyncStorage.setItem('token', res.token);
+      if (res.data.success === true){   //if input credentials are valid
+        AsyncStorage.setItem('username', res.data.message)
+        AsyncStorage.setItem('token', res.data.token);
         this.props.navigation.navigate('dashboard');
       }
 
       else{
-        alert(res.message);
+        alert(res.data.message);
       }
-    }).done();
   }
   
   render() {
