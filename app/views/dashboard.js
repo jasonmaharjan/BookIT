@@ -25,14 +25,8 @@ import {
 } from 'native-base';
 
 import ActionButton from 'react-native-action-button';
-import ImagePicker from 'react-native-image-picker';
 
 
-const options={
-  title: 'my pic app',
-  takePhotoButtonTitle: 'Take photo with your camera',
-  chooseFromLibraryButtonTitle: 'Choose photo from library',
-}
 export default class dashboard extends React.Component {
   constructor(props){
     super(props);

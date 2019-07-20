@@ -24,7 +24,8 @@ export default class UserProfileTabs extends Component {
 
                 <View style={styles.mainContainer}>
                     <View style={styles.inContainer}>
-                        <Image style={styles.profileImage} source={require("../icons/logout.png")} />
+                        <Image style={styles.profileImage} source={require("../icons/userProfile1.png")} />
+                        <Text style={styles.username}> username </Text>
                     </View>
                 </View>
                     <Container >
@@ -55,23 +56,32 @@ const styles = StyleSheet.create({
     mainContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        height: 120,
+        height: 130,
     },
     inContainer: {
         borderRadius: 10,
         width: 300,
         height: 100,
         marginBottom: 10,
-        marginTop:10,
+        marginTop: 20,
+        marginLeft: 20,
+        marginRight: 20,
         flexDirection: 'row',
-        color: '#000'
+        color: '#000',
     },
     profileImage: {
-        width: 50,
-        height: 50,
-        marginLeft: 5,
+        width: 70,
+        height: 70,
+        marginLeft: 15,
+        marginTop: 15,
         justifyContent: 'center',
         borderRadius: 50,
+        borderWidth:2,
+    },
+    username: {
+        padding: 30,
+        fontWeight: '400',
+        fontSize: 20,
     },
     tabnav:{
         height:40,

@@ -7,6 +7,7 @@ import AboutScreen from '../views/about';
 import FAQsScreen from '../views/faq';
 import ContactusScreen from '../views/contactUs';
 import dashboard from '../views/dashboard';
+import Profile from '../views/userProfile';
 
 const AppDrawerNav = createDrawerNavigator({
   Home : {screen : StackNavigator },
@@ -15,9 +16,10 @@ const AppDrawerNav = createDrawerNavigator({
   FAQs : {screen: FAQsScreen},
   Contact_Us : {screen: ContactusScreen},
   dashboard: {screen: dashboard},
+  Profile: {screen: Profile}
   }, 
   {
-    initialRouteName:'Home',
+    initialRouteName:'Profile',
     drawerWidth: 300,
     drawerPosition: 'left',
     contentOptions: {
