@@ -304,10 +304,54 @@ app.post('/addbook', function(req, res){
       res.send({message:'ISBN is missing'});
     }
 
-    else if (isNan(ISBN)) {
+    else if (isNaN(ISBN)) {
       res.send({message: 'Please enter valid ISBN'});
     }
 
+    else if (!title){
+      res.send({message: 'Title is missing'});
+    }
+
+    else if (!author){
+      res.send({message: 'Author is missing'});
+    }
+
+    else if (author.isAlpha){
+      res.send({message: 'Please give valid author name'});
+    }
+
+    else if (!price){
+      res.send({message: 'Price is missing'});
+    }
+
+    else if (isNaN(price)){
+      res.send({message: 'Please give a valid price'});
+    }
+
+    else if (!edition){
+      res.send({message: 'Please give the edition'});
+    }
+
+    else if (isNaN(edition)){
+      res.send({message: 'Edition is not vali'});
+    }
+
+    else if (!category)
+    {
+      res.send({message: 'Please select a category'});
+    }
+
+    else if(!username){
+      res.send({message: 'Please give a username'});
+    }
+
+    else if(description){
+      res.send({message: 'Please write a description'});
+    }
+
+    else if (!image_URL){
+      res.send({message: 'Please give an image URL'});;
+    }
 
 
 
@@ -357,22 +401,11 @@ app.post('/addbook', function(req, res){
 //Removes the uploaded books
 app.post('/removebooks', function(req, res){
 
-  var ISBN = req.body.ISBN;
-  var title = req.body.title;
-  var author = req.body.author;
-  var price = req.body.price;
-  var edition = req.body.edition;
-  var category = req.body.category;
-  var username = req.body.username;
-  var description = req.body.description;
-  var image_URL = req.body.image_URL;
-
-        con.query(            
-
+  var book_ID=req.body.book_ID
+        con.query(           
          /* "DELETE FROM books WHERE ISBN = ? AND title = ? AND author = ? AND price = ? AND edition = ? AND category = ? AND username = ? AND image_URL = ?",[ISBN, author, price, edition, category, username, image_URL] ,*/
-         "DELETE FROM books WHERE ISBN = ?", ISBN,
+         "DELETE FROM books WHERE book_ID = ?", book_ID,
           function(err, row, field){
-    
             console.log(row);
             if (err) throw err;
     
@@ -398,10 +431,11 @@ app.post('/soldbooks', function(req, res){
   var username = req.body.username;
   var description = req.body.description;
   var image_URL = req.body.image_URL;
+  var book_ID=req.body.book_ID
 
         con.query(            
 
-          "INSERT INTO books_sold (ISBN, title, author, price, edition, category, username, description, image_URL) VALUES ('" + ISBN + "', '" + title + "', '" + author + "', '" + price + "', '" + edition + "', '" + category + "', '" + username + "', '" + description + "','" + image_URL + "' )",
+          "INSERT INTO books_sold (ISBN, title, author, price, edition, category, username, description, image_URL,book_ID) VALUES ('" + ISBN + "', '" + title + "', '" + author + "', '" + price + "', '" + edition + "', '" + category + "', '" + username + "', '" + description + "','" + image_URL + "','" +book_ID + "' )",
           function(err, row, field){
     
             console.log(row);
@@ -415,6 +449,29 @@ app.post('/soldbooks', function(req, res){
           }
         )
 });
+
+
+// Find username
+
+app.post('/username', function(req, res){
+
+  var user = req.body.username;
+
+  con.query(
+
+    "SELECT * FROM users WHERE username = ? ", user, function(error, row, field){
+
+    if(error) console.log(error);
+
+    if(row.length > 0){
+      res.send(row);
+    }
+  });
+});
+
+
+
+
 
 // Displays the sold books of the user
 app.post('/books_sold', function(req, res){

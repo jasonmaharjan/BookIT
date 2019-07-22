@@ -2,16 +2,12 @@ import React, {Component} from 'react';
 import {createDrawerNavigator, createAppContainer} from 'react-navigation';
 import StackNavigator from './stackNavigator';
 import DrawerTabNavigator from './dashboardTabNavigator';
-
-import CategoryScreen from '../views/category';
 import AboutScreen from '../views/about';
 import FAQsScreen from '../views/faq';
 import ContactusScreen from '../views/contactUs';
-import dashboard from '../views/dashboard';
-import add_books from '../views/add_books';
+
 
 const AppDrawerNav = createDrawerNavigator({
-  Home: { screen : StackNavigator},
   Dashboard: {screen:DrawerTabNavigator},
   About : {screen: AboutScreen},
   FAQs : {screen: FAQsScreen},
@@ -28,6 +24,7 @@ const AppDrawerNav = createDrawerNavigator({
 
   },
 });
+
 const Apps = createAppContainer(AppDrawerNav)
 
 export default class DrawerNavigator extends Component

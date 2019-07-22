@@ -18,6 +18,8 @@ import ImagePicker from 'react-native-image-picker';
 import RNFetch from 'rn-fetch-blob';*/
 import { Dropdown } from 'react-native-material-dropdown';
 import { ScrollView } from 'react-native-gesture-handler';
+import { addBooks } from '../api/api';
+import StoreContext from '../Store/StoreContext';
 
 /*
 const titleConfig = {
@@ -31,7 +33,7 @@ const options={
 }*/
 
 
-export default class Addbooks extends React.Component{
+class Addbooks extends React.Component{
 
     constructor(props) {
         super(props);
@@ -66,13 +68,7 @@ export default class Addbooks extends React.Component{
     async onAddbookPressed() {
 
       try {
-        let response = await fetch('http://192.168.100.3:3000/addbook', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
+        let res = await addBooks({
           ISBN: this.state.ISBN,
           title: this.state.title,
           author: this.state.author,
@@ -83,20 +79,21 @@ export default class Addbooks extends React.Component{
           description: this.state.description,
           image_URL: this.state.image_URL,
           })
-        }) 
 
-
-        let res = await response.json(); // receive data in json format from the server as 'res'
-
-        if (res.success === true){
+          console.log(res.data)
+        if (res.data.success === true){
           alert('Book Added');
+          this.props.storeData.getAllBookData()
+          this.props.storeData.getUploadBookData()
+          this.props.storeData.getSoldBookData()
           this.props.navigation.navigate('profile');
+          
         }
         
         else{
-          alert(res.message);
+          alert(res.data.message);
           
-          let errors = res;
+          let errors = res.data;
           throw errors;
         }
       }
@@ -209,6 +206,20 @@ export default class Addbooks extends React.Component{
 	}
 }
 
+export default class StoreWrapper extends React.Component{
+
+  render(){
+    return (
+      <StoreContext.Consumer>
+        {(storeData)=>{
+          return <Addbooks {...this.props} storeData={storeData} />
+        }}
+        
+      </StoreContext.Consumer>
+    )
+  }
+}
+
 const styles = StyleSheet.create({
   container : {
     backgroundColor: '#F5F7F6',
@@ -216,7 +227,8 @@ const styles = StyleSheet.create({
      
   },
   mainConatiner: {
-    marginTop: 20,
+    marginTop:70,
+    flex:1,
     alignItems: 'center',
     justifyContent: 'center',
   },

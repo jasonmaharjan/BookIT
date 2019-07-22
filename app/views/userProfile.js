@@ -11,14 +11,14 @@ import {
     TouchableHighlight,
     AsyncStorage,
   } from 'react-native';
-import { Container, Header, Content, Tab, Tabs } from 'native-base';
-
+import { Container, Header, Content, Tab, Tabs, Button } from 'native-base';
 import Tab1 from './userUploads';
 import Tab2 from './userSold';
 import Tab3 from './userBought';
+import StoreContext from '../Store/StoreContext';
 
 
-export default class UserProfileTabs extends Component {
+class UserProfileTabs extends Component {
 
     constructor(props) {
         super(props);
@@ -38,16 +38,10 @@ export default class UserProfileTabs extends Component {
       }
 
       logout(){
-        this.removeToken();
+        this.props.storeData.logout()
       }
     
-      removeToken = async() => {
-    
-        await AsyncStorage.removeItem('token');
-        await AsyncStorage.removeItem('username');
-        console.log('Exiting');
-        this.props.navigation.navigate('Home'); // Not working??
-      }
+ 
 
     render() {
         return (
@@ -57,7 +51,11 @@ export default class UserProfileTabs extends Component {
                     <View style={styles.inContainer}>
                         <Image style={styles.profileImage} source={require("../icons/userprofile.png")} />
                         <Text style={styles.username}> {this.state.username} </Text>
-                        <Image style={styles.logoutImage} source={require("../icons/logout.png")} onPress = {() =>{this.logout()}} />
+                        <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>
+                            <Button info rounded style={{width:90,alignItems:"center",justifyContent:"center"}}onPress = {() =>{this.logout()}}>
+                                <Text style={{color:"white"}}>Logout</Text>
+                            </Button>
+                        </View>
                     </View>
                 </View>
                     <Container >
@@ -76,6 +74,16 @@ export default class UserProfileTabs extends Component {
         );
     }
 }
+
+const StoreWrapper=(props)=>{
+    return <StoreContext.Consumer>
+        {(storeData)=>{
+          return <UserProfileTabs {...props} storeData={storeData}/>
+        }}
+    </StoreContext.Consumer>
+}
+  
+export default StoreWrapper
 
 const styles = StyleSheet.create({
     container: {

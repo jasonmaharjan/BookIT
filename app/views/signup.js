@@ -10,6 +10,7 @@ import {
   Image,
   Alert,
 } from 'react-native';
+import { signup } from '../api/api';
 
 
 export default class Signup extends React.Component {
@@ -32,31 +33,22 @@ export default class Signup extends React.Component {
   }
   async onSignupPressed() {
     try {
-      let response = await fetch('http://192.168.100.3:3000/signup', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: this.state.username,
-          email: this.state.email,
-          password: this.state.password,
-          password_confirm: this.state.password_confirm,
-          phone_number: this.state.phone_number,
-        })
-      })
+      let res = await signup({
+        username: this.state.username,
+        email: this.state.email,
+        password: this.state.password,
+        password_confirm: this.state.password_confirm,
+        phone_number: this.state.phone_number,
+      }) // receive data in json format from the server
 
-      let res = await response.json(); // receive data in json format from the server
+      alert(res.data.message);
 
-      alert(res.message);
-
-      if (res.success === true) {
+      if (res.data.success === true) {
         alert('User Registered');
         this.props.navigation.navigate('login');
       }
 
-      else if (res.success === false) {
+      else if (res.data.success === false) {
         alert('Sorry, username has already been taken');
       }
 

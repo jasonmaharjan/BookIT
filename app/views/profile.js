@@ -23,8 +23,10 @@ import ActionButton from 'react-native-action-button';
 import withBadge from '../components/badge';
 
 const BadgedIcon = withBadge(1)(Icon);
+import {getBooks} from "../api/api"
+import StoreContext from '../Store/StoreContext';
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   
     constructor(props) {
       super(props);
@@ -34,20 +36,6 @@ export default class Home extends React.Component {
         username: "",
       };
     }
-
-    static navigationOptions = ({ screenProps }) => ({
-      title: 'Book IT',
-      headerTintColor: '#0956a4',
-      headerLeft: (
-        <Icon name='menu' onPress={() => screenProps.openDrawer()} style={styles.header} />
-      ),
-      headerRight:(
-        <BadgedIcon
-        name="cart" color="white" containerStyle={styles.padRight}
-      />      
-      ),
-    })
-    
   
     componentWillUnmount() {
       // this._backPressed();
@@ -57,16 +45,16 @@ export default class Home extends React.Component {
     
 
     componentDidMount(){
-      this.getData();
+      this.props.storeData.getAllBookData();
       this._loadUsername();
       // BackHandler.addEventListener('hardwareBackPress', this._backPressed);
     }
 
     _loadUsername = async () => {
       var value = await AsyncStorage.getItem('username');
-      this.setState({username: value});
-      
+      this.setState({username: value}); 
     }
+
     _backPressed() {
       // this.props.navigation.goBack(null);
       // return true; 
@@ -77,16 +65,6 @@ export default class Home extends React.Component {
     //   BackHandler.exitApp();
     }
 
-    getData = () => {
-      fetch('http://192.168.100.3:3000/allbooks')
-      .then (result => result.json())
-      .then((result) => {
-        this.setState({
-          data: result 
-        })
-       })
-       .catch((error) => console.log(error));
-    }
 
     logout(){
       this.removeToken();
@@ -100,7 +78,7 @@ export default class Home extends React.Component {
     }
 
     clickEventListener(book_details) {
-      this.props.navigation.navigate('book_info', { book_details: book_details});
+      this.props.navigation.navigate('book_info',{ book_details: book_details});
     }
 
     profileView() {
@@ -109,13 +87,25 @@ export default class Home extends React.Component {
   
     render() {
 
+      console.log(this.props.storeData)
       return (
         <View style={styles.container}>
-
+          <Header style={statusbarStyle.statusBar}>
+          <Left>
+            <Button transparent>
+              <Icon name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
+            </Button>
+          </Left>
+          <Body>
+            <Title style={styles.title}>Dashboard</Title>
+            
+          </Body>
+        </Header>
               
-          <FlatList style={styles.list}
+          <FlatList 
+            style={styles.list}
             contentContainerStyle={styles.listContainer}
-            data={this.state.data}
+            data={this.props.storeData.allBookData}
             horizontal={false}
             numColumns={2}
             keyExtractor= {(item) => {
@@ -139,59 +129,10 @@ export default class Home extends React.Component {
               )
             }}/>
             
-            <View style={{flex:1, backgroundColor: '#f3f3f3'}}>        
-              <ActionButton buttonColor="#0956a4">
-                <ActionButton.Item buttonColor='#0956a4' title="Request book" onPress={() => console.log("notes tapped!")}>
-                  <Icon name="md-" style={styles.actionButtonIcon} />
-                </ActionButton.Item>
-                <ActionButton.Item buttonColor='#0956a4' title="My Cart"  onPress={() => console.log("notes tapped!")}>
-                  <Icon name="md-cart" style={styles.actionButtonIcon} />
-                </ActionButton.Item>
-                <ActionButton.Item buttonColor='#0956a4' title="Rent book"  onPress={() => {}}>
-                  <Icon name="md-add" style={styles.actionButtonIcon} />
-                </ActionButton.Item>
-                <ActionButton.Item buttonColor='#0956a4' title="Donate book" onPress={() => {}}>
-                  <Icon name="md-" style={styles.actionButtonIcon} />
-                </ActionButton.Item>
-              </ActionButton>
-            </View>
-
             <Container>
-
-        <Header style={statusbarStyle.statusBar}>
-          <Left>
-            <Button transparent>
-              <Icon name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={styles.title}>Dashboard</Title>
-            
-          </Body>
-        </Header>
 
       <Container>
         <Content/>
-          <Footer>
-            <FooterTab>
-              <Button vertical active onPress={() => this.props.navigation.navigate('profile')}>
-                <Icon name="home" />
-                <Text style={styles.text}>Home</Text>
-              </Button>
-              <Button vertical buttonColor='#0956a4' onPress={() => this.props.navigation.navigate('add_books')}>
-                <Icon name="add" />
-                <Text style={styles.text}>Add Books</Text>
-              </Button>
-              <Button vertical buttonColor='#0956a4' onPress={() => alert('Cart icon Pressed')}>
-                <Icon active name="cart" />
-                <Text style={styles.text}>Cart</Text>
-              </Button>
-              <Button vertical buttonColor='#0956a4' onPress={() => this.props.navigation.navigate('userProfile')}>
-                <Icon active name="person" />
-                <Text style={styles.text}>Profile</Text>
-              </Button>
-            </FooterTab>
-          </Footer>
           </Container>
 
       </Container>
@@ -199,6 +140,27 @@ export default class Home extends React.Component {
       );
     }
   }
+
+
+  class StoreWrapper extends React.Component{
+
+    static navigationOptions = {
+      header: null
+    }
+
+    render(){
+      return (
+        <StoreContext.Consumer>
+          {(storeData)=>{
+            return <Home {...this.props} storeData={storeData} />
+          }}
+          
+        </StoreContext.Consumer>
+      )
+    }
+  }
+
+  export default StoreWrapper
 
   const statusbarStyle = StyleSheet.create({
     statusBar: {
@@ -218,7 +180,6 @@ export default class Home extends React.Component {
     },
     container:{
       flex:1,
-
     },
     text:{
       color: '#D3D3D3'

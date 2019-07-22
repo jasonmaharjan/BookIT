@@ -25,9 +25,12 @@ import {
   FooterTab,
   Row,
 } from 'native-base';
+import { getUploadBooks, soldBook,removeBook } from '../api/api';
+import StoreContext from '../Store/StoreContext';
 
 
-export default class Tab1 extends Component {
+
+class Tab1 extends Component {
 
   constructor(props) {
     super(props);
@@ -46,105 +49,45 @@ export default class Tab1 extends Component {
   _loadUsername = async () => {
     var value = await AsyncStorage.getItem('username');
     this.setState({username: value});
-    this.getData();
+    this.props.storeData.getUploadBookData();
   }
 
-  async getData() {
-    try {
-      let response = await fetch('http://192.168.100.3:3000/userbooks', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({            
-          username: this.state.username,
-        })
-      })
 
-      let res = await response.json(); 
-
-      this.setState({data: res});
-
-        let errors = res;
-        throw errors;
-    }
-
-    catch (errors) {
-      console.log('catch errors :' + errors);
-    }
-  }  
 
   clickEventListener(book_details) {
     this.props.navigation.navigate('book_info', { book_details: book_details});
   }
 
-  async removeBook(item) {
+  async removeAndSellBook(item) {
   
     // To store in books_solds
     try {
-      let response = await fetch('http://192.168.100.3:3000/soldbooks', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      let res1=await soldBook({
+        ISBN: item["ISBN"],
+        title: item["title"],
+        author: item["author"],
+        price: item["price"],
+        edition: item["edition"],
+        category: item["category"],
+        username: this.state.username,
+        description: item["description"],
+        image_URL: item["image_URL"],
+        book_ID:item["book_ID"]
+    })
 
-            ISBN: item["ISBN"],
-            title: item["title"],
-            author: item["author"],
-            price: item["price"],
-            edition: item["edition"],
-            category: item["category"],
-            username: this.state.username,
-            description: item["description"],
-            image_URL: item["image_URL"],
-          
-        })
-      })
+      let res2= await removeBook(item["book_ID"])
+
+      this.props.storeData.getUploadBookData()
+      this.props.storeData.getAllBookData()
+      this.props.storeData.getSoldBookData()
+      
     }
     catch (errors) {
       console.log('catch errors :' + errors);
+      alert("Some Error!")
     }
-
 
     // To remove the book from uploads
-    try {
-      let response = await fetch('http://192.168.100.3:3000/removebooks', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-
-            ISBN: item["ISBN"],
-            title: item["title"],
-            author: item["author"],
-            price: item["price"],
-            edition: item["edition"],
-            category: item["category"],
-            username: this.state.username,
-            description: item["description"],
-            image_URL: item["image_URL"],
-          
-        })
-      })
-
-      let res = await response.json(); 
-
-      alert(res.message);
-
-      if (res.success === true) {
-        alert('Book Removed');
-        // refresh page
-      }
-    }
-
-    catch (errors) {
-      console.log('catch errors :' + errors);
-    }
   }
 
   render() {
@@ -153,14 +96,14 @@ export default class Tab1 extends Component {
         <FlatList
           style={styles.contentList}
           columnWrapperStyle={styles.listContainer}
-          data={this.state.data}
+          data={this.props.storeData.uploadBookData}
           keyExtractor={(item) => {
-            return item.id;
+            return item.title;
           }}
           renderItem={({ item }) => {
             return (
               <TouchableOpacity style={styles.card}>
-                <Image style={styles.image} source={{ uri: item.image }} />
+                <Image style={styles.image} source={{ uri: item.image_URL }} />
                 <View style={styles.cardContent}>
                   <Text style={styles.title}>{item.title}</Text>
                   <Text style={styles.price}>{item.price}</Text>
@@ -168,7 +111,7 @@ export default class Tab1 extends Component {
                     <Button transparent onPress={() => this.clickEventListener(item)}>
                       <Icon name="edit" type="FontAwesome" />
                     </Button>
-                    <Button transparent onPress={() => this.removeBook(item)}>
+                    <Button transparent onPress={() => this.removeAndSellBook(item)}>
                       <Icon name="remove" type="FontAwesome" />
                     </Button>
                   </View>
@@ -178,6 +121,20 @@ export default class Tab1 extends Component {
           }} />
       </View>
     );
+  }
+}
+
+export default class StoreWrapper extends React.Component{
+
+  render(){
+    return (
+      <StoreContext.Consumer>
+        {(storeData)=>{
+          return <Tab1 {...this.props} storeData={storeData} />
+        }}
+        
+      </StoreContext.Consumer>
+    )
   }
 }
 

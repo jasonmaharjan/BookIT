@@ -1,14 +1,14 @@
 import React from "react"
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { createBottomTabNavigator, createAppContainer} from 'react-navigation';
-import HomeScreen from '../views/profile';
+import { createBottomTabNavigator, createStackNavigator,createAppContainer} from 'react-navigation';
 import CartScreen from '../views/cart';
 import AddBookScreen from '../views/add_books';
 import ProfileScreen from '../views/userProfile';
+import MainScreen from "./stackNavigator"
 
 const bottomNav= createBottomTabNavigator(
   {
-    Home: HomeScreen,
+    Bookit:(MainScreen),
     Cart: CartScreen,
     AddBook:AddBookScreen,
     Profile:ProfileScreen
@@ -19,7 +19,7 @@ const bottomNav= createBottomTabNavigator(
         const { routeName } = navigation.state;
         let IconComponent = Ionicons;
         let iconName;
-        if (routeName === 'Home') {
+        if (routeName === 'Bookit') {
           iconName = `ios-information-circle${focused ? '' : '-outline'}`;
         } 
         else if (routeName === 'Cart') {

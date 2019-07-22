@@ -15,10 +15,11 @@ import {
 } from 'react-native';
 
 var connection = require('../../config');
+import {login,getBooks} from "../api/api"
+import StoreContext from '../Store/StoreContext';
+import { setUser } from '../UserSession/userSession';
 
-import {login} from "../api/api"
-
-export default class Login extends React.Component {
+class Login extends React.Component {
 
   constructor(props) {
     super(props);
@@ -51,10 +52,8 @@ export default class Login extends React.Component {
 
       let res= await login({username:this.state.username,password:this.state.password})
       
-      if (res.data.success === true){   //if input credentials are valid
-        AsyncStorage.setItem('username', res.data.message)
-        AsyncStorage.setItem('token', res.data.token);
-        this.props.navigation.navigate('dashboard');
+      if (res.data.success === true){   //if input credentials are valid      
+        this.props.storeData.setUserData(res.data.message,res.data.token)
       }
 
       else{
@@ -103,6 +102,16 @@ export default class Login extends React.Component {
   }
 
 }
+
+const StoreWrapper=(props)=>{
+  return <StoreContext.Consumer>
+      {(storeData)=>{
+        return <Login {...props} storeData={storeData}/>
+      }}
+  </StoreContext.Consumer>
+}
+
+export default StoreWrapper
 
 const styles = StyleSheet.create({
   container: {

@@ -9,36 +9,43 @@ import {
   Alert,
   ScrollView,
   FlatList,
-  Button
+  Button,
+  AsyncStorage,
 } from 'react-native';
 
 import NavigationBar from 'react-native-navbar';
 import {Icon} from 'native-base';
+import StoreContext from '../Store/StoreContext';
+
 
 const titleConfig = {
   title: 'BOOK DETAILS',
 };
 
-export default class BookInfo extends React.Component {
+class BookInfo extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       cart:[],
+      user: "",
     };
   }
-  /**
-  * {
-  *  bookId:1,
-  *  count:2,
-  * } 
-  * */
+
+  componentWillMount() {
+    this._loadUsername();
+  }
 
   addToCart = (cartItem)=>{
     cart = this.state.cart;
     this.setState({cart : cartItem});
 
-    console.log('Added book to cart!')
+    if(!this.props.storeData.isUserLoggedIn){
+      this.props.navigation.navigate('login')
+    }
+    else{
+      alert("Item added")
+    }
   }
 
   addItemCount=(bookId,value=1)=>{
@@ -66,7 +73,36 @@ export default class BookInfo extends React.Component {
   this.setState({cart:newCart});
   }
 
+  _loadUsername = async () => {
+    var value = await AsyncStorage.getItem('username');
+    this.getuserdata(value);
+  }
+
+    async getuserdata(username) {
+      try {
+        let response = await fetch('http://172.17.3.187:3000/username', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username
+          })
+        })
+  
+        let res = await response.json(); // receive data in json format from the server
+
+        this.setState({user:res.phone_number});
+      }
+  
+      catch (errors) {
+        console.log('catch errors :' + errors);
+      }
+  }
+
   render() {
+
     const book_details = this.props.navigation.state.params.book_details
     const image_URL = book_details['image_URL'];
 
@@ -90,7 +126,8 @@ export default class BookInfo extends React.Component {
               <Text style = {styles.title}>{book_details['title']}</Text>
               <Text>Author: {book_details['author']}</Text>
               <Text>Edition: {book_details['edition']}</Text>
-              <Text style = {styles.writer}>Uploaded by: {book_details['username']}</Text>            
+              <Text style = {styles.writer}>Uploaded by: {book_details['username']}</Text>    
+              <Text>Phone Number: {this.state.user}</Text>        
               <Text>NRS: {book_details['price']}</Text>
               
             </View>
@@ -101,6 +138,16 @@ export default class BookInfo extends React.Component {
     );
   }
 }
+
+const StoreWrapper=(props)=>{
+  return <StoreContext.Consumer>
+      {(storeData)=>{
+        return <BookInfo {...props} storeData={storeData}/>
+      }}
+  </StoreContext.Consumer>
+}
+
+export default StoreWrapper
 
 const styles = StyleSheet.create({
   container: {

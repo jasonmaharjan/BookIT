@@ -25,9 +25,11 @@ import {
   FooterTab,
   Row,
 } from 'native-base';
+import { getSoldBook } from '../api/api';
+import StoreContext from "../Store/StoreContext.js"
 
 
-export default class Tab2 extends Component {
+class Tab2 extends Component {
 
   constructor(props) {
     super(props);
@@ -40,7 +42,7 @@ export default class Tab2 extends Component {
   }
 
   componentWillMount(){
-    this._loadUsername();
+    this.props.storeData.getSoldBookData()
   }
 
   _loadUsername = async () => {
@@ -51,20 +53,9 @@ export default class Tab2 extends Component {
 
   async getData() {
     try {
-      let response = await fetch('http://192.168.100.3:3000/books_sold', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({            
-          username: this.state.username,
-        })
-      })
+      let res=await getSoldBook(this.state.username)
 
-      let res = await response.json(); 
-
-      this.setState({data: res});
+      this.setState({data: res.data});
 
         let errors = res;
         throw errors;
@@ -81,14 +72,14 @@ export default class Tab2 extends Component {
         <FlatList
           style={styles.contentList}
           columnWrapperStyle={styles.listContainer}
-          data={this.state.data}
+          data={this.props.storeData.soldBookData}
           keyExtractor={(item) => {
-            return item.id;
+            return item.title;
           }}
           renderItem={({ item }) => {
             return (
               <TouchableOpacity style={styles.card}>
-                <Image style={styles.image} source={{ uri: item.image }} />
+                <Image style={styles.image} source={{ uri: item.image_URL }} />
                 <View style={styles.cardContent}>
                   <Text style={styles.title}>{item.title}</Text>
                   <Text style={styles.price}>Rs.{item.price}</Text>                  
@@ -98,6 +89,19 @@ export default class Tab2 extends Component {
           }} />
       </View>
     );
+  }
+}
+
+
+export default class StoreWrapper extends React.Component{
+  render(){
+    return (
+      <StoreContext.Consumer>
+        {(storeData)=>{
+          return <Tab2 {...this.props} storeData={storeData} />
+        }}     
+      </StoreContext.Consumer>
+    )
   }
 }
 

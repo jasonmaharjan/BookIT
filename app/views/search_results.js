@@ -50,7 +50,7 @@ export default class Search extends React.Component {
             horizontal={false}
             numColumns={1}
             keyExtractor= {(item) => {
-              return item;
+              return item.title;
             }}
             renderItem={({item}) => {
               return (

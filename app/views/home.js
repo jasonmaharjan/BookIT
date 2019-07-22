@@ -17,6 +17,7 @@ import { Container, Header, Left, Body, Right, Button, Icon, Title, Content, Ite
 import { StackActions, NavigationActions } from 'react-navigation';
 import { ThemeConsumer } from 'react-native-elements';
 import withBadge from '../components/badge';
+import { getBooks } from '../api/api';
 
 const BadgedIcon = withBadge(1)(Icon);
 
@@ -56,31 +57,20 @@ export default class HomeScreen extends React.Component {
   checkToken = async () => {
     var value = await AsyncStorage.getItem('token');
     if (value != null) {
-      this.props.navigation.navigate('dashboard');
+      this.props.navigation.navigate('dashboardTab');
     }
   }
 
   async onSearchPressed() {
     try {
-      let response = await fetch('http:/192.168.100.3:3000/books', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          search: this.state.search
-        })
-      })
+      let res = await getBooks(this.state.search)
 
-      let res = await response.json();
-
-      if (res.success === false) {
+      if (res.data.success === false) {
         alert('No Book Found in database');
       }
 
       else {
-        this.props.navigation.navigate('search', { search_results: res });
+        this.props.navigation.navigate('search', { search_results: res.data });
       }
     }
 
