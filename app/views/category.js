@@ -49,7 +49,7 @@ export default class CategoryScreen extends React.Component {
           alert('No Book of this category found in database');
         }
 
-        console.log(res);
+        //console.log(res);
         
         // Why is this navigation working here??
 
@@ -58,7 +58,7 @@ export default class CategoryScreen extends React.Component {
       }
         
       catch(errors){
-          console.log('catch errors :' + errors);
+          //console.log('catch errors :' + errors);
       }
     }
 

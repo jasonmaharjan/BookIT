@@ -8,8 +8,7 @@ import userBought from '../views/userBought';
 import userProfile from '../views/userProfile';
 import userSold from '../views/userSold';
 import userUploads from '../views/userUploads';
-
-
+import cart from '../views/cart';
 
 const AppStackNav = createStackNavigator(
     {
@@ -17,12 +16,14 @@ const AppStackNav = createStackNavigator(
       add_books: {screen : add_books, navigationOptions: {
         header: null,          
       }},
+      cart: {screen: cart},
       search: {screen : search},
       book_info: {screen: book_info},
       userBought: {screen: userBought},
       userProfile: {screen: userProfile},
       userSold: {screen: userSold},
       userUploads: {screen: userUploads},
+
     },
     {
       initialRouteName: 'profile',

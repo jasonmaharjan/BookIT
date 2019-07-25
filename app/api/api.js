@@ -41,8 +41,8 @@ export const getUserData=(username)=>{
     return axios.post(baseUrl+"/username",{username})
 }
 
-export const submitCartData=(username)=>{
-    return axios.post(baseUrl+"/order",{username})
+export const submitOrder=({username,book_ID, count, location})=>{
+    return axios.post(baseUrl+"/order",{username, book_ID, count, location})
 }
 
 

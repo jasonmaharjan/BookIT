@@ -14,20 +14,44 @@ import {
   } from 'react-native';
 import { Container, Header, Content, Tab, Tabs, Button, Icon } from 'native-base';
 import StoreContext from '../Store/StoreContext';
+import { submitOrder } from '../api/api';
 
 
  class Cart extends Component {
     state={
-        quantity:1
+        quantity:1,
+        username: "",
+        
+
     }
 
     componentDidMount =() =>{
-      
+      this._loadUsername();
+    }
+
+    _loadUsername = async () => {
+      var value = await AsyncStorage.getItem('username');
+      console.log(this.state.username);
+      this.setState({username: value}); 
     }
 
     onSubmitPressed(){
-      
+      this.onSubmit();
+      alert('Thank you for submitting your order! You will be notified soon.');
     }
+
+    async onSubmit() {
+      try {
+  
+        let res = await submitOrder({username: this.state.username, book_ID: '69', count: '2', location:'Nepal'})
+   
+        console.log(res.data);
+      }
+  
+      catch (errors) {
+        console.log('catch errors :' + errors);
+      }
+     }
     
     updateItemCount=()=>{
       this.setState({
@@ -53,7 +77,7 @@ import StoreContext from '../Store/StoreContext';
                             style={styles.list}
                             contentContainerStyle={styles.listContainer}
                             data={this.props.storeData.cart}
-                            numColumns={1}
+                            numColumns={2}
                             refreshing={true}
                             
                             horizontal={false}
@@ -84,6 +108,7 @@ import StoreContext from '../Store/StoreContext';
 
                                       removefromCartlist = () =>{
                                         storeData.deleteItem(item.bookId);
+                                        
                                       }
 
                                       return(
@@ -97,6 +122,7 @@ import StoreContext from '../Store/StoreContext';
                                   }
                                 </StoreContext.Consumer>
                                 </TouchableOpacity>
+                                
 
                                 <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={()=> this.onSubmitPressed()}>
                                     <Text style={styles.addBookText}>Submit</Text>
@@ -170,6 +196,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 130,
+        marginTop: 50
     },
     inContainer: {
         borderRadius: 10,
@@ -180,7 +207,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         flexDirection: 'row',
-        color: '#000',
+        color: '#A9A9A9',
     },
     profileImage: {
         width: 70,

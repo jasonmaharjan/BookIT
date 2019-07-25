@@ -33,7 +33,7 @@ export default class AboutScreen extends React.Component {
           </Body>
         </Header>
          <View style={styles.container}>
-            <Text>BookIT is a mobile application designed to help students share their study materials and also gain some profit at the side HEHE.</Text>
+            <Text style={{marginLeft: 10, marginBottom: 20}}>BookIT is a mobile application designed to allow the sharing of various books. It is especially for students who want to share their study materials among the university's students.</Text>
         </View>
           </Container>
     );
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F7F6',
     flex:1,
     alignItems : 'center',
-    justifyContent : 'center'
+    justifyContent : 'center',
   },
   title:{
     color:'#0956a4'

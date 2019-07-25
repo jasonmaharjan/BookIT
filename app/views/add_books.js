@@ -49,7 +49,6 @@ class Addbooks extends React.Component{
     
     _getUsername = async() => {
       var value = await AsyncStorage.getItem('username');
-      console.log(value);
       this.setState({username: value});
     }
 
@@ -69,7 +68,7 @@ class Addbooks extends React.Component{
           image_URL: this.state.image_URL,
           })
 
-          console.log(res.data)
+          //console.log(res.data)
         if (res.data.success === true){
           alert('Book Added');
           this.props.storeData.getAllBookData()

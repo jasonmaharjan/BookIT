@@ -94,7 +94,7 @@ class Home extends React.Component {
   
     render() {
 
-      console.log(this.props.storeData)
+      //console.log(this.props.storeData)
       return (
         <View style={styles.container}>
           <Header style={statusbarStyle.statusBar}>
@@ -117,7 +117,7 @@ class Home extends React.Component {
               underlineColorAndroid='transparent'
               onChangeText={(search) => this.setState({ search })} />
 
-            <TouchableHighlight onPress={() => this.onSearchPressed()}>
+            <TouchableHighlight style={{borderRadius: 30}} onPress={() => this.onSearchPressed()}>
               <Icon name="search" style={styles.searchBar} />
             </TouchableHighlight>
 
@@ -138,17 +138,18 @@ class Home extends React.Component {
             renderItem={({item}) => {
               return (
                   <TouchableOpacity style={styles.card} onPress={() => {this.clickEventListener(item)}}>
-                  <View style={styles.cardFooter}>
+                    <View style={styles.cardFooter}>
+                        <View style={{alignItems:"center", justifyContent:"center"}}>
+                        <Text style={styles.title}>{item.title}</Text>
+                      </View>
+                      </View>
+                    
+                    <View style={styles.cardHeader}>
                       <View style={{alignItems:"center", justifyContent:"center"}}>
-                      <Text style={styles.title}>{item.title}</Text>
+                        <Image style={styles.cardImage} source={{uri:item.image_URL}}/>
+                        <Text style={styles.title}>{item.text}</Text>
+                      </View>
                     </View>
-                    </View>
-                  <Image style={styles.cardImage} source={{uri:item.image_URL}}/>
-                  <View style={styles.cardHeader}>
-                    <View style={{alignItems:"center", justifyContent:"center"}}>
-                      <Text style={styles.title}>{item.text}</Text>
-                    </View>
-                  </View>
                 </TouchableOpacity>
               )
             }}/>
@@ -207,6 +208,7 @@ class Home extends React.Component {
     },
     searchBar: {
       fontSize: 30,
+      borderRadius: 60,
     },
     text:{
       color: '#D3D3D3'
@@ -248,8 +250,8 @@ class Home extends React.Component {
       height:40,
     },  
     list: {
-      marginTop: 20,
-      paddingHorizontal: 15,
+      marginTop: 25,
+      paddingHorizontal: 10,
       backgroundColor:"#E6E6E6",
     },
     listContainer:{
@@ -267,7 +269,7 @@ class Home extends React.Component {
   
       elevation: 12,
       marginVertical: 10,
-      backgroundColor:"white",
+      backgroundColor:"#C0C0C0",
       flexBasis: '42%',
       marginHorizontal: 10,
     },
@@ -295,7 +297,7 @@ class Home extends React.Component {
     },
     cardImage:{
       height: 200,
-      width: 150,
+      width: 120,
       alignSelf:'center'
     },
     title:{

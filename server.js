@@ -334,7 +334,7 @@ app.post('/addbook', function(req, res){
     }
 
     else if (isNaN(edition)){
-      res.send({message: 'Edition is not vali'});
+      res.send({message: 'Edition is not valid'});
     }
 
     else if (!category)
@@ -353,9 +353,6 @@ app.post('/addbook', function(req, res){
     else if (!image_URL){
       res.send({message: 'Please give an image URL'});;
     }
-
-
-
 
     // Remaining Conditions
 
@@ -492,149 +489,30 @@ app.post('/books_sold', function(req, res){
 });
 
 
-// Cart data 
 
-app.post('/books_sold', function(req, res){
 
-  var username =  req.body.username;
+
+
+
+
+//Store order in database
+
+app.post('/order', function(req, res){
+
+  var username = req.body.username;
   var book_ID = req.body.book_ID;
   var count = req.body.count;
+  var location = req.body.location;
 
   con.query(
 
-    "INSERT INTO book_order VALUES ('" + ISBN + "', '" + title + "','" +book_ID + "' )", user, function(error, row, field){
+    "INSERT INTO book_order VALUES ('" + username + "', '" + book_ID + "','" + count + "','" + location + "' )", [username, book_ID, count, location], function(error, row, field){
 
     if(error) console.log(error);
 
-    if(row.length > 0){
-      res.send(row);
-    }
+    console.log('Order added in database');
   });
 });
-
-
-
-// Math Category
-app.post('/category/Mathematics', function(req, res){
-
-  const M = 'Mathematics';
-
-  con.query(
-
-    "SELECT * FROM books WHERE category = ?", M, function(error, row, field){
-
-    if(error) console.log(error);
-
-    if(row.length > 0){
-      res.send(row);
-    }
-    else{
-      res.send({'success': false});
-    }
-  });
-});
-
-// Physics Category
-app.post('/category/Physics', function(req, res){
-
-  const P = 'Physics';
-
-  con.query(
-
-    "SELECT * FROM books WHERE category = ?", P, function(error, row, field){
-
-    if(error) console.log(error);
-
-    if(row.length > 0){
-      res.send(row);
-    }
-    else{
-      res.send({'success': false});
-    }
-  });
-});
-
-// Chemistry Category
-app.post('/category/Chemistry', function(req, res){
-
-  const C = 'Chemistry';
-
-  con.query(
-
-    "SELECT * FROM books WHERE category = ?", C, function(error, row, field){
-
-    if(error) console.log(error);
-
-    if(row.length > 0){
-      res.send(row);
-    }
-    else{
-      res.send({'success': false});
-    }
-  });
-});
-
-// English Category
-app.post('/category/English', function(req, res){
-
-  const E = 'English';
-
-  con.query(
-
-    "SELECT * FROM books WHERE category = ?", E, function(error, row, field){
-
-    if(error) console.log(error);
-
-    if(row.length > 0){
-      res.send(row);
-    }
-    else{
-      res.send({'success': false});
-    }
-  });
-});
-
-// Computer Category
-app.post('/category/Computer', function(req, res){
-
-  const C = 'Computer';
-
-  con.query(
-
-    "SELECT * FROM books WHERE category = ?", C, function(error, row, field){
-
-    if(error) console.log(error);
-
-    if(row.length > 0){
-      res.send(row);
-    }
-    else{
-      res.send({'success': false});
-    }
-  });
-});
-
-// Programming Category
-app.post('/category/Programming', function(req, res){
-
-  const P = 'Programming';
-
-  con.query(
-
-    "SELECT * FROM books WHERE category = ?", P, function(error, row, field){
-
-    if(error) console.log(error);
-
-    if(row.length > 0){
-      res.send(row);
-    }
-    else{
-      res.send({'success': false});
-    }
-  });
-});
-
-
 
 
 

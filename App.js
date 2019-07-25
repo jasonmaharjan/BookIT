@@ -135,14 +135,21 @@ export default class App extends Component{
 
         cartInState.forEach((item,index)=>{
           if(item.bookId === bookId){
-            cartInState[index].count--;
+            if (cartInState[index].count > 0){
+              cartInState[index].count--;
+            }
+            else{
+              alert('Item already removed from Cart');
+            }
           }
         })
-        console.log(cartInState);
+
+        //console.log(cartInState);
         this.setState({
           cart:cartInState
+          
         })
-        alert("Removed one item");
+        //console.log(this.state.cart);
       }
 
       deleteFromCount=(cartItem)=>{

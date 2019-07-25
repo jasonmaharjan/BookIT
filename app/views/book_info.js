@@ -19,8 +19,6 @@ import StoreContext from '../Store/StoreContext';
 import { getUserData } from '../api/api';
 import {isUserLoggedIn,setUser,logoutUser} from "../UserSession/userSession"
 
-
-
 const titleConfig = {
   title: 'BOOK DETAILS',
 };
@@ -30,7 +28,8 @@ class BookInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      user:""
+      user:"",
+      bookid: "",
     }
     
   }
@@ -52,18 +51,21 @@ class BookInfo extends React.Component {
 
         let response = await getUserData(username);
      
-        console.log(response.data.phone_number);
+        //console.log(response.data.phone_number);
        this.setState({user:response.data.phone_number});
       }
   
       catch (errors) {
-        console.log('catch errors :' + errors);
+        //console.log('catch errors :' + errors);
       }
   }
 
   render() {
 
     const book_details = this.props.navigation.state.params.book_details
+    const bookID = book_details['book_ID'] ;
+    
+    console.log(bookID);
     const image_URL = book_details['image_URL'];
 
     return (
@@ -120,7 +122,7 @@ export default StoreWrapper
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 30,
   },
   details: {
     flex: 1,
@@ -181,7 +183,7 @@ const styles = StyleSheet.create({
    
   },
   title: {
-    fontSize: 22,
+    fontSize: 26,
     flex: 1,
     color: "#696969",
   },
@@ -227,10 +229,10 @@ const styles = StyleSheet.create({
     height:50,
     width:150,
     marginRight:10,
-    paddingVertical:6,
+    paddingVertical:15,
   },
   writer:{
-    fontSize:12,
+    fontSize:14,
     color : '#A0A3A9'
   },
 });    
