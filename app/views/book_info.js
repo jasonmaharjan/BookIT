@@ -39,8 +39,6 @@ class BookInfo extends React.Component {
    let userData = await isUserLoggedIn();
    if(userData){
     this._loadUsername();
-    }else{
-      alert("Please log in");
     }
   }
 

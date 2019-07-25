@@ -21,17 +21,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { addBooks } from '../api/api';
 import StoreContext from '../Store/StoreContext';
 
-/*
-const titleConfig = {
-  title: 'Add a Book!',
-};
-
-const options={
-  title: 'Book IT',
-  takePhotoButtonTitle: 'Take photo with your camera',
-  chooseFromLibraryButtonTitle: 'Choose photo from library',
-}*/
-
 
 class Addbooks extends React.Component{
 

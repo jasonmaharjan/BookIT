@@ -12,13 +12,21 @@ import {
     AsyncStorage,
     FlatList,
   } from 'react-native';
-import { Container, Header, Content, Tab, Tabs } from 'native-base';
+import { Container, Header, Content, Tab, Tabs, Button, Icon } from 'native-base';
 import StoreContext from '../Store/StoreContext';
 
 
  class Cart extends Component {
     state={
         quantity:1
+    }
+
+    componentDidMount =() =>{
+      
+    }
+
+    onSubmitPressed(){
+      
     }
     
     updateItemCount=()=>{
@@ -27,6 +35,8 @@ import StoreContext from '../Store/StoreContext';
       })
      return this.state.quantity;
     }
+
+
     render() {
     
         return (
@@ -38,56 +48,68 @@ import StoreContext from '../Store/StoreContext';
                     </View>
                 </View>
                     <Container >
+                      {this.props.storeData.cart.length!==0?  <View style={styles.container}>
+                        <FlatList 
+                            style={styles.list}
+                            contentContainerStyle={styles.listContainer}
+                            data={this.props.storeData.cart}
+                            numColumns={1}
+                            refreshing={true}
+                            
+                            horizontal={false}
+                            keyExtractor= {(item) => {
+                            return item.bookId;
+                            }}
+                            renderItem={({item}) => {
+                                
+                            return (
+                              <View>
 
-                                      {this.props.storeData.cart.length!==0?  <View style={styles.container}>
-                                            <FlatList 
-                                                style={styles.list}
-                                                contentContainerStyle={styles.listContainer}
-                                                data={this.props.storeData.cart}
-                                                numColumns={2}
-                                                refreshing={true}
-                                                
-                                                horizontal={false}
-                                                keyExtractor= {(item) => {
-                                                return item.bookId;
-                                                }}
-                                                renderItem={({item}) => {
-                                                    console.log("LOLOL",item);
-                                                return (
-                                                    <TouchableOpacity  style={styles.card}>
-                                                    <View style={styles.cardFooter}>
-                                                        <View style={{alignItems:"center", justifyContent:"center"}}>
-                                                        <Text style={styles.title}>{item.book_details.title}</Text>
-                                                        </View>
-                                                        </View>
-                                                    <Image style={styles.cardImage} source={{uri:item.book_details.image_URL}}/>
-                                                    <View style={styles.cardHeader}>
-                                                        <View style={{alignItems:"center", justifyContent:"center"}}>
-                                                        <Text style={styles.title}>{item.book_details.title}</Text>
-                                                        </View>
-                                                        <Text>Quantity:{item.count}</Text>
-                                                    </View>
-                                                    <StoreContext.Consumer>
-                                                      {
-                                                        (storeData)=>{
-                                                          return(
+                                <TouchableOpacity  style={styles.card}>
+                                <View style={styles.cardFooter}>
+                                    <View style={{alignItems:"center", justifyContent:"center"}}>
+                                    <Text style={styles.title}>{item.book_details.title}</Text>
+                                    </View>
+                                    </View>
+                                <Image style={styles.cardImage} source={{uri:item.book_details.image_URL}}/>
+                                <View style={styles.cardHeader}>
+                                    <View style={{alignItems:"center", justifyContent:"center"}}>
+                                    <Text style={styles.title}>{item.book_details.title}</Text>
+                                    </View>
+                                    <Text>Quantity:{item.count}</Text>
+                                </View>
+                                <StoreContext.Consumer>
+                                  {
+                                    (storeData)=>{
 
-                                                            <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => storeData.deleteItem(item.bookId)}>
-                                                              <Text style={styles.loginupText}>Remove item</Text>
-                                                            </TouchableHighlight>
-                                                            )
-                                                        }
-                                                      }
-                                                    </StoreContext.Consumer>
-                                                    </TouchableOpacity>
-
-                                                )
-                                                }}/>
-                                        </View>:
-                                        <View>
-                                          <Text style={{textAlign:"center"}}>NO BOOKS IN CART YET!</Text>
-                                        </View>
+                                      removefromCartlist = () =>{
+                                        storeData.deleteItem(item.bookId);
                                       }
+
+                                      return(
+                                        <View style={styles.buttonWrapper}>
+                                          <Button transparent onPress={() => removefromCartlist()}>
+                                            <Icon name="remove" type="FontAwesome" />
+                                          </Button>
+                                         </View>
+                                        )
+                                    }
+                                  }
+                                </StoreContext.Consumer>
+                                </TouchableOpacity>
+
+                                <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={()=> this.onSubmitPressed()}>
+                                    <Text style={styles.addBookText}>Submit</Text>
+                                </TouchableHighlight>
+                             </View>
+
+                            )
+                            }}/>
+                          </View>:
+                          <View>
+                            <Text style={{textAlign:"center"}}>No books in cart yet!</Text>
+                          </View>
+                        }
                     </Container>
             </View>
         );
@@ -113,6 +135,9 @@ class StoreWrapper extends React.Component{
 const styles = StyleSheet.create({
     container: {
         flex:1,   
+    },
+    buttonWrapper: {
+      flexDirection: 'row'
     },
     buttonContainer: {
       height: 35,

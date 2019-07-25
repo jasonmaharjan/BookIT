@@ -45,11 +45,10 @@ export default class App extends Component{
        // console.log("///",this.state.userData.username)
         
         getUploadBooks(this.state.userData.username).then((res)=>{
-          alert(this.state.userData.username,"asdasdasdasd")
+          
           this.setState({uploadBookData:res.data})
         }).catch(err=>{
           console.log(err)
-          alert("yooo dwag!")
         })
 
       }
@@ -86,44 +85,52 @@ export default class App extends Component{
         // this.setState({cart : oldCartCopy});
         if(this.state.isUserLoggedIn){
  
-      const newCart = [...this.state.cart,cartItem]
-        this.setState({
-          cart:newCart
-        })
-        alert('Book added to the cart');
-      }
-     
-        //console.log("added item to the cart");
+          const newCart = [...this.state.cart,cartItem]
+            this.setState({
+              cart:newCart
+            })
+            alert('Book added to the cart');
+        }
       
-    else{
-      alert("Please log in ");
-    }
-  }
-      addItemCount=(bookId, book_details,value=1)=>{
-        let newCart = [...this.state.cart];
-        let newEntryToCart = true;
-        newCart.forEach((item, index)=>{
-          if(item.bookId == bookId){
-            item.count+=value;
-            newEntryToCart = false;
-          }
-        })
-        //console.log({runAddToCart, bookId, newCart});
-        if(newEntryToCart){
-          newCart.push({bookId,book_details,count:1});
-          this.setState({
-            asdas:'dasdasd',
-            cart:newCart
-          })
-          alert("added book  in the cart");
-          
-        }else{
-          this.setState({cart:newCart});
-          alert("added same book again in the cart");
+        else{
+          alert("Please log in ");
         }
       }
+
+
+      addItemCount=(bookId, book_details,value=1)=>{
+
+        if(this.state.isUserLoggedIn){
+
+          let newCart = [...this.state.cart];
+          let newEntryToCart = true;
+          newCart.forEach((item, index)=>{
+            if(item.bookId == bookId){
+              item.count+=value;
+              newEntryToCart = false;
+            }
+          })
+          //console.log({runAddToCart, bookId, newCart});
+          if(newEntryToCart){
+            newCart.push({bookId,book_details,count:1});
+            this.setState({
+              asdas:'dasdasd',
+              cart:newCart
+            })
+            alert("Added book in the cart");
+            
+          }else{
+            this.setState({cart:newCart});
+            alert("Added same book again in the cart");
+          }
+      }
+
+      else{
+        alert('Please login in to add to cart');
+      }
+    }
+
       deleteItem=(bookId)=>{
-        //console.log("Deleted ID"+bookId);
         let cartInState = [...this.state.cart];
 
         cartInState.forEach((item,index)=>{
@@ -135,8 +142,9 @@ export default class App extends Component{
         this.setState({
           cart:cartInState
         })
-        alert("removed one item");
+        alert("Removed one item");
       }
+
       deleteFromCount=(cartItem)=>{
       const cart = [...this.state.cart];
       let newCart = []

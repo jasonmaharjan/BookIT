@@ -38,13 +38,7 @@ class Home extends React.Component {
         username: "",
       };
     }
-  
-    componentWillUnmount() {
-      // this._backPressed();
-      // BackHandler.exitApp();
-      // BackHandler.removeEventListener('hardwareBackPress', this._backPressed);
-    }
-    
+     
 
     componentDidMount(){
       this.props.storeData.getAllBookData();

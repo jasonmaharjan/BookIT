@@ -74,7 +74,6 @@ class Tab1 extends Component {
 
       let res2= await removeBook(item["book_ID"])
 
-
       this.props.storeData.getUploadBookData()
       this.props.storeData.getAllBookData()
       this.props.storeData.getSoldBookData()
