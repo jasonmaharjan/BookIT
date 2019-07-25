@@ -17,7 +17,7 @@ import { Container, Header, Left, Body, Right, Button, Icon, Title, Content, Ite
 import { StackActions, NavigationActions } from 'react-navigation';
 import { ThemeConsumer } from 'react-native-elements';
 import withBadge from '../components/badge';
-import { getBooks } from '../api/api';
+import { searchBooks } from '../api/api';
 
 const BadgedIcon = withBadge(1)(Icon);
 
@@ -63,7 +63,7 @@ export default class HomeScreen extends React.Component {
 
   async onSearchPressed() {
     try {
-      let res = await getBooks(this.state.search)
+      let res = await searchBooks(this.state.search)
 
       if (res.data.success === false) {
         alert('No Book Found in database');

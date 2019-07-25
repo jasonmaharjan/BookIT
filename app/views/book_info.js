@@ -16,6 +16,9 @@ import {
 import NavigationBar from 'react-native-navbar';
 import {Icon} from 'native-base';
 import StoreContext from '../Store/StoreContext';
+import { getUserData } from '../api/api';
+import {isUserLoggedIn,setUser,logoutUser} from "../UserSession/userSession"
+
 
 
 const titleConfig = {
@@ -26,51 +29,19 @@ class BookInfo extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      cart:[],
-      user: "",
-    };
+    this.state={
+      user:""
+    }
+    
   }
 
-  componentWillMount() {
+  async componentWillMount() {
+   let userData = await isUserLoggedIn();
+   if(userData){
     this._loadUsername();
-  }
-
-  addToCart = (cartItem)=>{
-    cart = this.state.cart;
-    this.setState({cart : cartItem});
-
-    if(!this.props.storeData.isUserLoggedIn){
-      this.props.navigation.navigate('login')
+    }else{
+      alert("Please log in");
     }
-    else{
-      alert("Item added")
-    }
-  }
-
-  addItemCount=(bookId,value=1)=>{
-    const cart = this.state.cart;
-    let i = 0
-    for(items in cart){
-      if(items.bookId === bookId){
-        newItems= {...items, count:count+value}
-        cart[i] = newItems;
-        break;
-      }
-      i++;
-    }
-    this.setState({cart:cart});
-  }
-
-  deleteFromCount(cartItem){
-  const cart = this.state.cart;
-  let newCart = []
-  for(items in cart){
-    if(items.bookId !== cartItem.bookId){
-      newCart.push(items);
-    }
-  }
-  this.setState({cart:newCart});
   }
 
   _loadUsername = async () => {
@@ -80,20 +51,11 @@ class BookInfo extends React.Component {
 
     async getuserdata(username) {
       try {
-        let response = await fetch('http://172.17.3.187:3000/username', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username
-          })
-        })
-  
-        let res = await response.json(); // receive data in json format from the server
 
-        this.setState({user:res.phone_number});
+        let response = await getUserData(username);
+     
+        console.log(response.data.phone_number);
+       this.setState({user:response.data.phone_number});
       }
   
       catch (errors) {
@@ -117,17 +79,25 @@ class BookInfo extends React.Component {
               <View style = {styles.cardImage}>
                 <Image style={styles.cardImage} source={{uri:image_URL }}/>
               </View>
-              <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.addToCart(book_details)}>
-              <Text style={styles.loginupText}>Add to cart</Text>
-            </TouchableHighlight>
-            </View>
 
+              <StoreContext.Consumer>
+                {
+                  (storeData) =>{
+                    return (
+                      <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => storeData.addItemCount(book_details["book_ID"],book_details)}>
+                        <Text style={styles.loginupText}>Add to cart</Text>
+                      </TouchableHighlight>
+                    )
+                  }
+                }
+              </StoreContext.Consumer>
+            </View>
             <View style = {styles.description}>
               <Text style = {styles.title}>{book_details['title']}</Text>
               <Text>Author: {book_details['author']}</Text>
               <Text>Edition: {book_details['edition']}</Text>
               <Text style = {styles.writer}>Uploaded by: {book_details['username']}</Text>    
-              <Text>Phone Number: {this.state.user}</Text>        
+              <Text>Phone Number:{this.state.user} </Text>        
               <Text>NRS: {book_details['price']}</Text>
               
             </View>

@@ -13,6 +13,10 @@ const AppDrawerNav = createDrawerNavigator({
   FAQs : {screen: FAQsScreen},
   Contact_Us : {screen: ContactusScreen},
   }, 
+
+
+
+  
   {
     initialRouteName:'Dashboard',
     drawerWidth: 300,
@@ -20,8 +24,6 @@ const AppDrawerNav = createDrawerNavigator({
     contentOptions: {
         activeTintColor: '#0956a4',
        // activeBackgroundColor: "#0956a4",     
-
-
   },
 });
 

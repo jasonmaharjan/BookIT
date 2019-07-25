@@ -1,5 +1,5 @@
 import axios from "axios"
-const baseUrl="http://172.17.3.187:3000"
+const baseUrl="http://192.168.100.3:3000"
 
 export const login=({username,password})=>{
     return axios.post(baseUrl+"/login",{username,password})
@@ -37,5 +37,12 @@ export const getSoldBook=(username)=>{
     return axios.post(baseUrl+"/books_sold",{username})
 }
 
+export const getUserData=(username)=>{
+    return axios.post(baseUrl+"/username",{username})
+}
+
+export const submitCartData=(username)=>{
+    return axios.post(baseUrl+"/order",{username})
+}
 
 

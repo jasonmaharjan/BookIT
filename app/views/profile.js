@@ -11,6 +11,7 @@ import {
     FlatList,
     AsyncStorage,
     BackHandler,
+    TextInput,
 
 
 
@@ -25,6 +26,7 @@ import withBadge from '../components/badge';
 const BadgedIcon = withBadge(1)(Icon);
 import {getBooks} from "../api/api"
 import StoreContext from '../Store/StoreContext';
+import { searchBooks } from '../api/api';
 
 class Home extends React.Component {
   
@@ -56,13 +58,24 @@ class Home extends React.Component {
     }
 
     _backPressed() {
-      // this.props.navigation.goBack(null);
-      // return true; 
-    //   if (this.state.username != null){
-    //     this.props.navigation.navigate('profile');
-    //   }
-    //   BackHandler.removeEventListener('hardwareBackPress', this._backPressed);
-    //   BackHandler.exitApp();
+    }
+
+    async onSearchPressed() {
+      try {
+        let res = await searchBooks(this.state.search)
+  
+        if (res.data.success === false) {
+          alert('No Book Found in database');
+        }
+  
+        else {
+          this.props.navigation.navigate('search', { search_results: res.data });
+        }
+      }
+  
+      catch (errors) {
+        console.log('catch errors :' + errors);
+      }
     }
 
 
@@ -101,6 +114,23 @@ class Home extends React.Component {
             
           </Body>
         </Header>
+
+        <View style={styles.mainConatiner}>
+          <View style={styles.inContainer}>
+            <TextInput style={styles.inputss}
+              placeholder="Title, author or category"
+              keyboardType="default"
+              underlineColorAndroid='transparent'
+              onChangeText={(search) => this.setState({ search })} />
+
+            <TouchableHighlight onPress={() => this.onSearchPressed()}>
+              <Icon name="search" style={styles.searchBar} />
+            </TouchableHighlight>
+
+          </View>
+        </View>
+
+        <View><Text style={{textAlign:"center", marginTop: 10}}>Available Books:</Text></View>
               
           <FlatList 
             style={styles.list}
@@ -181,6 +211,9 @@ class Home extends React.Component {
     container:{
       flex:1,
     },
+    searchBar: {
+      fontSize: 30,
+    },
     text:{
       color: '#D3D3D3'
     },
@@ -221,6 +254,7 @@ class Home extends React.Component {
       height:40,
     },  
     list: {
+      marginTop: 20,
       paddingHorizontal: 15,
       backgroundColor:"#E6E6E6",
     },
@@ -304,5 +338,32 @@ class Home extends React.Component {
       color: '#fff',
       fontSize:18,
       fontWeight:'500',
+    },
+    mainConatiner: {
+      marginTop: 80,
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: 1,
+    },
+    inContainer: {
+      borderColor: '#332373',
+      backgroundColor: '#FFFFFF',
+      borderWidth: 1.5,
+      borderRadius: 10,
+      width: 215,
+      height: 45,
+      marginBottom: 100,
+      marginTop: 50,
+      flexDirection: 'row',
+      alignItems: 'center',
+      color: '#000'
+    },
+    inputss: {
+      height: 45,
+      marginLeft: 2,
+      borderBottomColor: '#0956a4',
+      paddingHorizontal: 5,
+      width: 180,
+      fontSize: 15,
     },
   });    

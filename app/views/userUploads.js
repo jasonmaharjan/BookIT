@@ -29,7 +29,6 @@ import { getUploadBooks, soldBook,removeBook } from '../api/api';
 import StoreContext from '../Store/StoreContext';
 
 
-
 class Tab1 extends Component {
 
   constructor(props) {
@@ -51,8 +50,6 @@ class Tab1 extends Component {
     this.setState({username: value});
     this.props.storeData.getUploadBookData();
   }
-
-
 
   clickEventListener(book_details) {
     this.props.navigation.navigate('book_info', { book_details: book_details});
@@ -77,9 +74,11 @@ class Tab1 extends Component {
 
       let res2= await removeBook(item["book_ID"])
 
+
       this.props.storeData.getUploadBookData()
       this.props.storeData.getAllBookData()
       this.props.storeData.getSoldBookData()
+       this.props.storeData.deleteItem(item["book_ID"]);
       
     }
     catch (errors) {
@@ -93,6 +92,7 @@ class Tab1 extends Component {
   render() {
     return (
       <View style={styles.container}>
+
         <FlatList
           style={styles.contentList}
           columnWrapperStyle={styles.listContainer}
@@ -108,9 +108,6 @@ class Tab1 extends Component {
                   <Text style={styles.title}>{item.title}</Text>
                   <Text style={styles.price}>{item.price}</Text>
                   <View style={styles.buttonWrapper}>
-                    <Button transparent onPress={() => this.clickEventListener(item)}>
-                      <Icon name="edit" type="FontAwesome" />
-                    </Button>
                     <Button transparent onPress={() => this.removeAndSellBook(item)}>
                       <Icon name="remove" type="FontAwesome" />
                     </Button>
@@ -146,6 +143,7 @@ const styles = StyleSheet.create({
   contentList: {
     flex: 1,
   },
+
   cardContent: {
     marginLeft: 20,
     marginBottom: 10,
@@ -194,5 +192,31 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     flexDirection: 'row'
-  }
+  },
+  mainConatiner: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  inContainer: {
+    borderColor: '#332373',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1.5,
+    borderRadius: 10,
+    width: 215,
+    height: 45,
+    marginBottom: 100,
+    marginTop: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    color: '#000'
+  },
+  inputss: {
+    height: 45,
+    marginLeft: 2,
+    borderBottomColor: '#0956a4',
+    paddingHorizontal: 5,
+    width: 180,
+    fontSize: 15,
+  },
 });

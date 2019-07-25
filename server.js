@@ -13,7 +13,7 @@ var con = mysql.createConnection({
   host     : 'localhost',
 	user     : 'root',
 	password : '#jimmypage8877#',
-	database : 'bookit'
+	database : 'bookit1'
 });
 
 con.connect(function(err){
@@ -78,9 +78,10 @@ app.post('/books', function(req, res){
 
   var title = req.body.search;
   var author = req.body.search;
+  var category = req.body.search;
   con.query(
 
-    "SELECT * FROM books WHERE title = ? OR author = ?", [title, author], function(error, row, field){
+    "SELECT * FROM books WHERE title = ? OR author = ? OR category =?", [title, author,category], function(error, row, field){
 
     if(error) console.log(error);
 
@@ -464,7 +465,7 @@ app.post('/username', function(req, res){
     if(error) console.log(error);
 
     if(row.length > 0){
-      res.send(row);
+      res.send( row[0]);
     }
   });
 });
@@ -489,6 +490,28 @@ app.post('/books_sold', function(req, res){
     }
   });
 });
+
+
+// Cart data 
+
+app.post('/books_sold', function(req, res){
+
+  var username =  req.body.username;
+  var book_ID = req.body.book_ID;
+  var count = req.body.count;
+
+  con.query(
+
+    "INSERT INTO book_order VALUES ('" + ISBN + "', '" + title + "','" +book_ID + "' )", user, function(error, row, field){
+
+    if(error) console.log(error);
+
+    if(row.length > 0){
+      res.send(row);
+    }
+  });
+});
+
 
 
 // Math Category
