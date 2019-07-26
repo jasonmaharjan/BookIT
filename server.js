@@ -506,7 +506,7 @@ app.post('/order', function(req, res){
 
   con.query(
 
-    "INSERT INTO book_order VALUES ('" + username + "', '" + book_ID + "','" + count + "','" + location + "' )", [username, book_ID, count, location], function(error, row, field){
+    "INSERT INTO book_order(username, book_ID, count, location) VALUES ('" + username + "', '" + book_ID + "','" + count + "','" + location + "' )", [username, book_ID, count, location], function(error, row, field){
 
     if(error) console.log(error);
 

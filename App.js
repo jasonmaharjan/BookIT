@@ -8,6 +8,7 @@ import {isUserLoggedIn,setUser,logoutUser} from "./app/UserSession/userSession.j
 import AuthStackNav from "./app/components/AuthStack.js"
 import StoreContext from './app/Store/StoreContext';
 import { getBooks ,getUploadBooks,getSoldBook} from './app/api/api';
+import { submitOrder } from './app/api/api';
 
 export default class App extends Component{
 
@@ -163,9 +164,40 @@ export default class App extends Component{
       this.setState({cart:newCart});
       }
 
-      sendCartData=()=> {
-        
-      }
+
+
+
+      // Send cart data before submitting order
+      sendCartData=(bookId, username, location)=> {
+
+        let cartInState = [...this.state.cart];
+       
+        cartInState.forEach((item,index)=>{
+          if(item.bookId === bookId){
+            if (cartInState[index].count === 0){
+              alert('Book is already removed from cart');
+            }
+            else{
+              this.onSubmit(username, item.bookId, cartInState[index].count, location);
+              alert('Thank you for submitting your order! You will be notified soon.');
+            }             
+          }
+        })
+      }   
+
+      onSubmit =async(username, bookId, count, location) => {
+        try {
+          console.log(username, bookId, count, location)
+          let res = await submitOrder({username: username, book_ID: bookId, count: count, location:location})
+          console.log(res.data);
+        }
+    
+        catch (errors) {
+          //console.log('catch errors :' + errors);
+        }
+       }   
+     
+
     render(){
         if (this.state.loading) {
             return (
@@ -191,7 +223,8 @@ export default class App extends Component{
                 deleteItem:this.deleteItem,
                 addItemCount: this.addItemCount,
                 deleteFromCount: this.deleteFromCount,
-                sameItem: this.state.sameItem
+                sameItem: this.state.sameItem,
+                sendCartData: this.sendCartData,
               }}
             >
               <Root>

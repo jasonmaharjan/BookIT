@@ -14,19 +14,26 @@ import {
   } from 'react-native';
 import { Container, Header, Content, Tab, Tabs, Button, Icon } from 'native-base';
 import StoreContext from '../Store/StoreContext';
-import { submitOrder } from '../api/api';
+
+import { Constants, Location, Permissions} from 'expo';
 
 
  class Cart extends Component {
     state={
         quantity:1,
         username: "",
+        location: null,
+        errorMessage: null
         
 
     }
 
     componentDidMount =() =>{
       this._loadUsername();
+
+    }
+    componentWillMount = () =>{
+      this.getLocationAsync();
     }
 
     _loadUsername = async () => {
@@ -35,23 +42,30 @@ import { submitOrder } from '../api/api';
       this.setState({username: value}); 
     }
 
-    onSubmitPressed(){
-      this.onSubmit();
-      alert('Thank you for submitting your order! You will be notified soon.');
-    }
+    getLocationAsync =async() => {
+      try{
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+        this.setState({
+          errorMessage: 'Permission to access location was denied',
+        });
+      }
 
-    async onSubmit() {
-      try {
-  
-        let res = await submitOrder({username: this.state.username, book_ID: '69', count: '2', location:'Nepal'})
-   
-        console.log(res.data);
+
+      let location = await Location.getCurrentPositionAsync({});
+      this.setState({ location });
+      console.log(location);
       }
-  
-      catch (errors) {
-        console.log('catch errors :' + errors);
+
+      catch(error){
+        let status = Location.getProviderStatusAsync()
+        if (!Location.hasServicesEnabledAsync())
+        {
+          alert('Enable location Services');
+        }
       }
-     }
+    }
+    
     
     updateItemCount=()=>{
       this.setState({
@@ -77,9 +91,7 @@ import { submitOrder } from '../api/api';
                             style={styles.list}
                             contentContainerStyle={styles.listContainer}
                             data={this.props.storeData.cart}
-                            numColumns={2}
-                            refreshing={true}
-                            
+                            numColumns={2}                            
                             horizontal={false}
                             keyExtractor= {(item) => {
                             return item.bookId;
@@ -107,15 +119,24 @@ import { submitOrder } from '../api/api';
                                     (storeData)=>{
 
                                       removefromCartlist = () =>{
-                                        storeData.deleteItem(item.bookId);
-                                        
+                                        storeData.deleteItem(item.bookId);                                        
                                       }
+
+                                      onSubmitPressed =() =>{
+                                        storeData.sendCartData(item.bookId, this.state.username, this.state.location);
+                                      
+                                      }
+                                  
+                                      
 
                                       return(
                                         <View style={styles.buttonWrapper}>
                                           <Button transparent onPress={() => removefromCartlist()}>
                                             <Icon name="remove" type="FontAwesome" />
                                           </Button>
+                                          <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={()=> onSubmitPressed()}>
+                                              <Text style={styles.addBookText}>Submit</Text>
+                                          </TouchableHighlight>
                                          </View>
                                         )
                                     }
@@ -124,9 +145,7 @@ import { submitOrder } from '../api/api';
                                 </TouchableOpacity>
                                 
 
-                                <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={()=> this.onSubmitPressed()}>
-                                    <Text style={styles.addBookText}>Submit</Text>
-                                </TouchableHighlight>
+
                              </View>
 
                             )

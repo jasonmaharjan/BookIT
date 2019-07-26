@@ -65,7 +65,6 @@ class BookInfo extends React.Component {
     const book_details = this.props.navigation.state.params.book_details
     const bookID = book_details['book_ID'] ;
     
-    console.log(bookID);
     const image_URL = book_details['image_URL'];
 
     return (
