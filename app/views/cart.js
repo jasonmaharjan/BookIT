@@ -51,7 +51,7 @@ import { Constants, Location, Permissions} from 'expo';
         });
       }
 
-
+      // ETA KO HEREKO https://docs.expo.io/versions/latest/sdk/location/
       let location = await Location.getCurrentPositionAsync({});
       this.setState({ location });
       console.log(location);
