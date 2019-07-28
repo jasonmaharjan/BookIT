@@ -130,7 +130,6 @@ class Home extends React.Component {
             style={styles.list}
             contentContainerStyle={styles.listContainer}
             data={this.props.storeData.allBookData}
-            horizontal={false}
             numColumns={2}
             keyExtractor= {(item) => {
               return item.book_ID;

@@ -14,8 +14,7 @@ import {
   } from 'react-native';
 import { Container, Header, Content, Tab, Tabs, Button, Icon } from 'native-base';
 import StoreContext from '../Store/StoreContext';
-
-import { Constants, Location, Permissions} from 'expo';
+import { getAddress } from '../api/api';
 
 
  class Cart extends Component {
@@ -23,8 +22,7 @@ import { Constants, Location, Permissions} from 'expo';
         quantity:1,
         username: "",
         location: null,
-        errorMessage: null
-        
+        errorMessage: null,
 
     }
 
@@ -32,8 +30,45 @@ import { Constants, Location, Permissions} from 'expo';
       this._loadUsername();
 
     }
-    componentWillMount = () =>{
-      this.getLocationAsync();
+    componentWillMount = async () =>{
+      this.address();
+    }
+
+    
+    onSubmitPressed =() =>{
+      if(this.state.location){                                          
+        //storeData.sendCartData(this.state.username,this.state.location);
+        console.log(this.state.location);
+      }else{
+        alert("couldn't get your location.");
+      }
+    
+    }     
+
+
+    address=async()=> {
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(position=async(position)=> {
+              var lat = position.coords.latitude;
+              var lng = position.coords.longitude;
+              var res = await getAddress(lat,lng);
+              if(res){
+               this.setState({
+                 location:res.data.features[0].place_name
+               })
+               console.log(this.state.location)
+
+              }
+          }, function(error) {
+              console.log(error);
+
+            });
+        
+      } else {
+          // Fallback for no geolocation
+          console.log("Turn on location");
+      }
     }
 
     _loadUsername = async () => {
@@ -42,31 +77,6 @@ import { Constants, Location, Permissions} from 'expo';
       this.setState({username: value}); 
     }
 
-    getLocationAsync =async() => {
-      try{
-      let { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (status !== 'granted') {
-        this.setState({
-          errorMessage: 'Permission to access location was denied',
-        });
-      }
-
-      // ETA KO HEREKO https://docs.expo.io/versions/latest/sdk/location/ Longitude ra latitude lai address ma convert garnu parne ho??
-      let location = await Location.getCurrentPositionAsync({});
-      this.setState({ location });
-      console.log(location);
-      }
-
-      catch(error){
-        let status = Location.getProviderStatusAsync()
-        if (!Location.hasServicesEnabledAsync())
-        {
-          alert('Enable location Services');
-        }
-      }
-    }
-    
-    
     updateItemCount=()=>{
       this.setState({
         quantity:this.state.quantity+1
@@ -91,8 +101,7 @@ import { Constants, Location, Permissions} from 'expo';
                             style={styles.list}
                             contentContainerStyle={styles.listContainer}
                             data={this.props.storeData.cart}
-                            numColumns={2}                            
-                            horizontal={false}
+                            numColumns={1}
                             keyExtractor= {(item) => {
                             return item.bookId;
                             }}
@@ -120,23 +129,14 @@ import { Constants, Location, Permissions} from 'expo';
 
                                       removefromCartlist = () =>{
                                         storeData.deleteItem(item.bookId);                                        
-                                      }
-
-                                      onSubmitPressed =() =>{
-                                        storeData.sendCartData(item.bookId, this.state.username, this.state.location);
+                                      }                       
                                       
-                                      }
-                                  
-                                      
-
                                       return(
                                         <View style={styles.buttonWrapper}>
                                           <Button transparent onPress={() => removefromCartlist()}>
                                             <Icon name="remove" type="FontAwesome" />
                                           </Button>
-                                          <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={()=> onSubmitPressed()}>
-                                              <Text style={styles.addBookText}>Submit</Text>
-                                          </TouchableHighlight>
+                                          
                                          </View>
                                         )
                                     }
@@ -150,6 +150,12 @@ import { Constants, Location, Permissions} from 'expo';
 
                             )
                             }}/>
+                            
+                            <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={()=> this.onSubmitPressed()}>
+                                <Text style={styles.addBookText}>Submit</Text>
+                            </TouchableHighlight>
+
+
                           </View>:
                           <View>
                             <Text style={{textAlign:"center"}}>No books in cart yet!</Text>

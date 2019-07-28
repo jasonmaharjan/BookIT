@@ -41,8 +41,10 @@ export const getUserData=(username)=>{
     return axios.post(baseUrl+"/username",{username})
 }
 
-export const submitOrder=({username,book_ID, count, location})=>{
-    return axios.post(baseUrl+"/order",{username, book_ID, count, location})
+export const submitOrder=({username,cart, location})=>{
+    return axios.post(baseUrl+"/order",{username, cart, location})
 }
 
-
+export const getAddress = (lat, lng) => {
+    return axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?types=poi&access_token=sk.eyJ1IjoiamFzaG9uIiwiYSI6ImNqeWtheGQ5ZDAycm8zaHFxYmY5bm45Ym8ifQ.BHl3KYsLX5N2LcPpg1_Ojw`)
+}

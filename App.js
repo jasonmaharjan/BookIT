@@ -168,10 +168,10 @@ export default class App extends Component{
 
 
       // Send cart data before submitting order
-      sendCartData=(bookId, username, location)=> {
+      sendCartData=(username, location)=> {
 
         let cartInState = [...this.state.cart];
-       
+       /*
         cartInState.forEach((item,index)=>{
           if(item.bookId === bookId){
             if (cartInState[index].count === 0){
@@ -182,12 +182,16 @@ export default class App extends Component{
               alert('Thank you for submitting your order! You will be notified soon.');
             }             
           }
-        })
+        })*/
+
+        
+        //this.onSubmit(username, this.state.cart, location);
+        alert('Thank you for submitting your order! You will be notified soon.');
+
       }   
 
       onSubmit =async(username, bookId, count, location) => {
         try {
-          console.log(username, bookId, count, location)
           let res = await submitOrder({username: username, book_ID: bookId, count: count, location:location})
           console.log(res.data);
         }

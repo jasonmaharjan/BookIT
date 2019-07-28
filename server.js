@@ -500,12 +500,15 @@ app.post('/books_sold', function(req, res){
 app.post('/order', function(req, res){
 
   var username = req.body.username;
-  var book_ID = req.body.book_ID;
-  var count = req.body.count;
+  var cart = req.body.cart;
   var location = req.body.location;
+  /*
+  var book_ID = req.body.book_ID;
+  var count = req.body.count;*/
+  
 
   con.query(
-
+    // HOW TO INSERT CART ARRAY IN DATABASE??
     "INSERT INTO book_order(username, book_ID, count, location) VALUES ('" + username + "', '" + book_ID + "','" + count + "','" + location + "' )", [username, book_ID, count, location], function(error, row, field){
 
     if(error) console.log(error);

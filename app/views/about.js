@@ -33,7 +33,11 @@ export default class AboutScreen extends React.Component {
           </Body>
         </Header>
          <View style={styles.container}>
-            <Text style={{marginLeft: 10, marginBottom: 20}}>BookIT is a mobile application designed to allow the sharing of various books. It is especially for students who want to share their study materials among the university's students.</Text>
+            <Text style={{marginLeft: 10, marginBottom: 20}}>
+              With advances in technology, digital transaction of books has risen to popularity. Considering this fact, we have decided to create a book app for buy and sell to enable users to access to gain a book or put one up for sale. The concept of this app is to have utilization of the books that may have been just laying around. The app solves the problem of having unutilized book in user’s shelf by enabling the user to sell for monetary gain while other users can get cheap books.
+              It is easy to navigate and use so you can get going on it and gain some books or cash.
+
+            </Text>
         </View>
           </Container>
     );
@@ -57,6 +61,7 @@ const styles = StyleSheet.create({
   title:{
     color:'#0956a4'
   },
+  
   signupText: {
     fontSize:20,    
   },
