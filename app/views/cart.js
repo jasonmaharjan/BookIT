@@ -34,18 +34,7 @@ import { getAddress } from '../api/api';
       this.address();
     }
 
-    
-    onSubmitPressed =() =>{
-      if(this.state.location){                                          
-        //storeData.sendCartData(this.state.username,this.state.location);
-        console.log(this.state.location);
-      }else{
-        alert("couldn't get your location.");
-      }
-    
-    }     
-
-
+  
     address=async()=> {
 
         if (navigator.geolocation) {
@@ -57,8 +46,6 @@ import { getAddress } from '../api/api';
                this.setState({
                  location:res.data.features[0].place_name
                })
-               console.log(this.state.location)
-
               }
           }, function(error) {
               console.log(error);
@@ -96,7 +83,8 @@ import { getAddress } from '../api/api';
                     </View>
                 </View>
                     <Container >
-                      {this.props.storeData.cart.length!==0?  <View style={styles.container}>
+                      {this.props.storeData.cart.length!==0?
+                       <View style={styles.container}>
                         <FlatList 
                             style={styles.list}
                             contentContainerStyle={styles.listContainer}
@@ -144,16 +132,35 @@ import { getAddress } from '../api/api';
                                 </StoreContext.Consumer>
                                 </TouchableOpacity>
                                 
-
-
                              </View>
-
                             )
                             }}/>
+                          <View>
+                            <StoreContext.Consumer>
+                                    {(storeData)=>{
+
+                                      onSubmitPressed =() =>{
+                                        if(this.state.location){                                          
+                                          storeData.sendCartData(this.state.username,this.state.location);
+                                        }
+                                        else{
+                                          alert("Couldn't get your location.");
+                                        }
+
+                                      } 
+                                            
+                                      return (
+                                        <View>
+                                          <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={()=> onSubmitPressed()}>
+                                                            <Text style={styles.addBookText}>Submit</Text>
+                                          </TouchableHighlight>
+                                        </View>
+                                      )
+                                    }}
+                                    
+                              </StoreContext.Consumer>   
+                            </View>              
                             
-                            <TouchableHighlight style={[styles.buttonContainer, styles.addBookButton]} onPress={()=> this.onSubmitPressed()}>
-                                <Text style={styles.addBookText}>Submit</Text>
-                            </TouchableHighlight>
 
 
                           </View>:

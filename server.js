@@ -502,23 +502,18 @@ app.post('/order', function(req, res){
   var username = req.body.username;
   var cart = req.body.cart;
   var location = req.body.location;
-  /*
-  var book_ID = req.body.book_ID;
-  var count = req.body.count;*/
-  
 
-  con.query(
-    // HOW TO INSERT CART ARRAY IN DATABASE??
-    "INSERT INTO book_order(username, book_ID, count, location) VALUES ('" + username + "', '" + book_ID + "','" + count + "','" + location + "' )", [username, book_ID, count, location], function(error, row, field){
+  cart.forEach((item)=>{
+    var book_ID = item.bookId;
+    var count = item.count;
+    con.query("INSERT INTO book_order(username, book_ID, count, location) VALUES ('" + username + "', '" + book_ID + "','" + count + "','" + location + "' )", [username, book_ID, count, location], function(error, row, field){
 
-    if(error) console.log(error);
+      if(error) console.log(error);
 
-    console.log('Order added in database');
-  });
+      console.log('Order added in database');
+    });
+  })
 });
-
-
-
 
 const port = 3000;
 

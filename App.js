@@ -148,7 +148,6 @@ export default class App extends Component{
         //console.log(cartInState);
         this.setState({
           cart:cartInState
-          
         })
         //console.log(this.state.cart);
       }
@@ -168,7 +167,7 @@ export default class App extends Component{
 
 
       // Send cart data before submitting order
-      sendCartData=(username, location)=> {
+      sendCartData =(username, location)=> {
 
         let cartInState = [...this.state.cart];
        /*
@@ -183,16 +182,16 @@ export default class App extends Component{
             }             
           }
         })*/
-
         
-        //this.onSubmit(username, this.state.cart, location);
+        this.onSubmit(username, this.state.cart, location);
+
         alert('Thank you for submitting your order! You will be notified soon.');
 
       }   
 
-      onSubmit =async(username, bookId, count, location) => {
+      onSubmit =async(username, cart, location) => {
         try {
-          let res = await submitOrder({username: username, book_ID: bookId, count: count, location:location})
+          let res = await submitOrder({username: username, cart: cart, location:location})
           console.log(res.data);
         }
     
